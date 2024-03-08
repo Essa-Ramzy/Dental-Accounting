@@ -17,7 +17,6 @@ return new class extends Migration {
             $table->decimal('discount');
             $table->decimal('price');
             $table->decimal('cost');
-            $table->text('description')->nullable();
             $table->foreignId('customer_id')->constrained('customers')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('item_id')->constrained('items')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();

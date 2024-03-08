@@ -12,7 +12,6 @@
     <th scope="col">Discount</th>
     <th scope="col">Price</th>
     <th scope="col">Cost</th>
-    <th scope="col">Description</th>
     <th scope="col"></th>
 </tr>
 </thead>
@@ -28,7 +27,6 @@
     <td>{{ $entry->discount }}</td>
     <td>{{ $entry->price }}</td>
     <td>{{ $entry->cost }}</td>
-    <td>{{ $entry->description }}</td>
     <td>
         <div class="text-end">
             <a class="text-decoration-none" data-bs-toggle="modal" href="#deleteModal">
@@ -47,7 +45,7 @@
     <th scope="row" colspan="7" class="text-md-center">Number of Entries: {{ $entries->count() }}</th>
     <td>Total: {{ $entries->sum('price') }}</td>
     <td>Total: {{ $entries->sum('cost') }}</td>
-    <td colspan="2">Total Profit: {{ $entries->sum('price') - $entries->sum('cost') }}</td>
+    <td></td>
 </tr>
 </tfoot>
 @endsection
@@ -55,7 +53,6 @@
 @section('dropdown')
 <li class="dropdown-item">All</li>
 <li class="dropdown-item">ID</li>
-<li class="dropdown-item">Date</li>
 <li class="dropdown-item" id="{{ isset($customer) ? 'customer_search' : '' }}">Name</li>
 <li class="dropdown-item" id="{{ isset($item) ? 'item_search' : '' }}">Item</li>
 <li class="dropdown-item">Amount</li>
@@ -98,55 +95,79 @@
         });
     });
 
-    document.getElementById('search').addEventListener('input', (e) => {
-        let search = e.target.value.toLowerCase();
-        let filter = dropdown.textContent.toLowerCase();
-        if (filter.includes('search by')) return;
-        let headers = document.querySelectorAll('thead th');
-        let rows = document.querySelectorAll('tbody tr');
-        let footer = document.querySelector('tfoot tr').querySelectorAll('th, td');
-        let footer_content = [0, 0, 0];
+    let from_date = document.getElementById('from_date');
+    let to_date = document.getElementById('to_date');
+    let search_field = document.getElementById('search');
 
-        rows.forEach(row => {
-            let cells = row.querySelectorAll('td, th');
-            let valid = false;
+    [from_date, to_date, search_field].forEach(input => {
+        input.addEventListener('change', () => {
+            let search = search_field.value.toLowerCase();
+            let filter = dropdown.textContent.toLowerCase();
+            let headers = document.querySelectorAll('thead th');
+            let footer = document.querySelector('tfoot tr');
+            let [visible_rows, total_price, total_cost] = [0, 0, 0];
 
-            if (filter === 'all') {
-                for (let i = 0; i < cells.length; i++) {
-                    if (cells[i].textContent.toLowerCase().includes(search)) {
-                        row.style.display = '';
-                        valid = true;
-                        break;
-                    }
-                }
-                if (!valid) row.style.display = 'none';
-            } else if (filter === 'id') {
-                if (cells[0].textContent.toLowerCase().includes(search)) {
+            rows.forEach(row => {
+                let cells = row.querySelectorAll('td, th');
+                let date_field = cells[1].textContent.split('-');
+                let date = new Date(date_field[1] + '-' + date_field[0] + '-' + date_field[2]);
+                let from = new Date(from_date.value), to = new Date(to_date.value);
+                let valid = true;
+
+                from.setHours(0, 0, 0, 0);
+                to.setHours(0, 0, 0, 0);
+
+                if (from_date.value && to_date.value)
+                    valid = date >= from && date <= to;
+                else if (from_date.value)
+                    valid = date >= from;
+                else if (to_date.value)
+                    valid = date <= to;
+
+                if(valid) {
                     row.style.display = '';
-                    valid = true;
+                    if (filter === 'all') {
+                        row.style.display = 'none';
+                        for (let i = 0; i < cells.length; i++) {
+                            if (cells[i].textContent.toLowerCase().includes(search)) {
+                                row.style.display = '';
+                                break;
+                            }
+                        }
+                    } else if (filter === 'id') {
+                        if (cells[0].textContent.toLowerCase().includes(search)) {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    } else if (!filter.includes('search by')) {
+                        row.style.display = 'none';
+                        for (let i = 1; i < cells.length; i++) {
+                            if (headers[i].textContent.toLowerCase() === filter) {
+                                if (cells[i].textContent.toLowerCase().includes(search)) {
+                                    row.style.display = '';
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    if (row.style.display !== 'none') {
+                        visible_rows++;
+                        total_price += parseFloat(cells[7].textContent);
+                        total_cost += parseFloat(cells[8].textContent);
+                    }
                 } else {
                     row.style.display = 'none';
                 }
-            } else {
-                for (let i = 1; i < cells.length; i++) {
-                    if (headers[i].textContent.toLowerCase() === filter) {
-                        if (cells[i].textContent.toLowerCase().includes(search)) {
-                            row.style.display = '';
-                            valid = true;
-                            break;
-                        }
-                    }
-                }
-                if (!valid) row.style.display = 'none';
-            }
-            footer_content[0] += valid;
-            footer_content[1] += valid ? parseInt(cells[7].textContent) : 0;
-            footer_content[2] += valid ? parseInt(cells[8].textContent) : 0;
+            });
+            footer.querySelector('th').textContent = `Number of Entries: ${visible_rows}`;
+            footer.querySelector('td:nth-child(2)').textContent = `Total: ${total_price}`;
+            footer.querySelector('td:nth-child(3)').textContent = `Total: ${total_cost}`;
         });
-        footer[0].textContent = `Number of Entries: ${footer_content[0]}`;
-        footer[1].textContent = `Total: ${footer_content[1]}`;
-        footer[2].textContent = `Total: ${footer_content[2]}`;
-        footer[3].textContent = `Total Profit: ${footer_content[1] - footer_content[2]}`;
+    });
+
+    search_field.addEventListener('input', () => {
+        search_field.dispatchEvent(new Event('change'));
     });
 
     window.onload = () => {

@@ -56,7 +56,6 @@
 @section('dropdown')
 <li class="dropdown-item">All</li>
 <li class="dropdown-item">ID</li>
-<li class="dropdown-item">Date</li>
 <li class="dropdown-item">Name</li>
 <li class="dropdown-item">Price</li>
 <li class="dropdown-item">Cost</li>
@@ -97,41 +96,64 @@
         });
     });
 
-    document.getElementById('search').addEventListener('input', (e) => {
-        let search = e.target.value.toLowerCase();
-        let filter = dropdown.textContent.toLowerCase();
-        if (filter.includes('search by')) return;
-        let headers = document.querySelectorAll('thead th');
-        let rows = document.querySelectorAll('tbody tr');
+    let from_date = document.getElementById('from_date');
+    let to_date = document.getElementById('to_date');
+    let search_field = document.getElementById('search');
 
-        rows.forEach(row => {
-            let cells = row.querySelectorAll('td, th');
+    [from_date, to_date, search_field].forEach(input => {
+        input.addEventListener('change', () => {
+            let search = search_field.value.toLowerCase();
+            let filter = dropdown.textContent.toLowerCase();
+            let headers = document.querySelectorAll('thead th');
 
-            if (filter === 'all') {
-                row.style.display = 'none';
-                for (let i = 0; i < cells.length; i++) {
-                    if (cells[i].textContent.toLowerCase().includes(search)) {
-                        row.style.display = '';
-                        break;
-                    }
-                }
-            } else if (filter === 'id') {
-                if (cells[0].textContent.toLowerCase().includes(search)) {
+            rows.forEach(row => {
+                let cells = row.querySelectorAll('td, th');
+                let date_field = cells[1].textContent.split('-');
+                let date = new Date(date_field[1] + '-' + date_field[0] + '-' + date_field[2]);
+                let from = new Date(from_date.value), to = new Date(to_date.value);
+                let valid = true;
+
+                from.setHours(0, 0, 0, 0);
+                to.setHours(0, 0, 0, 0);
+
+                if (from_date.value && to_date.value)
+                    valid = date >= from && date <= to;
+                else if (from_date.value)
+                    valid = date >= from;
+                else if (to_date.value)
+                    valid = date <= to;
+
+                if(valid) {
                     row.style.display = '';
+                    if (filter === 'all') {
+                        row.style.display = 'none';
+                        for (let i = 0; i < cells.length; i++) {
+                            if (cells[i].textContent.toLowerCase().includes(search)) {
+                                row.style.display = '';
+                                break;
+                            }
+                        }
+                    } else if (filter === 'id') {
+                        if (cells[0].textContent.toLowerCase().includes(search)) {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    } else if (!filter.includes('search by')) {
+                        row.style.display = 'none';
+                        for (let i = 1; i < cells.length; i++) {
+                            if (headers[i].textContent.toLowerCase() === filter) {
+                                if (cells[i].textContent.toLowerCase().includes(search)) {
+                                    row.style.display = '';
+                                    break;
+                                }
+                            }
+                        }
+                    }
                 } else {
                     row.style.display = 'none';
                 }
-            } else {
-                row.style.display = 'none';
-                for (let i = 0; i < cells.length; i++) {
-                    if (headers[i].textContent.toLowerCase() === filter) {
-                        if (cells[i].textContent.toLowerCase().includes(search)) {
-                            row.style.display = '';
-                            break;
-                        }
-                    }
-                }
-            }
+            });
         });
     });
 </script>

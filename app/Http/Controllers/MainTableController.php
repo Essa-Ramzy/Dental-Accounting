@@ -29,8 +29,7 @@ class MainTableController extends Controller
             'item' => 'required',
             'date' => 'nullable|date',
             'teeth' => 'required',
-            'discount' => 'nullable',
-            'description' => 'nullable',
+            'discount' => 'nullable'
         ]);
 
         $customer = Customer::where('name', '=', request('name'))->first();
@@ -61,15 +60,11 @@ class MainTableController extends Controller
         $result[] = $sub;
         $data['teeth'] = implode(', ', $result);
 
-
         if ($data['date'] == null)
             $data['date'] = now();
 
         if ($data['discount'] == null)
             $data['discount'] = 0;
-
-        if ($data['description'] == null)
-            $data['description'] = 'N/A';
 
         Entries::create($data);
 

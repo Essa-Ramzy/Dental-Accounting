@@ -50,13 +50,13 @@
                 <select class="form-control selectpicker w-100 p-0{{ $errors->has('teeth') ? ' is-invalid' : '' }}"
                         id="teeth" name="teeth[]" multiple data-style="btn-outline-secondary text-white"
                         data-live-search="true" title="Select Teeth" data-selected-text-format="count > 7">
-                    @foreach(['TR-Top Right', 'TL-Top Left', 'BR-Bottom Right', 'BL-Bottom-Left'] as $mouth_part)
+                    @foreach(['UR-Upper Right', 'UL-Upper Left', 'LR-Lower Right', 'LL-Lower Left'] as $mouth_part)
                     <optgroup label="{{ substr($mouth_part, 3) }}">
                         @for ($i = 1; $i <= 8; $i++)
                         <option {{ collect(old(
-                        'teeth'))->contains(substr($mouth_part, 0, 2) . $i) ? 'selected':'' }}
-                        value="{{ substr($mouth_part, 0, 2) . $i }}" title="{{ substr($mouth_part, 3) . '-' . $i }}">
-                        {{ substr($mouth_part, 0, 2) . '-' . $i }}</option>
+                        'teeth'))->contains(substr($mouth_part, 0, 3) . $i) ? 'selected':'' }}
+                        value="{{ substr($mouth_part, 0, 3) . $i }}" title="{{ substr($mouth_part, 3) . ' ' . $i }}">
+                        {{ substr($mouth_part, 0, 3) . $i }}</option>
                         @endfor
                     </optgroup>
                     @endforeach
@@ -73,9 +73,9 @@
             </div>
             <div class="form-group row">
                 <label for="discount" class="col-md-4 col-form-label text-md-right">Discount</label>
-                <input id="discount" type="number"
+                <input id="discount" type="number" placeholder="0"
                        class="form-control{{ $errors->has('discount') ? ' is-invalid' : '' }}"
-                       name="discount" value="{{ old('discount') | 0 }}" autocomplete="discount">
+                       name="discount" value="{{ old('discount') }}" autocomplete="discount">
                 @if ($errors->has('discount'))
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $errors->first('discount') }}</strong>
