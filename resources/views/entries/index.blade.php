@@ -20,8 +20,8 @@
 <tr>
     <th scope="row">{{ $entry->id }}</th>
     <td>{{ $entry->date->format('d-m-Y') }}</td>
-    <td>{{ $entry->customer()->first()->name }}</td>
-    <td>{{ $entry->item()->first()->name }}</td>
+    <td>{{ $entry->customer->name }}</td>
+    <td>{{ $entry->item->name }}</td>
     <td>{{ $entry->teeth }}</td>
     <td>{{ strlen(preg_replace('/[^0-9]+/', '', $entry->teeth)) }}</td>
     <td>{{ $entry->discount }}</td>
