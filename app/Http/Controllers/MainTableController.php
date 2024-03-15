@@ -10,7 +10,7 @@ class MainTableController extends Controller
 {
     public function index()
     {
-        $entries = Entries::all();
+        $entries = Entries::with(['customer', 'item'])->get();
         $view = Route('addEntry');
         return view('entries.index', compact('entries', 'view'));
     }

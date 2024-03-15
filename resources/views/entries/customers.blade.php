@@ -3,7 +3,6 @@
 @section('content')
 <thead>
 <tr>
-    <th scope="col">#</th>
     <th scope="col">Date</th>
     <th scope="col">Name</th>
     <th scope="col" class="text-center">Records</th>
@@ -13,7 +12,6 @@
 <tbody>
 @foreach($entries as $entry)
 <tr>
-    <th scope="row">{{ $entry->id }}</th>
     <td>{{ $entry->updated_at->format('d-m-Y') }}</td>
     <td>{{ $entry->name }}</td>
     <td>
@@ -34,7 +32,7 @@
                 </svg>
             </a>
             <a class="text-decoration-none" data-bs-toggle="modal" href="#deleteModal">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="#FFFFFF" width="24" height="24" viewBox="0 0 24 24">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="#6C757D" width="24" height="24" viewBox="0 0 24 24">
                     <path
                         d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"/>
                 </svg>
@@ -47,8 +45,6 @@
 @endsection
 
 @section('dropdown')
-<li class="dropdown-item">All</li>
-<li class="dropdown-item">ID</li>
 <li class="dropdown-item">Name</li>
 @endsection
 
@@ -78,6 +74,8 @@
 
 @section('js')
 <script>
+    document.querySelector('.dropdown-item').click();
+
     let anchors = document.querySelectorAll('a[href="#deleteModal"]');
 
     anchors.forEach(anchor => {
@@ -94,12 +92,10 @@
     [from_date, to_date, search_field].forEach(input => {
         input.addEventListener('change', () => {
             let search = search_field.value.toLowerCase();
-            let filter = dropdown.textContent.toLowerCase();
-            let headers = document.querySelectorAll('thead th');
 
             rows.forEach(row => {
                 let cells = row.querySelectorAll('td, th');
-                let date_field = cells[1].textContent.split('-');
+                let date_field = cells[0].textContent.split('-');
                 let date = new Date(date_field[1] + '-' + date_field[0] + '-' + date_field[2]);
                 let from = new Date(from_date.value), to = new Date(to_date.value);
                 let valid = true;
@@ -116,30 +112,8 @@
 
                 if(valid) {
                     row.style.display = '';
-                    if (filter === 'all') {
+                    if (!cells[1].textContent.toLowerCase().includes(search)) {
                         row.style.display = 'none';
-                        for (let i = 0; i < cells.length; i++) {
-                            if (cells[i].textContent.toLowerCase().includes(search)) {
-                                row.style.display = '';
-                                break;
-                            }
-                        }
-                    } else if (filter === 'id') {
-                        if (cells[0].textContent.toLowerCase().includes(search)) {
-                            row.style.display = '';
-                        } else {
-                            row.style.display = 'none';
-                        }
-                    } else if (!filter.includes('search by')) {
-                        row.style.display = 'none';
-                        for (let i = 1; i < cells.length; i++) {
-                            if (headers[i].textContent.toLowerCase() === filter) {
-                                if (cells[i].textContent.toLowerCase().includes(search)) {
-                                    row.style.display = '';
-                                    break;
-                                }
-                            }
-                        }
                     }
                 } else {
                     row.style.display = 'none';
