@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('layout')
-<main>
+<main class="d-flex flex-column flex-grow-1">
     <div class="px-3 py-2 border-bottom w-100">
         <div class="container d-flex">
             <div class="container w-100">
@@ -11,9 +11,9 @@
             </div>
             <div class="dropdown w-auto">
                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-offset="0,7"
-                        data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="false">Filter
+                        data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">Filter
                 </button>
-                <div class="dropdown-menu py-2 px-3" style="width: 100dvw;">
+                <div class="dropdown-menu py-2 px-3 vw-100">
                     <div class="row mb-2">
                         <div class="form-group col-md-6">
                             <label for="from_date">From Date</label>
@@ -40,8 +40,8 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid table-responsive">
-        <table class="table table-striped">
+    <div class="container-fluid table-responsive overflow-y-hidden flex-grow-1">
+        <table class="table table-striped m-0">
             @yield('content')
         </table>
     </div>
@@ -49,7 +49,9 @@
 </main>
 <script>
     let dropdown = document.getElementById('dropdown_btn');
+    let search_field = document.getElementById('search');
     let rows = document.querySelectorAll('tbody tr');
+
 
     document.querySelectorAll('.dropdown-item').forEach(item => {
         item.addEventListener('click', (e) => {
