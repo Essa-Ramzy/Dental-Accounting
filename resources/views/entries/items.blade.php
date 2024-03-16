@@ -98,7 +98,6 @@
 
     let from_date = document.getElementById('from_date');
     let to_date = document.getElementById('to_date');
-    let search_field = document.getElementById('search');
 
     [from_date, to_date, search_field].forEach(input => {
         input.addEventListener('change', () => {

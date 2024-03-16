@@ -11,12 +11,12 @@
     <script src="{{ asset('resources/js/bootstrap-select.min.js') }}"></script>
 </head>
 
-<body class="antialiased">
+<body class="antialiased min-vh-100 d-flex flex-column">
 <header class="px-3 py-2 text-bg-dark border-bottom">
     <nav class="container">
-        <div class="nav d-flex flex-nowrap align-items-center justify-content-center justify-content-lg-start">
+        <div class="nav d-flex flex-wrap align-items-center justify-content-center">
             <a href="{{ url('/') }}"
-               class="nav-link d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+               class="nav-link d-flex align-items-center my-2 my-lg-0 me-sm-auto me-0 text-white text-decoration-none">
                 <svg xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" class="bi"
                      width="40" height="32" role="img" aria-label="Bootstrap">
                     <defs>
@@ -30,7 +30,7 @@
                 </svg>
             </a>
 
-            <ul class="nav col-12 col-lg-auto my-2 justify-content-end my-md-0 text-small">
+            <ul class="nav col-12 col-sm-auto my-2 justify-content-center my-md-0 text-small">
                 <li>
                     <a href="{{ url('/') }}"
                        class="nav-link {{Illuminate\Support\Facades\Route::is('home')? 'text-secondary' : 'text-white'}}">
