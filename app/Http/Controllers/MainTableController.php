@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Entries;
 use App\Models\Customer;
 use App\Models\Item;
+use Barryvdh\Snappy\Facades\SnappyPdf as PDF;
 
 class MainTableController extends Controller
 {
     public function index()
     {
         $entries = Entries::with(['customer', 'item'])->get();
-        $view = Route('addEntry');
+        $view = "Entry";
         return view('entries.index', compact('entries', 'view'));
     }
 
@@ -80,7 +81,7 @@ class MainTableController extends Controller
     public function searchCustomer($id)
     {
         $entries = Entries::all();
-        $view = Route('addEntry');
+        $view = "Entry";
         $customer = Customer::find($id)->name;
         return view('entries.index', compact('entries', 'customer', 'view'));
     }
@@ -88,8 +89,16 @@ class MainTableController extends Controller
     public function searchItem($id)
     {
         $entries = Entries::all();
-        $view = Route('addEntry');
+        $view = "Entry";
         $item = Item::find($id)->name;
         return view('entries.index', compact('entries', 'item', 'view'));
+    }
+
+    public function export()
+    {
+        $columns = request()->except('_token');
+        $entries = Entries::with(['customer', 'item'])->get();
+        $count = count($columns) - isset($columns['price']) - isset($columns['cost']);
+        return view('pdf.entry_pdf', compact('entries', 'columns', 'count'));
     }
 }

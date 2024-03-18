@@ -9,7 +9,7 @@ class CustomerController extends Controller
     public function index()
     {
         $entries = Customer::all();
-        $view = Route('addCustomer');
+        $view = "Customer";
         return view('entries.customers', compact('entries', 'view'));
     }
 
