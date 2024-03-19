@@ -9,7 +9,7 @@ class ItemController extends Controller
     public function index()
     {
         $entries = Item::all();
-        $view = Route('addItem');
+        $view = "Item";
         return view('entries.items', compact('entries', 'view'));
     }
 

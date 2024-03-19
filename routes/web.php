@@ -13,38 +13,40 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'App\Http\Controllers\MainTableController@index')->name('home');
+Route::get('/', 'App\Http\Controllers\MainTableController@index')->name('Home');
 
-Route::get('/items', 'App\Http\Controllers\ItemController@index')->name('items');
+Route::get('/items', 'App\Http\Controllers\ItemController@index')->name('Items');
 
-Route::get('/customers', 'App\Http\Controllers\CustomerController@index')->name('customers');
+Route::get('/customers', 'App\Http\Controllers\CustomerController@index')->name('Customers');
 
-Route::get('/create', 'App\Http\Controllers\MainTableController@create')->name('addEntry');
+Route::get('/create', 'App\Http\Controllers\MainTableController@create')->name('Entry.create');
 
-Route::get('/items/create', 'App\Http\Controllers\ItemController@create')->name('addItem');
+Route::get('/items/create', 'App\Http\Controllers\ItemController@create')->name('Item.create');
 
-Route::get('/customers/create', 'App\Http\Controllers\CustomerController@create')->name('addCustomer');
+Route::get('/customers/create', 'App\Http\Controllers\CustomerController@create')->name('Customer.create');
 
-Route::post('/store', 'App\Http\Controllers\MainTableController@store')->name('storeEntry');
+Route::post('/store', 'App\Http\Controllers\MainTableController@store')->name('Entry.store');
 
-Route::post('/items/store', 'App\Http\Controllers\ItemController@store')->name('storeItem');
+Route::post('/items/store', 'App\Http\Controllers\ItemController@store')->name('Item.store');
 
-Route::post('/customers/store', 'App\Http\Controllers\CustomerController@store')->name('storeCustomer');
+Route::post('/customers/store', 'App\Http\Controllers\CustomerController@store')->name('Customer.store');
 
-Route::get('/{id}/delete', 'App\Http\Controllers\MainTableController@delete')->name('deleteEntry');
+Route::get('/{id}/delete', 'App\Http\Controllers\MainTableController@delete')->name('Entry.delete');
 
-Route::get('/items/{id}/delete', 'App\Http\Controllers\ItemController@delete')->name('deleteItem');
+Route::get('/items/{id}/delete', 'App\Http\Controllers\ItemController@delete')->name('Item.delete');
 
-Route::get('/customers/{id}/delete', 'App\Http\Controllers\CustomerController@delete')->name('deleteCustomer');
+Route::get('/customers/{id}/delete', 'App\Http\Controllers\CustomerController@delete')->name('Customer.delete');
 
-Route::get('items/{id}/edit', 'App\Http\Controllers\ItemController@edit')->name('editItem');
+Route::get('/items/{id}/edit', 'App\Http\Controllers\ItemController@edit')->name('Item.edit');
 
-Route::get('customers/{id}/edit', 'App\Http\Controllers\CustomerController@edit')->name('editCustomer');
+Route::get('/customers/{id}/edit', 'App\Http\Controllers\CustomerController@edit')->name('Customer.edit');
 
-Route::patch('/items/{id}/update', 'App\Http\Controllers\ItemController@update')->name('updateItem');
+Route::patch('/items/{id}/update', 'App\Http\Controllers\ItemController@update')->name('Item.update');
 
-Route::patch('/customers/{id}/update', 'App\Http\Controllers\CustomerController@update')->name('updateCustomer');
+Route::patch('/customers/{id}/update', 'App\Http\Controllers\CustomerController@update')->name('Customer.update');
 
-Route::get('/search_customer/{id}', 'App\Http\Controllers\MainTableController@searchCustomer')->name('searchCustomer');
+Route::get('/search_customer/{id}', 'App\Http\Controllers\MainTableController@searchCustomer')->name('Customer.search');
 
-Route::get('/search_item/{id}', 'App\Http\Controllers\MainTableController@searchItem')->name('searchItem');
+Route::get('/search_item/{id}', 'App\Http\Controllers\MainTableController@searchItem')->name('Item.search');
+
+Route::post('/export', 'App\Http\Controllers\MainTableController@export')->name('Entry.export');
