@@ -94,13 +94,13 @@
 
 @section('js')
     <script>
-        document.getElementById('name').addEventListener('change', (e) => {
+        $('#name').on('change', e => {
             if (!e.target.value) {
                 window.location = "{{ route('Customer.create') }}"
             }
         })
 
-        document.getElementById('item').addEventListener('change', (e) => {
+        $('#item').on('change', e => {
             if (!e.target.value) {
                 window.location = "{{ route('Item.create') }}"
             }

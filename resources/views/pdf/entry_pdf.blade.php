@@ -37,9 +37,6 @@
             <tbody>
             @foreach($entries as $entry)
                 <tr>
-                    @php
-                        $amount = strlen(preg_replace('/[^0-9]+/', '', $entry->teeth));
-                    @endphp
                     @if (isset($columns['date']))
                         <td>{{ $entry->date->format('d-m-Y') }}</td>
                     @endif
@@ -53,10 +50,10 @@
                         <td>{{ $entry->teeth }}</td>
                     @endif
                     @if (isset($columns['amount']))
-                        <td>{{ $amount }}</td>
+                        <td>{{ $entry->amount }}</td>
                     @endif
                     @if (isset($columns['unit_price']))
-                        <td>{{ $entry->price / $amount }}</td>
+                        <td>{{ $entry->unit_price }}</td>
                     @endif
                     @if (isset($columns['discount']))
                         <td>{{ $entry->discount }}</td>
