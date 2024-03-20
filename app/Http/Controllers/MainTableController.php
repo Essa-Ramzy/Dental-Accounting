@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Entries;
 use App\Models\Customer;
 use App\Models\Item;
-use Barryvdh\Snappy\Facades\SnappyPdf as PDF;
 
 class MainTableController extends Controller
 {
@@ -14,6 +13,88 @@ class MainTableController extends Controller
         $entries = Entries::with(['customer', 'item'])->get();
         $view = "Entry";
         return view('entries.index', compact('entries', 'view'));
+    }
+
+    private function searchFunc($request)
+    {
+        if ($request['search']) {
+            if ($request['filter'] == 'all') {
+                $entries = Entries::with(['customer', 'item'])
+                    ->where('id', 'like', '%' . $request['search'] . '%')
+                    ->orWhereHas('customer', function ($query) use ($request) {
+                        $query->where('name', 'like', '%' . $request['search'] . '%');
+                    })->orWhereHas('item', function ($query) use ($request) {
+                        $query->where('name', 'like', '%' . $request['search'] . '%');
+                    })->orWhere('teeth', 'like', '%' . $request['search'] . '%')
+                    ->orWhere('amount', 'like', '%' . $request['search'] . '%')
+                    ->orWhere('unit_price', 'like', '%' . $request['search'] . '%')
+                    ->orWhere('discount', 'like', '%' . $request['search'] . '%')
+                    ->orWhere('price', 'like', '%' . $request['search'] . '%')
+                    ->orWhere('cost', 'like', '%' . $request['search'] . '%')->get();
+            } else if ($request['filter'] == 'name') {
+                $entries = Entries::with(['customer', 'item'])->whereHas('customer', function ($query) use ($request) {
+                    $query->where('name', 'like', '%' . $request['search'] . '%');
+                })->get();
+            } else if ($request['filter'] == 'item') {
+                $entries = Entries::with(['customer', 'item'])->whereHas('item', function ($query) use ($request) {
+                    $query->where('name', 'like', '%' . $request['search'] . '%');
+                })->get();
+            } else {
+                $entries = Entries::with(['customer', 'item'])->where($request['filter'], 'like', '%' . $request['search'] . '%')->get();
+            }
+        } else {
+            $entries = Entries::with(['customer', 'item'])->get();
+        }
+        if ($request['from_date']) {
+        $entries = $entries->where('date', '>=', $request['from_date']);
+        }
+        if ($request['to_date']) {
+        $entries = $entries->where('date', '<=', $request['to_date']);
+        }
+        return $entries;
+    }
+
+    public function search()
+    {
+        if (request()->ajax()) {
+            $entries = $this->searchFunc(request()->all());
+            $body = '';
+            foreach ($entries as $entry) {
+                $body .= "
+                <tr>
+                    <th scope=\"row\">{$entry->id}</th>
+                    <td>{$entry->date->format('d-m-Y')}</td>
+                    <td>{$entry->customer->name}</td>
+                    <td>{$entry->item->name}</td>
+                    <td>{$entry->teeth}</td>
+                    <td>{$entry->amount}</td>
+                    <td>{$entry->unit_price}</td>
+                    <td>{$entry->discount}</td>
+                    <td>{$entry->price}</td>
+                    <td>{$entry->cost}</td>
+                    <td>
+                        <div class=\"text-end\">
+                            <a class=\"text-decoration-none\" data-bs-toggle=\"modal\" href=\"#deleteModal\" id=\"{$entry->id}\">
+                                <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"#FFFFFF\" width=\"24\" height=\"24\"
+                                     viewBox=\"0 0 24 24\">
+                                    <path
+                                        d=\"M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z\"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </td>
+                </tr>";
+            }
+            $footer = "
+            <tr>
+                <th scope=\"row\" colspan=\"8\" class=\"text-md-center\">Number of Entries: {$entries->count()}</th>
+                <td>Total: {$entries->sum('price')}</td>
+                <td>Total: {$entries->sum('cost')}</td>
+                <td></td>
+            </tr>";
+            return response()->json(['body' => $body, 'footer' => $footer]);
+        }
+        return redirect(route('Home'));
     }
 
     public function create()
@@ -39,13 +120,16 @@ class MainTableController extends Controller
         $data['customer_id'] = $customer->id;
         $data['item_id'] = $item->id;
 
-        $data['price'] = $item->price * count($data['teeth']) - $data['discount'];
-        $data['cost'] = $item->cost * count($data['teeth']);
+        $data['amount'] = count($data['teeth']);
+        $data['unit_price'] = $item->price;
+
+        $data['price'] = $data['unit_price'] * $data['amount'] - $data['discount'];
+        $data['cost'] = $item->cost * $data['amount'];
 
         $result = [];
         $sub = '';
 
-        for ($i = 0; $i < count($data['teeth']); $i++) {
+        for ($i = 0; $i < $data['amount']; $i++) {
             if ($i == 0) {
                 $sub = $data['teeth'][$i];
             } else {
@@ -69,35 +153,31 @@ class MainTableController extends Controller
 
         Entries::create($data);
 
-        return redirect('/');
+        return redirect(route('Home'));
     }
 
     public function delete($id)
     {
         Entries::destroy($id);
-        return redirect('/');
+        return redirect(route('Home'));
     }
 
     public function searchCustomer($id)
     {
-        $entries = Entries::all();
-        $view = "Entry";
         $customer = Customer::find($id)->name;
-        return view('entries.index', compact('entries', 'customer', 'view'));
+        return redirect(route('Home'))->with(compact('customer'));
     }
 
     public function searchItem($id)
     {
-        $entries = Entries::all();
-        $view = "Entry";
         $item = Item::find($id)->name;
-        return view('entries.index', compact('entries', 'item', 'view'));
+        return redirect(route('Home'))->with(compact('item'));
     }
 
     public function export()
     {
-        $columns = request()->except('_token');
-        $entries = Entries::with(['customer', 'item'])->get();
+        $columns = request()->except(['_token', 'filter', 'search', 'from_date', 'to_date']);
+        $entries = $this->searchFunc(request()->all());
         $count = count($columns) - isset($columns['price']) - isset($columns['cost']);
         return view('pdf.entry_pdf', compact('entries', 'columns', 'count'));
     }

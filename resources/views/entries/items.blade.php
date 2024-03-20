@@ -23,7 +23,7 @@
             <td>{{ $entry->cost }}</td>
             <td>{{ $entry->description }}</td>
             <td>
-                <a href="{{ route('Item.search', ['id' => $entry->id]) }}" type="button"
+                <a href="{{ route('EntryItem.search', ['id' => $entry->id]) }}" type="button"
                    class="btn btn-sm btn-info col-8 offset-2">View</a>
             </td>
             <td>
@@ -52,6 +52,10 @@
         </tr>
     @endforeach
     </tbody>
+    <tfoot>
+    <tr>
+        <th scope="row" colspan="8" class="text-md-center">Number of Items: {{ $entries->count() }}</th>
+    </tr>
 @endsection
 
 @section('dropdown')
@@ -85,74 +89,3 @@
     </div>
 @endsection
 
-@section('js')
-    <script>
-        let anchors = document.querySelectorAll('a[href="#deleteModal"]');
-
-        anchors.forEach(anchor => {
-            anchor.addEventListener('click', () => {
-                document.querySelector('#deleteModal a').href = `{{ url('/items') }}/${anchor.id}/delete`;
-            });
-        });
-
-        let from_date = document.getElementById('from_date');
-        let to_date = document.getElementById('to_date');
-
-        [from_date, to_date, search_field].forEach(input => {
-            input.addEventListener('change', () => {
-                let search = search_field.value.toLowerCase();
-                let filter = dropdown.textContent.toLowerCase();
-                let headers = document.querySelectorAll('thead th');
-
-                rows.forEach(row => {
-                    let cells = row.querySelectorAll('td, th');
-                    let date_field = cells[1].textContent.split('-');
-                    let date = new Date(date_field[1] + '-' + date_field[0] + '-' + date_field[2]);
-                    let from = new Date(from_date.value), to = new Date(to_date.value);
-                    let valid = true;
-
-                    from.setHours(0, 0, 0, 0);
-                    to.setHours(0, 0, 0, 0);
-
-                    if (from_date.value && to_date.value)
-                        valid = date >= from && date <= to;
-                    else if (from_date.value)
-                        valid = date >= from;
-                    else if (to_date.value)
-                        valid = date <= to;
-
-                    if (valid) {
-                        row.style.display = '';
-                        if (filter === 'all') {
-                            row.style.display = 'none';
-                            for (let i = 0; i < cells.length; i++) {
-                                if (cells[i].textContent.toLowerCase().includes(search)) {
-                                    row.style.display = '';
-                                    break;
-                                }
-                            }
-                        } else if (filter === 'id') {
-                            if (cells[0].textContent.toLowerCase().includes(search)) {
-                                row.style.display = '';
-                            } else {
-                                row.style.display = 'none';
-                            }
-                        } else if (!filter.includes('search by')) {
-                            row.style.display = 'none';
-                            for (let i = 1; i < cells.length; i++) {
-                                if (headers[i].textContent.toLowerCase() === filter) {
-                                    if (cells[i].textContent.toLowerCase().includes(search)) {
-                                        row.style.display = '';
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    } else {
-                        row.style.display = 'none';
-                    }
-                });
-            });
-        });
-    </script>
-@endsection

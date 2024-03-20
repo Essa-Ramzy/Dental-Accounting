@@ -40,7 +40,7 @@
                 </div>
             </div>
         </div>
-        <div class="container-fluid table-responsive overflow-y-hidden flex-grow-1">
+        <div class="container-fluid table-responsive flex-grow-1">
             <table class="table table-striped m-0">
                 @yield('content')
             </table>
@@ -48,20 +48,40 @@
         @yield('modal')
     </main>
     <script>
-        let dropdown = document.getElementById('dropdown_btn');
-        let search_field = document.getElementById('search');
-        let rows = document.querySelectorAll('tbody tr');
-
-
-        document.querySelectorAll('.dropdown-item').forEach(item => {
-            item.addEventListener('click', (e) => {
-                dropdown.textContent = e.target.textContent;
-                document.getElementById('search').dispatchEvent(new Event('input'));
-            });
+        $('.dropdown-item').on('click', e => {
+            $('#dropdown_btn').text(e.target.textContent);
+            $('#search').trigger('change');
         });
 
-        document.getElementById('search').addEventListener('input', () => {
-            search_field.dispatchEvent(new Event('change'));
+        $('#search').on('input', () => {
+            $('#search').trigger('change');
+        });
+
+        $('a[href="#deleteModal"]').on('click', e => {
+            $('#deleteModal a').attr('href', '{{ route($view . '.delete', ['id' => ':id']) }}'.replace(':id', e.currentTarget.id));
+        });
+
+        $(document).ready(function () {
+            $('#search, #from_date, #to_date').on('change', () => {
+                let search = $('#search').val().toLowerCase();
+                let filter = $('#dropdown_btn').text().toLowerCase().replace(' ', '_');
+                let from_date = $('#from_date').val();
+                let to_date = $('#to_date').val();
+                $.ajax({
+                    url: '{{ route($view . '.search') }}',
+                    type: 'GET',
+                    data: {
+                        search: !filter.includes('search_by') && search ? search : '',
+                        filter: !filter.includes('search_by') ? filter : '',
+                        from_date: from_date ? from_date + ' 00:00:00' : '',
+                        to_date: to_date ? to_date + ' 23:59:59' : ''
+                    },
+                    success: function (data) {
+                        $('tbody').html(data['body']);
+                        $('tfoot').html(data['footer']);
+                    }
+                });
+            });
         });
     </script>
     @yield('js')

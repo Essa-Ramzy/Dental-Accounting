@@ -19,6 +19,12 @@ Route::get('/items', 'App\Http\Controllers\ItemController@index')->name('Items')
 
 Route::get('/customers', 'App\Http\Controllers\CustomerController@index')->name('Customers');
 
+Route::get('/search', 'App\Http\Controllers\MainTableController@search')->name('Entry.search');
+
+Route::get('/items/search', 'App\Http\Controllers\ItemController@search')->name('Item.search');
+
+Route::get('/customers/search', 'App\Http\Controllers\CustomerController@search')->name('Customer.search');
+
 Route::get('/create', 'App\Http\Controllers\MainTableController@create')->name('Entry.create');
 
 Route::get('/items/create', 'App\Http\Controllers\ItemController@create')->name('Item.create');
@@ -45,8 +51,8 @@ Route::patch('/items/{id}/update', 'App\Http\Controllers\ItemController@update')
 
 Route::patch('/customers/{id}/update', 'App\Http\Controllers\CustomerController@update')->name('Customer.update');
 
-Route::get('/search_customer/{id}', 'App\Http\Controllers\MainTableController@searchCustomer')->name('Customer.search');
+Route::get('/search_customer/{id}', 'App\Http\Controllers\MainTableController@searchCustomer')->name('EntryCustomer.search');
 
-Route::get('/search_item/{id}', 'App\Http\Controllers\MainTableController@searchItem')->name('Item.search');
+Route::get('/search_item/{id}', 'App\Http\Controllers\MainTableController@searchItem')->name('EntryItem.search');
 
 Route::post('/export', 'App\Http\Controllers\MainTableController@export')->name('Entry.export');

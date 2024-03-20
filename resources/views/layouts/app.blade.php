@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-bs-theme="dark">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-bs-theme="dark" class="overflow-x-hidden">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,7 +11,7 @@
     <script src="{{ asset('resources/js/bootstrap-select.min.js') }}"></script>
 </head>
 
-<body class="antialiased min-vh-100 d-flex flex-column">
+<body class="antialiased min-vh-100 d-flex flex-column overflow-x-hidden">
 @yield('app_content')
 </body>
 </html>
