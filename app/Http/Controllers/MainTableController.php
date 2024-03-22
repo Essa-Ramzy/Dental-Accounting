@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Entries;
 use App\Models\Customer;
 use App\Models\Item;
+use Spatie\LaravelPdf\Facades\Pdf;
 
 class MainTableController extends Controller
 {
@@ -177,6 +178,7 @@ class MainTableController extends Controller
         $columns = request()->except(['_token', 'filter', 'search', 'from_date', 'to_date']);
         $entries = $this->searchFunc(request()->all());
         $count = count($columns) - isset($columns['price']) - isset($columns['cost']);
-        return view('pdf.entry_pdf', compact('entries', 'columns', 'count'));
+        $pdf = Pdf::view('pdf.entry_pdf', compact('entries', 'columns', 'count'));
+        return $pdf->format('A4')->landscape()->download('entries.pdf');
     }
 }
