@@ -15,7 +15,7 @@
             <td>{{ $entry->updated_at->format('d-m-Y') }}</td>
             <td>{{ $entry->name }}</td>
             <td>
-                <a href="{{ route('EntryCustomer.search', ['id' => $entry->id]) }}" type="button"
+                <a href="{{ route('Customer.records', ['id' => $entry->id]) }}" type="button"
                    class="btn btn-sm btn-info col-8 offset-2">View</a>
             </td>
             <td>

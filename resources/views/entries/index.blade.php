@@ -121,8 +121,8 @@
 
 @section('dropdown')
     <li class="dropdown-item">All</li>
-    <li class="dropdown-item" id="{{ isset($customer) ? 'customer_search' : '' }}">Name</li>
-    <li class="dropdown-item" id="{{ isset($item) ? 'item_search' : '' }}">Item</li>
+    <li class="dropdown-item" id="{{ Session::get('customer') ? 'customer_search' : '' }}">Name</li>
+    <li class="dropdown-item" id="{{ Session::get('item') ? 'item_search' : '' }}">Item</li>
     <li class="dropdown-item">Amount</li>
     <li class="dropdown-item">Unit Price</li>
     <li class="dropdown-item">Discount</li>
