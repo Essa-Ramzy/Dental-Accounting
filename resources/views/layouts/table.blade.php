@@ -26,7 +26,7 @@
                         </div>
                         <div class="form-group me-2 w-100 d-flex align-items-end">
                             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"
-                                   id="search" value="{{ $customer ?? $item ?? '' }}">
+                                   id="search" value="{{ Session::get('customer') ?? Session::get('item') ?? '' }}">
                             <div class="dropdown">
                                 <button id="dropdown_btn" class="btn btn-secondary dropdown-toggle" type="button"
                                         data-bs-toggle="dropdown" aria-expanded="false">Search by

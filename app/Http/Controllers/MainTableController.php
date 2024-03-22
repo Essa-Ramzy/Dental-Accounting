@@ -162,13 +162,13 @@ class MainTableController extends Controller
         return redirect(route('Home'));
     }
 
-    public function searchCustomer($id)
+    public function customerRecords($id)
     {
         $customer = Customer::find($id)->name;
         return redirect(route('Home'))->with(compact('customer'));
     }
 
-    public function searchItem($id)
+    public function itemRecords($id)
     {
         $item = Item::find($id)->name;
         return redirect(route('Home'))->with(compact('item'));

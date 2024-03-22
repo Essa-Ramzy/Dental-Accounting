@@ -51,8 +51,8 @@ Route::patch('/items/{id}/update', 'App\Http\Controllers\ItemController@update')
 
 Route::patch('/customers/{id}/update', 'App\Http\Controllers\CustomerController@update')->name('Customer.update');
 
-Route::get('/search_customer/{id}', 'App\Http\Controllers\MainTableController@searchCustomer')->name('EntryCustomer.search');
+Route::get('/customers/{id}/racords', 'App\Http\Controllers\MainTableController@customerRecords')->name('Customer.records');
 
-Route::get('/search_item/{id}', 'App\Http\Controllers\MainTableController@searchItem')->name('EntryItem.search');
+Route::get('/items/{id}/records', 'App\Http\Controllers\MainTableController@itemRecords')->name('Item.records');
 
 Route::post('/export', 'App\Http\Controllers\MainTableController@export')->name('Entry.export');

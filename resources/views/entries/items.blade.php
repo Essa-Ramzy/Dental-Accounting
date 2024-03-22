@@ -23,7 +23,7 @@
             <td>{{ $entry->cost }}</td>
             <td>{{ $entry->description }}</td>
             <td>
-                <a href="{{ route('EntryItem.search', ['id' => $entry->id]) }}" type="button"
+                <a href="{{ route('Item.records', ['id' => $entry->id]) }}" type="button"
                    class="btn btn-sm btn-info col-8 offset-2">View</a>
             </td>
             <td>
