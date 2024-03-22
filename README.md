@@ -4,15 +4,21 @@
 
 Before you can use the application, you need to start the project. Here are the general steps you might follow:
 
-1. **Clone the Repository**: Clone the project repository to your local machine using Git.
+1. **Install XAMPP**: If you haven't already, download and install XAMPP from the official website.
 
-2. **Install Dependencies**: Navigate to the project directory in your terminal and run `composer install` to install PHP dependencies and `npm install` to install JavaScript dependencies.
+2. **Clone the Repository**: Clone the project repository to your local machine using Git.
 
-3. **Setup the Database**: Setup your database and update the `.env` file in the project root with your database connection details.
+3. **Place the Project in htdocs**: Move the project folder into the `htdocs` directory inside your XAMPP installation directory.
 
-4. **Run Migrations**: Run the command `php artisan migrate` in your terminal to create the necessary tables in your database.
+4. **Start XAMPP**: Open the XAMPP control panel and start the Apache and MySQL services.
 
-5. **Start the Server**: Finally, start the server by running `php artisan serve` in your terminal. You should now be able to access the application in your web browser at the address provided in the terminal (usually `http://localhost:8000`).
+5. **Install Dependencies**: Navigate to the project directory in your terminal and run `composer install` to install PHP dependencies and `npm install` to install JavaScript dependencies.
+
+6. **Setup the Database**: Update the `.env` file in the project root with your database connection details. The host will usually be `localhost` and the database will be the name of the database you want to create.
+
+7. **Run Migrations**: Run the command `php artisan migrate` in your terminal. If the database does not exist, Laravel will ask if you want to create it. Confirm the creation and Laravel will create the necessary tables in your database.
+
+8. **Access the Application**: You should now be able to access the application in your web browser at `http://localhost/your_project_folder/public`.
 
 Please note that these are general steps and the actual steps may vary based on the specific setup of your project. Always refer to any setup instructions provided in the project repository for the most accurate information.
 
