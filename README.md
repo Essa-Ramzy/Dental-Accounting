@@ -6,19 +6,21 @@ Before you can use the application, you need to start the project. Here are the 
 
 1. **Install XAMPP**: If you haven't already, download and install XAMPP from the official website.
 
-2. **Clone the Repository**: Clone the project repository to your local machine using Git.
+2. **Install 7z or Git**: These are required for some dependencies during the `composer install` process. You can download 7z from the official website and Git from its official website.
 
-3. **Place the Project in htdocs**: Move the project folder into the `htdocs` directory inside your XAMPP installation directory.
+3. **Clone the Repository**: Clone the project repository to your local machine using Git.
 
-4. **Start XAMPP**: Open the XAMPP control panel and start the Apache and MySQL services.
+4. **Place the Project in htdocs**: Move the project folder into the `htdocs` directory inside your XAMPP installation directory.
 
-5. **Install Dependencies**: Navigate to the project directory in your terminal and run `composer install` to install PHP dependencies and `npm install` to install JavaScript dependencies.
+5. **Start XAMPP**: Open the XAMPP control panel and start the Apache and MySQL services.
 
-6. **Setup the Database**: Update the `.env` file in the project root with your database connection details. The host will usually be `localhost` and the database will be the name of the database you want to create.
+6. **Install Dependencies**: Navigate to the project directory in your terminal and run `composer install` to install PHP dependencies. Then, run `composer require spatie/laravel-pdf` to add the necessary package for PDF export. Also, run `npm install` and `npm install puppeteer` to install JavaScript dependencies and the Puppeteer package for PDF export.
 
-7. **Run Migrations**: Run the command `php artisan migrate` in your terminal. If the database does not exist, Laravel will ask if you want to create it. Confirm the creation and Laravel will create the necessary tables in your database.
+7. **Setup the Database**: Update the `.env` file in the project root with your database connection details. The host will usually be `localhost` and the database will be the name of the database you want to create.
 
-8. **Access the Application**: You should now be able to access the application in your web browser at `http://localhost/your_project_folder/public`.
+8. **Run Migrations**: Run the command `php artisan migrate` in your terminal. If the database does not exist, Laravel will ask if you want to create it. Confirm the creation and Laravel will create the necessary tables in your database.
+
+9. **Access the Application**: You should now be able to access the application in your web browser at `http://localhost/your_project_folder/public`.
 
 Please note that these are general steps and the actual steps may vary based on the specific setup of your project. Always refer to any setup instructions provided in the project repository for the most accurate information.
 
@@ -32,7 +34,13 @@ There are three main models in this project: `Customer`, `Item`, and `Entries`.
 
 ### Customer Model
 
-The `Customer` model represents a customer in the application. The specific attributes and relationships of this model are not provided in the current context.
+The `Customer` model represents a customer in the application. It has the following attributes:
+
+- `name`: The name of the customer.
+- `phone`: The phone number of the customer.
+- `address`: The address of the customer.
+
+The `Customer` model has a one-to-many relationship with the `Entries` model.
 
 ### Item Model
 
@@ -66,7 +74,14 @@ There are three main controllers in this project: `CustomerController`, `ItemCon
 
 ### CustomerController
 
-The `CustomerController` handles the CRUD operations for the `Customer` model. The specific methods of this controller are not provided in the current context.
+The `CustomerController` handles the CRUD operations for the `Customer` model. It has the following methods:
+
+- `index()`: Fetches all customers and returns a view with the customers.
+- `create()`: Returns a view for creating a new customer.
+- `store()`: Validates the request data and creates a new customer.
+- `delete()`: Deletes a customer by its ID.
+- `edit()`: Fetches a customer by its ID and returns a view for editing the customer.
+- `update()`: Validates the request data and updates a customer by its ID.
 
 ### ItemController
 
@@ -81,7 +96,15 @@ The `ItemController` handles the CRUD operations for the `Item` model. It has th
 
 ### MainTableController
 
-The `MainTableController` might handle operations related to a main table in your application. The specific methods of this controller are not provided in the current context.
+The `MainTableController` handles operations related to the main table in your application. It has the following methods:
+
+- `index()`: Fetches all entries and returns a view with the entries.
+- `create()`: Returns a view for creating a new entry.
+- `store()`: Validates the request data and creates a new entry.
+- `delete()`: Deletes an entry by its ID.
+- `edit()`: Fetches an entry by its ID and returns a view for editing the entry.
+- `update()`: Validates the request data and updates an entry by its ID.
+- `pdf()`: This method generates a PDF of entries. It first gets the columns from the request, excluding certain keys. It then gets the entries by calling the `searchFunc()` method with all request data. The number of columns is calculated, and a PDF is generated using the `Pdf::view()` method with the 'pdf.entry_pdf' view and the entries, columns, and count as data. The PDF is formatted to 'A4' size and landscape orientation, and then downloaded with the name 'entries.pdf'.
 
 ### Controller
 
@@ -116,5 +139,7 @@ While the specific details of how to use the site are not provided, based on the
 6. **Editing an Item, or Customer**: To edit an existing item, or customer, you would need to locate it in the list and select the edit option. This should bring up a form with the current details of the item, or customer. After making the necessary changes and submitting the form, the details should be updated in the database and the changes should be visible in the list.
 
 7. **Deleting an Entry, Item, or Customer**: To delete an existing entry, item, or customer, you would need to locate it in the list and select the delete option. After confirming the deletion, the entry, item, or customer should be removed from the database and no longer visible in the list.
+
+8. **Filtering and Searching**: You can filter and search the entries, items, or customers by using the filter dropdown and search input in the table view. The table will update dynamically based on your input.
 
 Please note that the actual usage of the site may vary based on the specific implementation of the application. For more accurate instructions, refer to any user guides or manuals provided with the application, or consult the application's developer.
