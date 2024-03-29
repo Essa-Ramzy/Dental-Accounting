@@ -79,6 +79,9 @@
                     success: function (data) {
                         $('tbody').html(data['body']);
                         $('tfoot').html(data['footer']);
+                        $('a[href="#deleteModal"]').on('click', e => {
+                            $('#deleteModal a').attr('href', '{{ route($view . '.delete', ['id' => ':id']) }}'.replace(':id', e.currentTarget.id));
+                        });
                     }
                 });
             });

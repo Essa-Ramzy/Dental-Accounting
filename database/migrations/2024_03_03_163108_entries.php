@@ -14,6 +14,8 @@ return new class extends Migration {
             $table->id();
             $table->date('date');
             $table->string('teeth');
+            $table->decimal('amount');
+            $table->decimal('unit_price');
             $table->decimal('discount');
             $table->decimal('price');
             $table->decimal('cost');
