@@ -4,25 +4,66 @@
 
 Before you can use the application, you need to start the project. Here are the general steps you might follow:
 
-1. **Install XAMPP**: If you haven't already, download and install XAMPP from the official website.
+### Prerequisites
 
-2. **Install 7z or Git**: These are required for some dependencies during the `composer install` process. You can download 7z from the official website and Git from its official website.
+1. **Install XAMPP**: If you haven't already, download and install XAMPP from the [official website](https://www.apachefriends.org/index.html).
 
-3. **Clone the Repository**: Clone the project repository to your local machine using Git.
+2. **Install 7z or Git**: These are required for some dependencies during the `composer install` process. You can download 7z from the [official website](https://www.7-zip.org/download.html) and Git from its [official website](https://git-scm.com/downloads).
 
-4. **Place the Project in htdocs**: Move the project folder into the `htdocs` directory inside your XAMPP installation directory.
+3. **Install Composer**: Composer is a tool for dependency management in PHP. You can download it from the [official website](https://getcomposer.org/download/).
 
-5. **Start XAMPP**: Open the XAMPP control panel and start the Apache and MySQL services.
+4. **Install Node.js**: Node.js is a JavaScript runtime built on Chrome's V8 JavaScript engine. You can download it from the [official website](https://nodejs.org/en/download/).
 
-6. **Install Dependencies**: Navigate to the project directory in your terminal and run `composer install` to install PHP dependencies. Then, run `composer require spatie/laravel-pdf` to add the necessary package for PDF export. Also, run `npm install` and `npm install puppeteer` to install JavaScript dependencies and the Puppeteer package for PDF export.
+### Setup
 
-7. **Setup the Database**: Update the `.env` file in the project root with your database connection details. The host will usually be `localhost` and the database will be the name of the database you want to create.
+5. **Clone the Repository**: Clone the project repository to your local machine using Git.
 
-8. **Run Migrations**: Run the command `php artisan migrate` in your terminal. If the database does not exist, Laravel will ask if you want to create it. Confirm the creation and Laravel will create the necessary tables in your database.
+6. **Place the Project in htdocs**: Move the project folder into the `htdocs` directory inside your XAMPP installation directory.
 
-9. **Access the Application**: You should now be able to access the application in your web browser at `http://localhost/your_project_folder/public`.
+### Install Dependencies
+
+7. **Install PHP Dependencies**: Navigate to the project directory in your terminal and run the following command:
+
+    ```bash
+    composer install
+    ```
+
+8. **Install JavaScript Dependencies (required for PDF export feature)**: Continue in the project directory and execute the following command:
+
+    ```bash
+    npm install
+    ```
+
+### Configure the Application
+
+9. **Generate Key**: After installing all the dependencies, you need to generate a new application key. Run the following command in your terminal:
+    ```bash
+    php artisan key:generate
+    ```
+
+10. **Setup the Database**: First, if you don't have a `.env` file in your project root, you can create one by making a copy of the `.env.example` file and renaming it to `.env`. Then, update the `.env` file with your database connection details. The host will usually be `localhost` and the database will be the name of the database you want to create.
+
+11. **Run Migrations**: Execute the following command in your terminal:
+
+    ```bash
+    php artisan migrate
+    ```
+
+    This command will migrate the database. If the database does not exist, Laravel will prompt you to create it. Confirm the creation and Laravel will generate the necessary tables in your database.
+
+### Access the Application
+
+12. **Start XAMPP**: Open the XAMPP control panel and start the Apache and MySQL services.
+
+13. You should now be able to access the application in your web browser at `http://localhost/your_project_folder/public`.
 
 Please note that these are general steps and the actual steps may vary based on the specific setup of your project. Always refer to any setup instructions provided in the project repository for the most accurate information.
+
+### Step-by-Step Video Guide for Project Startup
+
+For a visual walkthrough of the setup process, please watch our setup guide video:
+
+[Setup Guide Video](https://github.com/Essa-Ramzy/Dental-Accounting/assets/100089248/f823d116-ac87-4207-981a-1012028f9347)
 
 ## Overview
 
