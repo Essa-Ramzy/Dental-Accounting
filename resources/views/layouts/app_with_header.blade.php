@@ -1,9 +1,12 @@
 @extends('layouts.app')
-
+<!-- This is the main layout with a header for the web application -->
 @section('app_content')
+    <!-- Header (navigation bar) for the web application -->
     <header class="px-3 py-2 text-bg-dark border-bottom">
         <nav class="container">
+            <!-- Application logo and navigation links -->
             <div class="nav d-flex flex-wrap align-items-center justify-content-center">
+                <!-- Application logo -->
                 <a href="{{ route('Home') }}"
                    class="nav-link d-flex align-items-center my-2 my-lg-0 me-sm-auto me-0 text-white text-decoration-none">
                     <svg xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" class="bi"
@@ -18,8 +21,9 @@
                         <use xlink:href="#bootstrap" fill="#FFFFFF"></use>
                     </svg>
                 </a>
-
+                <!-- Navigation links -->
                 <ul class="nav col-12 col-sm-auto my-2 justify-content-center my-md-0 text-small">
+                    <!-- Home link -->
                     <li>
                         <a href="{{ route('Home') }}"
                            class="nav-link {{Illuminate\Support\Facades\Route::is('Home')? 'text-secondary' : 'text-white'}}">
@@ -37,6 +41,7 @@
                             Home
                         </a>
                     </li>
+                    <!-- Items link -->
                     <li>
                         <a href="{{ route('Items') }}"
                            class="nav-link {{Illuminate\Support\Facades\Route::is('Items')? 'text-secondary' : 'text-white'}}">
@@ -54,6 +59,7 @@
                             Items
                         </a>
                     </li>
+                    <!-- Customers link -->
                     <li>
                         <a href="{{ route('Customers') }}"
                            class="nav-link {{Illuminate\Support\Facades\Route::is('Customers')? 'text-secondary' : 'text-white'}}">

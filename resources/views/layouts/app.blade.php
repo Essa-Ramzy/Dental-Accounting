@@ -1,3 +1,4 @@
+<!-- This is the main layout for the web application -->
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-bs-theme="dark" class="overflow-x-hidden">
 <head>

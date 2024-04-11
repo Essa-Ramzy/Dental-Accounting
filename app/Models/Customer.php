@@ -12,6 +12,6 @@ class Customer extends Model
 
     public function entries()
     {
-        return $this->hasMany(Entries::class);
+        return $this->hasMany(Entry::class);
     }
 }

@@ -67,120 +67,142 @@ For a visual walkthrough of the setup process, please watch our setup guide vide
 
 ## Overview
 
-This project is a web application built using PHP and JavaScript. It uses the Laravel framework for the backend and npm for managing JavaScript packages. The application is structured following the MVC (Model-View-Controller) pattern.
+This Laravel application is structured around the MVC (Model-View-Controller) pattern. Here's a detailed overview of each component:
 
-## Models
+### Models
 
-There are three main models in this project: `Customer`, `Item`, and `Entries`.
+Models represent the data structure of the application and are typically tied to database tables. Each model corresponds to a table in the database. They contain methods for retrieving, storing, and updating data in the database.
 
-### Customer Model
+#### Item Model
 
-The `Customer` model represents a customer in the application. It has the following attributes:
+The `Item` model represents an item in the application. 
 
-- `name`: The name of the customer.
-- `phone`: The phone number of the customer.
-- `address`: The address of the customer.
-
-The `Customer` model has a one-to-many relationship with the `Entries` model.
-
-### Item Model
-
-The `Item` model represents an item in the application. It has the following attributes:
+**Fields:**
 
 - `name`: The name of the item.
 - `price`: The price of the item.
 - `cost`: The cost of the item.
 - `description`: The description of the item.
 
-The `Item` model has a one-to-many relationship with the `Entries` model.
+**Relationships:**
 
-### Entries Model
+- `hasMany('Entry')`: An item can have many entries.
 
-The `Entries` model represents an entry in the application. It has the following attributes:
+#### Customer Model
 
-- `customer_id`: The ID of the customer.
-- `item_id`: The ID of the item.
+The `Customer` model represents a customer in the application. 
+
+**Fields:**
+
+- `name`: The name of the customer.
+
+**Relationships:**
+
+- `hasMany('Entry')`: A customer can have many entries.
+
+#### Entry Model
+
+The `Entry` model represents an entry in the application.
+
+**Fields:**
+
+- `customer_id`: The ID of the customer associated with the entry.
+- `item_id`: The ID of the item associated with the entry.
 - `date`: The date of the entry.
-- `teeth`: The teeth attribute of the entry.
-- `discount`: The discount of the entry.
-- `price`: The price of the entry.
-- `cost`: The cost of the entry.
-- `description`: The description of the entry.
+- `teeth`: Specifies the teeth of the customer on which the item is being applied.
+- `amount`: The number of teeth involved in the entry.
+- `unit_price`: The price for one item being applied to one tooth.
+- `discount`: The discount for the entry.
+- `price`: The total price of the entry.
+- `cost`: The total cost of the entry.
 
-The `Entries` model has a many-to-one relationship with the `Item` model and the `Customer` model.
+**Relationships:**
 
-## Controllers
+- `belongsTo('Customer')`: Each entry belongs to a customer.
+- `belongsTo('Item')`: Each entry belongs to an item.
 
-There are three main controllers in this project: `CustomerController`, `ItemController`, and `MainTableController`.
+### Controllers
 
-### CustomerController
+Controllers handle the business logic of the application. They respond to HTTP requests, interact with models, and return views.
 
-The `CustomerController` handles the CRUD operations for the `Customer` model. It has the following methods:
+#### ItemController
 
-- `index()`: Fetches all customers and returns a view with the customers.
-- `create()`: Returns a view for creating a new customer.
-- `store()`: Validates the request data and creates a new customer.
-- `delete()`: Deletes a customer by its ID.
-- `edit()`: Fetches a customer by its ID and returns a view for editing the customer.
-- `update()`: Validates the request data and updates a customer by its ID.
+The `ItemController` handles the CRUD operations for items. 
 
-### ItemController
+**Methods:**
 
-The `ItemController` handles the CRUD operations for the `Item` model. It has the following methods:
+- `search`: This function is used to handle AJAX search requests. It uses the `searchFunc` to get the filtered items and constructs an HTML string for the body and footer of the table. If the request is not AJAX, it redirects to the items page.
+- `create`: Shows the form for creating a new item. It returns a view with the form.
+- `store`: Stores a newly created item in the database. It validates the request data and creates a new item. After creating the item, it redirects to the items page.
+- `delete`: Deletes items based on the search query, filter type, and date range. It uses the `searchFunc` to get the items to delete. After deleting the items, it redirects to the items page.
+- `edit`: Shows the form for editing an existing item. It finds the item by id and returns a view with the item.
+- `update`: Updates an existing item in the database. It validates the request data and updates the item. After updating the item, it redirects to the items page.
 
-- `index()`: Fetches all items and returns a view with the items.
-- `create()`: Returns a view for creating a new item.
-- `store()`: Validates the request data and creates a new item.
-- `delete()`: Deletes an item by its ID.
-- `edit()`: Fetches an item by its ID and returns a view for editing the item.
-- `update()`: Validates the request data and updates an item by its ID.
+#### CustomerController
 
-### MainTableController
+The `CustomerController` handles the CRUD operations for customers. 
 
-The `MainTableController` handles operations related to the main table in your application. It has the following methods:
+**Methods:**
 
-- `index()`: Fetches all entries and returns a view with the entries.
-- `create()`: Returns a view for creating a new entry.
-- `store()`: Validates the request data and creates a new entry.
-- `delete()`: Deletes an entry by its ID.
-- `edit()`: Fetches an entry by its ID and returns a view for editing the entry.
-- `update()`: Validates the request data and updates an entry by its ID.
-- `pdf()`: This method generates a PDF of entries. It first gets the columns from the request, excluding certain keys. It then gets the entries by calling the `searchFunc()` method with all request data. The number of columns is calculated, and a PDF is generated using the `Pdf::view()` method with the 'pdf.entry_pdf' view and the entries, columns, and count as data. The PDF is formatted to 'A4' size and landscape orientation, and then downloaded with the name 'entries.pdf'.
+- `index`: Displays a list of customers. It retrieves all customers from the database and returns a view with the customers and the view name.
+- `searchFunc`: This private function is used to filter customers based on the search query, filter type, and date range. It returns the filtered customers.
+- `search`: This function is used to handle AJAX search requests. It uses the `searchFunc` to get the filtered customers and constructs an HTML string for the body and footer of the table. If the request is not AJAX, it redirects to the customers page.
+- `create`: Shows the form for creating a new customer.
+- `store`: Stores a newly created customer in the database. It validates the request data and creates a new customer. After creating the customer, it redirects to the customers page.
+- `delete`: Deletes customers based on the search query, filter type, and date range. It uses the `searchFunc` to get the customers to delete. After deleting the customers, it redirects to the customers page.
+- `edit`: Shows the form for editing an existing customer. It finds the customer by id and returns a view with the customer.
+- `update`: Updates an existing customer in the database. It validates the request data and updates the customer. After updating the customer, it redirects to the customers page.
 
-### Controller
+#### EntryController
 
-The `Controller` is the base controller of the application. It uses the `AuthorizesRequests` and `ValidatesRequests` traits from the Laravel framework.
+The `EntryController` handles the CRUD operations for entries. 
 
-## Views
+**Methods:**
 
-The views of the application are not included in the provided code. However, based on the `ItemController`, we can infer that there are views for listing items (`entries.items`), adding an item (`forms.add_item`), and editing an item (`forms.edit_item`).
+- `index`: Displays a list of entries. It retrieves all entries from the database and returns a view with the entries and the view name.
+- `searchFunc`: This private function is used to filter entries based on the search query, filter type, and date range. It returns the filtered entries.
+- `search`: This function is used to handle AJAX search requests. It uses the `searchFunc` to get the filtered entries and constructs an HTML string for the body and footer of the table. If the request is not AJAX, it redirects to the home page.
+- `create`: Shows the form for creating a new entry. It retrieves all customers and items from the database and returns a view with them.
+- `store`: Stores a newly created entry in the database. It validates the request data and creates a new entry. After creating the entry, it redirects to the home page.
+- `delete`: Deletes entries based on the search query, filter type, and date range. It uses the `searchFunc` to get the entries to delete. After deleting the entries, it redirects to the home page.
+- `customerRecords`: Redirects to the home page with the name of a specific customer. It finds the customer by id and returns the customer's name.
+- `itemRecords`: Redirects to the home page with the name of a specific item. It finds the item by id and returns the item's name.
+- `export`: Exports the filtered entries to a PDF file. It uses the `searchFunc` to get the entries to export and generates a PDF file with the entries. It returns the PDF file for download.
 
-## Dependencies
+## Using the Application
 
-The project uses Composer for managing PHP dependencies and npm for managing JavaScript dependencies. The specific dependencies are not included in the provided code.
+### Main Table
+The main table displays a list of all entries. You can add a new entry by clicking on the 'Add Entry' button. This will redirect you to a form where you can fill out the details of the new entry.
 
-## Conclusion
+### Add Entry in Main Table
+To add a new entry, click on the 'Add Entry' button in the home page. Fill out the form with the customer's name, item, teeth, date, and discount. Click on the 'Save' button to add the entry to the main table.
 
-This is a basic overview of the project based on the provided code. For more detailed information, refer to the codebase and any additional documentation provided with the project.
+### Delete Entries from Main Table
+To delete an entry, click on the 'Delete' icon next to the entry in the main table. A confirmation dialog will appear. Click on 'Yes, Delete' to delete the entry. To delete all entries displayed in the main table, click on the 'Delete All' icon in the footer of the table. Note that if you have applied a filter, only the filtered entries will be deleted.
 
-## How to Use the Site
+### Customer Table
+The customer table displays a list of all customers. You can add a new customer by clicking on the 'Add Customer' button. This will redirect you to a form where you can fill out the details of the new customer.
 
-While the specific details of how to use the site are not provided, based on the structure of the application, a general guide can be inferred:
+### Add Customer in Customer Table
+To add a new customer, click on the 'Add Customer' button in the customer page. Fill out the form with the customer's name and click on the 'Save' button to add the customer to the customer table.
 
-1. **Home Page**: When you first visit the site, you will likely land on the home page. This page may display a list of items, entries, or customers depending on the design of the application.
+### Edit Customer
+To edit a customer, click on the 'Edit' icon next to the customer in the customer table. Update the customer's name in the form and click on the 'Save' button to save the changes.
 
-2. **Customer Page**: There might be a page dedicated to customers where you can view a list of all customers. There should be options to add a new customer, edit an existing customer's details, or delete a customer.
+### Delete Customers
+To delete a customer, click on the 'Delete' icon next to the customer in the customer table. A confirmation dialog will appear. Click on 'Yes, Delete' to delete the customer. Note that all entries related to this customer in the main table will also be deleted. To delete all customers displayed in the customer table, click on the 'Delete All' icon in the footer of the table. Note that if you have applied a filter, only the filtered customers will be deleted.
 
-3. **Item Page**: Similarly, there should be a page for items where you can view a list of all items. Options to add a new item, edit an existing item's details, or delete an item should be available.
+### Item Table
+The item table displays a list of all items. You can add a new item by clicking on the 'Add Item' button. This will redirect you to a form where you can fill out the details of the new item.
 
-4. **Entries Page**: This page would display a list of all entries. You should be able to add a new entry, edit an existing entry's details, or delete an entry.
+### Add Item in Item Table
+To add a new item, click on the 'Add Item' button in the item table. Fill out the form with the item's name, price, cost, and description. Click on the 'Save' button to add the item to the item table.
 
-5. **Adding a New Entry, Item, or Customer**: When adding a new entry, item, or customer, you would need to fill out a form with the necessary details. After submitting the form, the new entry, item, or customer should be added to the database and visible in the respective list.
+### Edit Item
+To edit an item, click on the 'Edit' icon next to the item in the item table. Update the item's name, price, cost, and description in the form and click on the 'Save' button to save the changes.
 
-6. **Editing an Item, or Customer**: To edit an existing item, or customer, you would need to locate it in the list and select the edit option. This should bring up a form with the current details of the item, or customer. After making the necessary changes and submitting the form, the details should be updated in the database and the changes should be visible in the list.
+### Delete Items
+To delete an item, click on the 'Delete' icon next to the item in the item table. A confirmation dialog will appear. Click on 'Yes, Delete' to delete the item. Note that all entries related to this item in the main table will also be deleted. To delete all items displayed in the item table, click on the 'Delete All' icon in the footer of the table. Note that if you have applied a filter, only the filtered items will be deleted.
 
-7. **Deleting an Entry, Item, or Customer**: To delete an existing entry, item, or customer, you would need to locate it in the list and select the delete option. After confirming the deletion, the entry, item, or customer should be removed from the database and no longer visible in the list.
-
-8. **Filtering and Searching**: You can filter and search the entries, items, or customers by using the filter dropdown and search input in the table view. The table will update dynamically based on your input.
-
-Please note that the actual usage of the site may vary based on the specific implementation of the application. For more accurate instructions, refer to any user guides or manuals provided with the application, or consult the application's developer.
+### Export to PDF
+You can export the entries to a PDF by clicking on the 'Export to PDF' icon in the header of the main table on the home page. A dropdown will appear where you can select the columns you want to export. Note that only the filtered entries will be exported if you have applied a filter.

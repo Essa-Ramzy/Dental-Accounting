@@ -1,5 +1,5 @@
 @extends('layouts.form')
-
+<!-- This is the layout for adding a new entry -->
 @section('content')
     <form action="{{ route('Entry.store') }}" method="post" enctype="multipart/form-data">
         @csrf
@@ -8,6 +8,7 @@
                 <div class="row pt-3">
                     <h1>Add New Entry</h1>
                 </div>
+                <!-- Customer name for the new entry -->
                 <div class="form-group row">
                     <label for="name" class="col-md-4 col-form-label text-md-right">Customer Name</label>
                     <select class="form-control selectpicker w-100 p-0{{ $errors->has('name') ? ' is-invalid' : '' }}"
@@ -26,6 +27,7 @@
                 </span>
                     @endif
                 </div>
+                <!-- Item for the new entry -->
                 <div class="form-group row">
                     <label for="item" class="col-md-4 col-form-label text-md-right">Item</label>
                     <select class="form-control selectpicker w-100 p-0{{ $errors->has('item') ? ' is-invalid' : '' }}"
@@ -43,6 +45,7 @@
                 </span>
                     @endif
                 </div>
+                <!-- Teeth for the new entry -->
                 <div class="form-group row">
                     <label for="teeth" class="col-md-4 col-form-label text-md-right">Teeth</label>
                     <select class="form-control selectpicker w-100 p-0{{ $errors->has('teeth') ? ' is-invalid' : '' }}"
@@ -64,10 +67,12 @@
                 </span>
                     @endif
                 </div>
+                <!-- Date for the new entry -->
                 <div class="form-group row">
                     <label for="date" class="col-md-4 col-form-label text-md-right">Date</label>
                     <input id="date" type="date" class="form-control" name="date" autocomplete="date">
                 </div>
+                <!-- Discount for the new entry -->
                 <div class="form-group row">
                     <label for="discount" class="col-md-4 col-form-label text-md-right">Discount</label>
                     <input id="discount" type="number" placeholder="0"
@@ -78,11 +83,6 @@
                     <strong>{{ $errors->first('discount') }}</strong>
                 </span>
                     @endif
-                </div>
-                <div class="form-group row">
-                    <label for="description" class="col-md-4 col-form-label text-md-right">Description</label>
-                    <textarea id="description" type="text" class="form-control" name="description"
-                              autocomplete="description"></textarea>
                 </div>
                 <div class="row pt-4">
                     <button class="btn btn-outline-primary">Add New Entry</button>
