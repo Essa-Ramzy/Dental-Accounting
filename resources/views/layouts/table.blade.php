@@ -19,15 +19,10 @@
                     <!-- Filter dropdown menu -->
                     <div class="dropdown-menu py-2 px-3 vw-100">
                         <!-- Filter date range -->
-                        <div class="row mb-2">
-                            <div class="form-group col-md-6">
-                                <label for="from_date">From Date</label>
-                                <input class="form-control" type="date" id="from_date">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="to_date">To Date</label>
-                                <input class="form-control" type="date" id="to_date">
-                            </div>
+                        <div class="mb-2" id="date_range_filter">
+                            <input id="report_range" class="text-body bg-body btn btn-secondary border w-100" readonly type="button" value="Date Range">
+                            <input hidden id="from_date" aria-label="from_date">
+                            <input hidden id="to_date" aria-label="to_date">
                         </div>
                         <!-- Filter column search -->
                         <div class="form-group me-2 w-100 d-flex align-items-end">
@@ -88,7 +83,7 @@
         handleDeleteModalClick();
 
         $(document).ready(function () {
-            $('#search, #from_date, #to_date').on('change', () => {
+            $('#search').on('change', () => {
                 let search = $('#search').val().toLowerCase();
                 let filter = $('#dropdown_btn').text().toLowerCase().replace(' ', '_');
                 let from_date = $('#from_date').val();
@@ -103,11 +98,55 @@
                         to_date: to_date ? to_date + ' 23:59:59' : ''
                     },
                     success: function (data) {
-                        $('tbody').html(data['body']);
-                        $('tfoot').html(data['footer']);
+                        $('.table-responsive tbody').html(data['body']);
+                        $('.table-responsive tfoot').html(data['footer']);
                         handleDeleteModalClick();
                     }
                 });
+            });
+        });
+
+        $(function() {
+
+            let range = $('#report_range');
+            let change_date = (start, end) => {
+                range.val(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                $('#from_date').val(start.format('YYYY-MM-DD'));
+                $('#to_date').val(end.format('YYYY-MM-DD'));
+                $('#search').trigger('change');
+            };
+
+            range.daterangepicker({
+                startDate: moment().subtract(29, 'days'),
+                endDate: moment(),
+                parentEl: '#date_range_filter',
+                cancelButtonClasses: 'btn-secondary',
+                linkedCalendars: false,
+                autoUpdateInput: false,
+                opens: 'center',
+                locale: {
+                    cancelLabel: 'Clear'
+                },
+                alwaysShowCalendars: true,
+                ranges: {
+                    'Today': [moment(), moment()],
+                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'This Month': [moment().startOf('month'), moment().endOf('month')],
+                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                }
+            }, change_date);
+
+            range.on('apply.daterangepicker', (ev, picker) => {
+                change_date(picker.startDate, picker.endDate);
+            });
+
+            range.on('cancel.daterangepicker', () => {
+                range.val('Date Range');
+                $('#from_date').val('');
+                $('#to_date').val('');
+                $('#search').trigger('change');
             });
         });
     </script>

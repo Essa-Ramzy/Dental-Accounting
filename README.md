@@ -1,6 +1,23 @@
 # Dental Clinic Accounting Web Application
 
-## How to Start the Project
+![Version](https://img.shields.io/badge/version-1.0.0-blue)
+![Build](https://img.shields.io/badge/build-passing-brightgreen)
+![License](https://img.shields.io/badge/license-MIT-green)
+
+## Table of Contents
+
+- [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Setup](#setup)
+    - [Install Dependencies](#install-dependencies)
+    - [Configure the Application](#configure-the-application)
+    - [Access the Application](#access-the-application)
+- [Overview](#overview)
+    - [Models](#models)
+    - [Controllers](#controllers)
+- [Using the Application](#using-the-application)
+
+## Getting Started
 
 Before you can use the application, you need to start the project. Here are the general steps you might follow:
 
