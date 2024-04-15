@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Entries;
+use App\Models\Entry;
 use App\Models\Customer;
 use App\Models\Item;
+use Illuminate\Support\Facades\Redirect;
 use Spatie\LaravelPdf\Facades\Pdf;
 
-class MainTableController extends Controller
+class EntryController extends Controller
 {
     public function index()
     {
-        $entries = Entries::with(['customer', 'item'])->get();
+        $entries = Entry::with(['customer', 'item'])->get();
         $view = "Entry";
         return view('entries.index', compact('entries', 'view'));
     }
@@ -20,7 +21,7 @@ class MainTableController extends Controller
     {
         if ($request['search']) {
             if ($request['filter'] == 'all') {
-                $entries = Entries::with(['customer', 'item'])
+                $entries = Entry::with(['customer', 'item'])
                     ->whereHas('customer', function ($query) use ($request) {
                         $query->where('name', 'like', '%' . $request['search'] . '%');
                     })->orWhereHas('item', function ($query) use ($request) {
@@ -32,24 +33,24 @@ class MainTableController extends Controller
                     ->orWhere('price', 'like', '%' . $request['search'] . '%')
                     ->orWhere('cost', 'like', '%' . $request['search'] . '%')->get();
             } else if ($request['filter'] == 'name') {
-                $entries = Entries::with(['customer', 'item'])->whereHas('customer', function ($query) use ($request) {
+                $entries = Entry::with(['customer', 'item'])->whereHas('customer', function ($query) use ($request) {
                     $query->where('name', 'like', '%' . $request['search'] . '%');
                 })->get();
             } else if ($request['filter'] == 'item') {
-                $entries = Entries::with(['customer', 'item'])->whereHas('item', function ($query) use ($request) {
+                $entries = Entry::with(['customer', 'item'])->whereHas('item', function ($query) use ($request) {
                     $query->where('name', 'like', '%' . $request['search'] . '%');
                 })->get();
             } else {
-                $entries = Entries::with(['customer', 'item'])->where($request['filter'], 'like', '%' . $request['search'] . '%')->get();
+                $entries = Entry::with(['customer', 'item'])->where($request['filter'], 'like', '%' . $request['search'] . '%')->get();
             }
         } else {
-            $entries = Entries::with(['customer', 'item'])->get();
+            $entries = Entry::with(['customer', 'item'])->get();
         }
         if ($request['from_date']) {
-        $entries = $entries->where('date', '>=', $request['from_date']);
+            $entries = $entries->where('date', '>=', $request['from_date']);
         }
         if ($request['to_date']) {
-        $entries = $entries->where('date', '<=', $request['to_date']);
+            $entries = $entries->where('date', '<=', $request['to_date']);
         }
         return $entries;
     }
@@ -89,7 +90,17 @@ class MainTableController extends Controller
                 <th scope=\"row\" colspan=\"7\" class=\"text-md-center\">Number of Entries: {$entries->count()}</th>
                 <td>Total: {$entries->sum('price')}</td>
                 <td>Total: {$entries->sum('cost')}</td>
-                <td></td>
+                <td>
+                    <div class=\"text-end\">
+                        <a class=\"text-decoration-none\" data-bs-toggle=\"modal\" href=\"#deleteModal\">
+                            <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"#6C757D\" width=\"24\" height=\"24\"
+                            viewBox=\"0 0 24 24\">
+                                <path
+                                    d=\"M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z\"/>
+                            </svg>
+                        </a>
+                    </div>
+                </td>
             </tr>";
             return response()->json(['body' => $body, 'footer' => $footer]);
         }
@@ -150,14 +161,14 @@ class MainTableController extends Controller
         if ($data['discount'] == null)
             $data['discount'] = 0;
 
-        Entries::create($data);
+        Entry::create($data);
 
         return redirect(route('Home'));
     }
 
-    public function delete($id)
+    public function delete()
     {
-        Entries::destroy($id);
+        $this->searchFunc(request()->all())->each->delete();
         return redirect(route('Home'));
     }
 

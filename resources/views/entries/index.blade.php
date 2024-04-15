@@ -1,5 +1,5 @@
 @extends('layouts.table')
-
+<!-- This is the layout for the entries table -->
 @section('content')
     <thead>
     <tr>
@@ -14,6 +14,7 @@
         <th scope="col">Cost</th>
         <th scope="col">
             <div class="dropdown text-end">
+                <!-- Button to export the table data -->
                 <button type="button" class="btn btn-link p-0" data-bs-toggle="dropdown" aria-expanded="false"
                         data-bs-auto-close="outside" id="export_btn">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -22,16 +23,18 @@
                               fill="#000000"/>
                     </svg>
                 </button>
+                <!-- Export column options -->
                 <div class="dropdown-menu py-2 px-3">
                     <form action="{{ route('Entry.export') }}" method="post" class="top-0" enctype="multipart/form-data" target="_blank">
                         @csrf
-                        <input hidden aria-label="filter" name="filter">
-                        <input hidden aria-label="search" name="search">
-                        <input hidden aria-label="from_date" name="from_date">
-                        <input hidden aria-label="to_date" name="to_date">
+                        <!-- Hidden inputs for exporting the filtered data -->
+                        <input hidden aria-label="export_filter" name="filter">
+                        <input hidden aria-label="export_search" name="search">
+                        <input hidden aria-label="export_from_date" name="from_date">
+                        <input hidden aria-label="export_to_date" name="to_date">
+                        <!-- Export column options -->
                         <div class="form-check form-switch">
-                            <input name="date" class="form-check-input" type="checkbox" role="switch" id="date" value="Date"
-                                   checked>
+                            <input name="date" class="form-check-input" type="checkbox" role="switch" id="date" value="Date" checked>
                             <label class="form-check-label" for="date">Date</label>
                         </div>
                         <div class="form-check form-switch">
@@ -96,6 +99,7 @@
             <td>{{ $entry->price }}</td>
             <td>{{ $entry->cost }}</td>
             <td>
+                <!-- Button to delete the entry -->
                 <div class="text-end">
                     <a class="text-decoration-none" data-bs-toggle="modal" href="#deleteModal" id="{{ $entry->id }}">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="#6C757D" width="24" height="24"
@@ -114,11 +118,22 @@
         <th scope="row" colspan="7" class="text-md-center">Number of Entries: {{ $entries->count() }}</th>
         <td>Total: {{ $entries->sum('price') }}</td>
         <td>Total: {{ $entries->sum('cost') }}</td>
-        <td></td>
+        <td>
+            <!-- Button to delete all the entries displayed in the table -->
+            <div class="text-end">
+                <a class="text-decoration-none" data-bs-toggle="modal" href="#deleteModal">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="#6C757D" width="24" height="24"
+                         viewBox="0 0 24 24">
+                        <path
+                            d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"/>
+                    </svg>
+                </a>
+            </div>
+        </td>
     </tr>
     </tfoot>
 @endsection
-
+<!-- This is the dropdown menu for the filter column search options in the entries table -->
 @section('dropdown')
     <li class="dropdown-item">All</li>
     <li class="dropdown-item" id="{{ Session::get('customer') ? 'customer_search' : '' }}">Name</li>
@@ -129,23 +144,31 @@
     <li class="dropdown-item">Price</li>
     <li class="dropdown-item">Cost</li>
 @endsection
-
+<!-- This is the modal for deleting an entry -->
 @section('modal')
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="Delete" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content rounded-3 shadow">
                 <div class="modal-body p-4 text-center">
-                    <h5 class="mb-0">Delete This Entry?</h5>
+                    <h5 class="mb-0">Delete Selected Entry(s)?</h5>
                     <p class="mb-0">You can always change your mind. Are you Sure?</p>
                 </div>
-                <div class="modal-footer flex-nowrap p-0">
-                    <a type="button"
-                       class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 border-end">
-                        <strong>Yes, Delete</strong></a>
+                <form class="modal-footer flex-nowrap p-0" action="{{ route('Entry.delete') }}" method="post"
+                      enctype="multipart/form-data">
+                    @csrf
+                    @method('delete')
+                    <!-- Hidden inputs in case of deleting several entries -->
+                    <input hidden aria-label="delete_filter" name="filter">
+                    <input hidden aria-label="delete_search" name="search">
+                    <input hidden aria-label="delete_from_date" name="from_date">
+                    <input hidden aria-label="delete_to_date" name="to_date">
+                    <button type="submit"
+                            class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 border-end">
+                        <strong>Yes, Delete</strong></button>
                     <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0"
                             data-bs-dismiss="modal">No thanks
                     </button>
-                </div>
+                </form>
             </div>
         </div>
     </div>
@@ -164,10 +187,10 @@
             let from_date = $('#from_date').val();
             let to_date = $('#to_date').val();
 
-            $('input[aria-label="filter"]').val(!filter.includes('search_by') ? filter : '');
-            $('input[aria-label="search"]').val(!filter.includes('search_by') && search ? search : '');
-            $('input[aria-label="from_date"]').val(from_date ? from_date + ' 00:00:00' : '');
-            $('input[aria-label="to_date"]').val(to_date ? to_date + ' 23:59:59' : '');
+            $('input[aria-label="export_filter"]').val(!filter.includes('search_by') ? filter : '');
+            $('input[aria-label="export_search"]').val(!filter.includes('search_by') && search ? search : '');
+            $('input[aria-label="export_from_date"]').val(from_date ? from_date + ' 00:00:00' : '');
+            $('input[aria-label="export_to_date"]').val(to_date ? to_date + ' 23:59:59' : '');
         });
     </script>
 @endsection

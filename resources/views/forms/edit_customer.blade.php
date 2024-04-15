@@ -1,5 +1,5 @@
 @extends('layouts.form')
-
+<!-- This is the layout for editing a customer -->
 @section('content')
     <form action="{{ route('Customer.update', ['id' => $customer->id]) }}" method="post" enctype="multipart/form-data">
         @csrf
@@ -9,6 +9,7 @@
                 <div class="row pt-3">
                     <h1>Edit Item</h1>
                 </div>
+                <!-- New name of the customer -->
                 <div class="form-group row">
                     <label for="name" class="col-md-4 col-form-label text-md-right">Item Name</label>
                     <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"

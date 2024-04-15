@@ -8,38 +8,44 @@ class CustomerController extends Controller
 {
     public function index()
     {
-        $entries = Customer::all();
+        $customers = Customer::all();
         $view = "Customer";
-        return view('entries.customers', compact('entries', 'view'));
+        return view('entries.customers', compact('customers', 'view'));
+    }
+
+    private function searchFunc($request)
+    {
+        if (request('search')) {
+            $entries = Customer::where('name', 'like', '%' . request('search') . '%')->get();
+        } else {
+            $customers = Customer::all();
+        }
+        if (request('from_date')) {
+            $customers = $customers->where('updated_at', '>=', request('from_date'));
+        }
+        if (request('to_date')) {
+            $customers = $customers->where('updated_at', '<=', request('to_date'));
+        }
+        return $customers;
     }
 
     public function search()
     {
         if (request()->ajax()) {
-            if (request('search')) {
-                $entries = Customer::where('name', 'like', '%' . request('search') . '%')->get();
-            } else {
-                $entries = Customer::all();
-            }
-            if (request('from_date')) {
-                $entries = $entries->where('updated_at', '>=', request('from_date'));
-            }
-            if (request('to_date')) {
-                $entries = $entries->where('updated_at', '<=', request('to_date'));
-            }
+            $customers = $this->searchFunc(request()->all());
             $body = '';
-            foreach ($entries as $entry) {
+            foreach ($customers as $customer) {
                 $body .= "
                 <tr>
-                    <td>{$entry->updated_at->format('d-m-Y')}</td>
-                    <td>{$entry->name}</td>
+                    <td>{$customer->updated_at->format('d-m-Y')}</td>
+                    <td>{$customer->name}</td>
                     <td>
-                        <a href=" . route('Customer.records', ['id' => $entry->id]) . " type=\"button\"
+                        <a href=" . route('Customer.records', ['id' => $customer->id]) . " type=\"button\"
                            class=\"btn btn-sm btn-info col-8 offset-2\">View</a>
                     </td>
                     <td>
                         <div class=\"d-flex justify-content-end gap-2\">
-                            <a href=" . route('Customer.edit', ['id' => $entry->id]) . " class=\"text-decoration-none\">
+                            <a href=" . route('Customer.edit', ['id' => $customer->id]) . " class=\"text-decoration-none\">
                                 <svg id=\"edit\" width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\"
                                      xmlns=\"http://www.w3.org/2000/svg\"
                                      class=\"icon-link-hover\">
@@ -51,7 +57,7 @@ class CustomerController extends Controller
                                         stroke=\"#6C757D\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>
                                 </svg>
                             </a>
-                            <a class=\"text-decoration-none\" data-bs-toggle=\"modal\" href=\"#deleteModal\" id=\"{$entry->id}\">
+                            <a class=\"text-decoration-none\" data-bs-toggle=\"modal\" href=\"#deleteModal\" id=\"{$customer->id}\">
                                 <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"#6C757D\" width=\"24\" height=\"24\"
                                      viewBox=\"0 0 24 24\">
                                     <path
@@ -64,7 +70,18 @@ class CustomerController extends Controller
             }
             $footer = "
             <tr>
-                <th scope=\"row\" colspan=\"4\" class=\"text-md-center\">Number of Customers: {$entries->count()}</th>
+                <th scope=\"row\" colspan=\"3\" class=\"text-md-center\">Number of Customers: {$customers->count()}</th>
+                <td>
+                    <div class=\"text-end\">
+                        <a class=\"text-decoration-none\" data-bs-toggle=\"modal\" href=\"#deleteModal\">
+                            <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"#6C757D\" width=\"24\" height=\"24\"
+                                viewBox=\"0 0 24 24\">
+                                <path
+                                    d=\"M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z\"/>
+                            </svg>
+                        </a>
+                    </div>
+                </td>
             </tr>";
             return response()->json(['body' => $body, 'footer' => $footer]);
         } else {
@@ -88,9 +105,9 @@ class CustomerController extends Controller
         return redirect(route('Customers'));
     }
 
-    public function delete($id)
+    public function delete()
     {
-        Customer::destroy($id);
+        $this->searchFunc(request()->all())->each->delete();
         return redirect(route('Customers'));
     }
 

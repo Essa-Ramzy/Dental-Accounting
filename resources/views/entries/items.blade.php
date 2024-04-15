@@ -1,5 +1,5 @@
 @extends('layouts.table')
-
+<!-- This is the layout for the items table -->
 @section('content')
     <thead>
     <tr>
@@ -13,20 +13,22 @@
     </tr>
     </thead>
     <tbody>
-    @foreach($entries as $entry)
+    @foreach($items as $item)
         <tr>
-            <td>{{ $entry->updated_at->format('d-m-Y') }}</td>
-            <td>{{ $entry->name }}</td>
-            <td>{{ $entry->price }}</td>
-            <td>{{ $entry->cost }}</td>
-            <td>{{ $entry->description }}</td>
+            <td>{{ $item->updated_at->format('d-m-Y') }}</td>
+            <td>{{ $item->name }}</td>
+            <td>{{ $item->price }}</td>
+            <td>{{ $item->cost }}</td>
+            <td>{{ $item->description }}</td>
+            <!-- View the records of the item in the entries table -->
             <td>
-                <a href="{{ route('Item.records', ['id' => $entry->id]) }}" type="button"
+                <a href="{{ route('Item.records', ['id' => $item->id]) }}" type="button"
                    class="btn btn-sm btn-info col-8 offset-2">View</a>
             </td>
+            <!-- Edit and delete the item -->
             <td>
                 <div class="d-flex justify-content-end gap-2">
-                    <a href="{{ route('Item.edit', ['id' => $entry->id]) }}" class="text-decoration-none">
+                    <a href="{{ route('Item.edit', ['id' => $item->id]) }}" class="text-decoration-none">
                         <svg id="edit" width="20" height="20" viewBox="0 0 24 24" fill="none"
                              xmlns="http://www.w3.org/2000/svg"
                              class="icon-link-hover">
@@ -38,7 +40,7 @@
                                 stroke="#6C757D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </a>
-                    <a class="text-decoration-none" data-bs-toggle="modal" href="#deleteModal" id="{{ $entry->id }}">
+                    <a class="text-decoration-none" data-bs-toggle="modal" href="#deleteModal" id="{{ $item->id }}">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="#6C757D" width="24" height="24"
                              viewBox="0 0 24 24">
                             <path
@@ -52,35 +54,55 @@
     </tbody>
     <tfoot>
     <tr>
-        <th scope="row" colspan="7" class="text-md-center">Number of Items: {{ $entries->count() }}</th>
+        <th scope="row" colspan="6" class="text-md-center">Number of Items: {{ $items->count() }}</th>
+        <!-- Delete all the items displayed in the table -->
+        <td>
+            <div class="text-end">
+                <a class="text-decoration-none" data-bs-toggle="modal" href="#deleteModal">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="#6C757D" width="24" height="24"
+                         viewBox="0 0 24 24">
+                        <path
+                            d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"/>
+                    </svg>
+                </a>
+            </div>
+        </td>
     </tr>
+    </tfoot>
 @endsection
-
+<!-- This is the dropdown menu for the filter column search options in the items table -->
 @section('dropdown')
     <li class="dropdown-item">All</li>
     <li class="dropdown-item">Name</li>
     <li class="dropdown-item">Price</li>
     <li class="dropdown-item">Cost</li>
 @endsection
-
+<!-- This is the modal for deleting an item -->
 @section('modal')
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="Delete" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content rounded-3 shadow">
                 <div class="modal-body p-4 text-center">
-                    <h5 class="mb-0">Delete This Item?</h5>
+                    <h5 class="mb-0">Delete Selected Item(s)?</h5>
                     <p class="mb-0">You can always change your mind. All the entries related to this item will be
                         deleted as
                         well. Are you Sure?</p>
                 </div>
-                <div class="modal-footer flex-nowrap p-0">
-                    <a type="button"
+                <form class="modal-footer flex-nowrap p-0" action="{{ route('Item.delete') }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    @method('delete')
+                    <!-- Hidden inputs in case of deleting several items -->
+                    <input hidden aria-label="delete_filter" name="filter">
+                    <input hidden aria-label="delete_search" name="search">
+                    <input hidden aria-label="delete_from_date" name="from_date">
+                    <input hidden aria-label="delete_to_date" name="to_date">
+                    <button type="submit"
                        class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 border-end">
-                        <strong>Yes, Delete</strong></a>
+                        <strong>Yes, Delete</strong></button>
                     <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0"
                             data-bs-dismiss="modal">No thanks
                     </button>
-                </div>
+                </form>
             </div>
         </div>
     </div>

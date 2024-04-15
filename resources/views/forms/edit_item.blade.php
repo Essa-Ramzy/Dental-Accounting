@@ -1,5 +1,5 @@
 @extends('layouts.form')
-
+<!-- This is the layout for editing an item -->
 @section('content')
     <form action="{{ route('Item.update', ['id' => $item->id]) }}" method="post" enctype="multipart/form-data">
         @csrf
@@ -9,6 +9,7 @@
                 <div class="row pt-3">
                     <h1>Edit Item</h1>
                 </div>
+                <!-- New name of the item -->
                 <div class="form-group row">
                     <label for="name" class="col-md-4 col-form-label text-md-right">Item Name</label>
                     <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"
@@ -19,6 +20,7 @@
                 </span>
                     @endif
                 </div>
+                <!-- New price of the item -->
                 <div class="form-group row">
                     <label for="price" class="col-md-4 col-form-label text-md-right">Price</label>
                     <input id="price" type="text" class="form-control{{ $errors->has('price') ? ' is-invalid' : '' }}"
@@ -29,6 +31,7 @@
                 </span>
                     @endif
                 </div>
+                <!-- New cost of the item -->
                 <div class="form-group row">
                     <label for="cost" class="col-md-4 col-form-label text-md-right">Cost</label>
                     <input id="cost" type="text" class="form-control{{ $errors->has('cost') ? ' is-invalid' : '' }}"
@@ -39,6 +42,7 @@
                 </span>
                     @endif
                 </div>
+                <!-- New description of the item -->
                 <div class="form-group row">
                     <label for="description" class="col-md-4 col-form-label text-md-right">Description</label>
                     <textarea id="description" type="text" class="form-control" name="description"

@@ -1,5 +1,5 @@
 @extends('layouts.form')
-
+<!-- This is the layout for adding an item -->
 @section('content')
     <form action="{{ route('Item.store') }}" method="post" enctype="multipart/form-data">
         @csrf
@@ -8,6 +8,7 @@
                 <div class="row pt-3">
                     <h1>Add New Item</h1>
                 </div>
+                <!-- Name of the new item -->
                 <div class="form-group row">
                     <label for="name" class="col-md-4 col-form-label text-md-right">Item Name</label>
                     <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"
@@ -18,6 +19,7 @@
                 </span>
                     @endif
                 </div>
+                <!-- Price of the new item -->
                 <div class="form-group row">
                     <label for="price" class="col-md-4 col-form-label text-md-right">Price</label>
                     <input id="price" type="number" class="form-control{{ $errors->has('price') ? ' is-invalid' : '' }}"
@@ -28,6 +30,7 @@
                 </span>
                     @endif
                 </div>
+                <!-- Cost of the new item -->
                 <div class="form-group row">
                     <label for="cost" class="col-md-4 col-form-label text-md-right">Cost</label>
                     <input id="cost" type="number" class="form-control{{ $errors->has('cost') ? ' is-invalid' : '' }}"
@@ -38,6 +41,7 @@
                 </span>
                     @endif
                 </div>
+                <!-- Description of the new item -->
                 <div class="form-group row">
                     <label for="description" class="col-md-4 col-form-label text-md-right">Description</label>
                     <textarea id="description" class="form-control" name="description"

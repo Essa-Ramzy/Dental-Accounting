@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+<!-- This is the PDF layout for the entries table -->
 @section('app_content')
     <main class="container-fluid table-responsive overflow-y-hidden flex-grow-1">
         <table class="table table-striped m-0">
@@ -35,8 +35,10 @@
             </tr>
             </thead>
             <tbody>
+            <!-- Loop through the entries and display the data -->
             @foreach($entries as $entry)
                 <tr>
+                    <!-- Set the chosen columns to be displayed -->
                     @if (isset($columns['date']))
                         <td>{{ $entry->date->format('d-m-Y') }}</td>
                     @endif
@@ -69,6 +71,7 @@
             </tbody>
             <tfoot>
             <tr>
+                <!-- Set the rows count and the total of the price and cost columns -->
                 @if ($count)
                     <th scope="row" colspan="{{ $count }}" class="text-md-center">Number of
                         Entries: {{ $entries->count() }}</th>
