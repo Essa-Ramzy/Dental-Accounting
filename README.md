@@ -6,6 +6,7 @@
 
 ## Table of Contents
 
+- [Demo](#demo)
 - [Getting Started](#getting-started)
     - [Prerequisites](#prerequisites)
     - [Setup](#setup)
@@ -16,6 +17,10 @@
     - [Models](#models)
     - [Controllers](#controllers)
 - [Using the Application](#using-the-application)
+
+## Demo
+
+[Demo](https://github.com/user-attachments/assets/97e0da26-1799-453d-a70e-2445eca3547a)
 
 ## Getting Started
 
