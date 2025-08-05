@@ -1,6 +1,6 @@
 @extends('layouts.form')
-<!-- This is the layout for adding an item -->
 @section('content')
+    <!-- This is the layout for adding an item -->
     <form action="{{ route('Item.store') }}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="row">

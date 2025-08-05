@@ -1,6 +1,6 @@
 @extends('layouts.form')
-<!-- This is the layout for adding a customer -->
 @section('content')
+    <!-- This is the layout for adding a customer -->
     <form action="{{ route('Customer.store') }}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="row">

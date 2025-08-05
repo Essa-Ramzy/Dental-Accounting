@@ -1,8 +1,7 @@
 @extends('layouts.app_with_header')
-<!-- This is the layout for the form view -->
 @section('layout')
+    <!-- This is the layout for the form view -->
     <main class="container">
         @yield('content')
     </main>
-    @yield('js')
 @endsection

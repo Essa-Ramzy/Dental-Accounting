@@ -1,6 +1,6 @@
 @extends('layouts.form')
-<!-- This is the layout for editing an item -->
 @section('content')
+    <!-- This is the layout for editing an item -->
     <form action="{{ route('Item.update', ['id' => $item->id]) }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('PATCH')

@@ -1,6 +1,6 @@
 @extends('layouts.app')
-<!-- This is the main layout with a header for the web application -->
 @section('app_content')
+    <!-- This is the main layout with a header for the web application -->
     <!-- Header (navigation bar) for the web application -->
     <header class="px-3 py-2 text-bg-dark border-bottom">
         <nav class="container">

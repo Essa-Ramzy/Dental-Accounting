@@ -1,6 +1,10 @@
 @extends('layouts.table')
-<!-- This is the layout for the customers table -->
+@section('head')
+    @parent
+    <script src="{{ asset('resources/js/views/customers.js') }}"></script>
+@endsection
 @section('content')
+    <!-- This is the layout for the customers table -->
     <thead>
     <tr>
         <th scope="col">#</th>
@@ -66,14 +70,14 @@
     </tr>
     </tfoot>
 @endsection
-<!-- This is the dropdown menu for the filter column search in the customers table -->
 @section('dropdown')
+    <!-- This is the dropdown menu for the filter column search in the customers table -->
     <li class="dropdown-item">All</li>
     <li class="dropdown-item">ID</li>
     <li class="dropdown-item">Name</li>
 @endsection
-<!-- This is the delete modal for the customers table -->
 @section('modal')
+    <!-- This is the delete modal for the customers table -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="Delete" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content rounded-3 shadow">

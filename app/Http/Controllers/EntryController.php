@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Entry;
 use App\Models\Customer;
 use App\Models\Item;
-use Illuminate\Support\Facades\Redirect;
 use Spatie\LaravelPdf\Facades\Pdf;
 
 class EntryController extends Controller

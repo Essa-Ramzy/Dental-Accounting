@@ -1,6 +1,10 @@
 @extends('layouts.table')
-<!-- This is the layout for the items table -->
+@section('head')
+    @parent
+    <script src="{{ asset('resources/js/views/items.js') }}"></script>
+@endsection
 @section('content')
+    <!-- This is the layout for the items table -->
     <thead>
     <tr>
         <th scope="col">#</th>
@@ -72,16 +76,16 @@
     </tr>
     </tfoot>
 @endsection
-<!-- This is the dropdown menu for the filter column search options in the items table -->
 @section('dropdown')
+    <!-- This is the dropdown menu for the filter column search options in the items table -->
     <li class="dropdown-item">All</li>
     <li class="dropdown-item">ID</li>
     <li class="dropdown-item">Name</li>
     <li class="dropdown-item">Price</li>
     <li class="dropdown-item">Cost</li>
 @endsection
-<!-- This is the modal for deleting an item -->
 @section('modal')
+    <!-- This is the modal for deleting an item -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="Delete" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content rounded-3 shadow">

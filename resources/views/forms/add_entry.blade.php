@@ -1,6 +1,13 @@
 @extends('layouts.form')
-<!-- This is the layout for adding a new entry -->
+@section('head')
+    <meta name="customer-create-url" content="{{ route('Customer.create') }}">
+    <meta name="item-create-url" content="{{ route('Item.create') }}">
+    <link rel="stylesheet" href="{{ asset('resources/css/bootstrap-select.min.css') }}">
+    <script src="{{ asset('resources/js/bootstrap-select.min.js') }}"></script>
+    <script src="{{ asset('resources/js/views/add-entry.js') }}"></script>
+@endsection
 @section('content')
+    <!-- This is the layout for adding a new entry -->
     <form action="{{ route('Entry.store') }}" method="post" enctype="multipart/form-data">
         @csrf
         <div class="row">
@@ -90,38 +97,4 @@
             </div>
         </div>
     </form>
-@endsection
-
-@section('js')
-    <script>
-        $('#name').on('change', e => {
-            if (!e.target.value) {
-                window.location = "{{ route('Customer.create') }}"
-            }
-        })
-
-        $('#item').on('change', e => {
-            if (!e.target.value) {
-                window.location = "{{ route('Item.create') }}"
-            }
-        })
-
-        $('#name.selectpicker').selectpicker(
-            {
-                noneResultsText: `<a href="{{ route('Customer.create') }}" class="bg-body d-block text-center p-2" style="margin: -4px;">Create New Customer</a>`
-            }
-        );
-
-        $('#item.selectpicker').selectpicker(
-            {
-                noneResultsText: `<a href="{{ route('Item.create') }}" class="bg-body d-block text-center p-2" style="margin: -4px;">Create New Item</a>`
-            }
-        );
-
-        $('#teeth.selectpicker').selectpicker(
-            {
-                noneResultsText: '<span class="bg-body d-block p-2" style="margin: -3px;">No results matched</span>'
-            }
-        );
-    </script>
 @endsection

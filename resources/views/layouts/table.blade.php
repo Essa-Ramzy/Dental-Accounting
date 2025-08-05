@@ -1,6 +1,13 @@
 @extends('layouts.app_with_header')
-<!-- This is the layout for the table view -->
+@section('head')
+    <meta name="search-url" content="{{ route($view . '.search') }}">
+    <link rel="stylesheet" href="{{ asset('resources/css/daterangepicker.min.css') }}">
+    <script src="{{ asset('resources/js/moment.min.js') }}"></script>
+    <script src="{{ asset('resources/js/daterangepicker.min.js') }}"></script>
+    <script src="{{ asset('resources/js/views/table.js') }}"></script>
+@endsection
 @section('layout')
+    <!-- This is the layout for the table view -->
     <main class="d-flex flex-column flex-grow-1">
         <div class="px-3 py-2 border-bottom w-100">
             <div class="container d-flex">
@@ -52,103 +59,4 @@
         </div>
         @yield('modal')
     </main>
-    <script>
-        $('.dropdown-item').on('click', e => {
-            $('#dropdown_btn').text(e.target.textContent);
-            $('#search').trigger('change');
-        });
-
-        $('#search').on('input', () => {
-            $('#search').trigger('change');
-        });
-
-        let handleDeleteModalClick = () => {
-            $('a[href="#deleteModal"]').on('click', e => {
-                let search = $('#search').val().toLowerCase();
-                let filter = $('#dropdown_btn').text().toLowerCase().replace(' ', '_');
-                if (e.currentTarget.id) {
-                    search = e.currentTarget.id;
-                    filter = 'id';
-                }
-                let from_date = $('#from_date').val();
-                let to_date = $('#to_date').val();
-
-                $('input[aria-label="delete_filter"]').val(!filter.includes('search_by') ? filter : '');
-                $('input[aria-label="delete_search"]').val(!filter.includes('search_by') && search ? search : '');
-                $('input[aria-label="delete_from_date"]').val(from_date ? from_date + ' 00:00:00' : '');
-                $('input[aria-label="delete_to_date"]').val(to_date ? to_date + ' 23:59:59' : '');
-            });
-        };
-
-        handleDeleteModalClick();
-
-        $(document).ready(function () {
-            $('#search').on('change', () => {
-                let search = $('#search').val().toLowerCase();
-                let filter = $('#dropdown_btn').text().toLowerCase().replace(' ', '_');
-                let from_date = $('#from_date').val();
-                let to_date = $('#to_date').val();
-                $.ajax({
-                    url: '{{ route($view . '.search') }}',
-                    type: 'GET',
-                    data: {
-                        search: !filter.includes('search_by') && search ? search : '',
-                        filter: !filter.includes('search_by') ? filter : '',
-                        from_date: from_date ? from_date + ' 00:00:00' : '',
-                        to_date: to_date ? to_date + ' 23:59:59' : ''
-                    },
-                    success: function (data) {
-                        $('.table-responsive tbody').html(data['body']);
-                        $('.table-responsive tfoot').html(data['footer']);
-                        handleDeleteModalClick();
-                    }
-                });
-            });
-        });
-
-        $(function() {
-
-            let range = $('#report_range');
-            let change_date = (start, end) => {
-                range.val(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-                $('#from_date').val(start.format('YYYY-MM-DD'));
-                $('#to_date').val(end.format('YYYY-MM-DD'));
-                $('#search').trigger('change');
-            };
-
-            range.daterangepicker({
-                startDate: moment().subtract(29, 'days'),
-                endDate: moment(),
-                parentEl: '#date_range_filter',
-                cancelButtonClasses: 'btn-secondary',
-                linkedCalendars: false,
-                autoUpdateInput: false,
-                opens: 'center',
-                locale: {
-                    cancelLabel: 'Clear'
-                },
-                alwaysShowCalendars: true,
-                ranges: {
-                    'Today': [moment(), moment()],
-                    'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                    'This Month': [moment().startOf('month'), moment().endOf('month')],
-                    'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
-                }
-            }, change_date);
-
-            range.on('apply.daterangepicker', (ev, picker) => {
-                change_date(picker.startDate, picker.endDate);
-            });
-
-            range.on('cancel.daterangepicker', () => {
-                range.val('Date Range');
-                $('#from_date').val('');
-                $('#to_date').val('');
-                $('#search').trigger('change');
-            });
-        });
-    </script>
-    @yield('js')
 @endsection

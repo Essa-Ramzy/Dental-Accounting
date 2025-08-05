@@ -1,6 +1,10 @@
 @extends('layouts.table')
-<!-- This is the layout for the entries table -->
+@section('head')
+    @parent
+    <script src="{{ asset('resources/js/views/entries.js') }}"></script>
+@endsection
 @section('content')
+    <!-- This is the layout for the entries table -->
     <thead>
     <tr>
         <th scope="col">#</th>
@@ -143,8 +147,8 @@
     </tr>
     </tfoot>
 @endsection
-<!-- This is the dropdown menu for the filter column search options in the entries table -->
 @section('dropdown')
+    <!-- This is the dropdown menu for the filter column search options in the entries table -->
     <li class="dropdown-item">All</li>
     <li class="dropdown-item">ID</li>
     <li class="dropdown-item" id="{{ Session::get('customer') ? 'customer_search' : '' }}">Name</li>
@@ -155,8 +159,8 @@
     <li class="dropdown-item">Price</li>
     <li class="dropdown-item">Cost</li>
 @endsection
-<!-- This is the modal for deleting an entry -->
 @section('modal')
+    <!-- This is the modal for deleting an entry -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="Delete" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content rounded-3 shadow">
@@ -183,25 +187,4 @@
             </div>
         </div>
     </div>
-@endsection
-
-@section('js')
-    <script>
-        $(document).ready(function () {
-            $('#customer_search')?.click();
-            $('#item_search')?.click();
-        });
-
-        $("#export_btn").on('click', () => {
-            let search = $('#search').val().toLowerCase();
-            let filter = $('#dropdown_btn').text().toLowerCase().replace(' ', '_');
-            let from_date = $('#from_date').val();
-            let to_date = $('#to_date').val();
-
-            $('input[aria-label="export_filter"]').val(!filter.includes('search_by') ? filter : '');
-            $('input[aria-label="export_search"]').val(!filter.includes('search_by') && search ? search : '');
-            $('input[aria-label="export_from_date"]').val(from_date ? from_date + ' 00:00:00' : '');
-            $('input[aria-label="export_to_date"]').val(to_date ? to_date + ' 23:59:59' : '');
-        });
-    </script>
 @endsection
