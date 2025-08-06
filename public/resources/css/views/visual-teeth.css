@@ -1,0 +1,22 @@
+/* Tooth hover and selection styles */
+#Spots [data-key] {
+    fill: #ffffff;
+    cursor: pointer;
+    transition: fill 0.2s;
+}
+
+#Spots :hover {
+    fill: #cccccc;
+}
+
+#Spots [selected] {
+    fill: #ff0000 !important;
+}
+
+.tooth-chart text {
+    fill: var(--bs-body-color);
+}
+
+.teeth-popover {
+    min-width: 15%;
+}
