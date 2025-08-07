@@ -33,29 +33,11 @@ $(() => {
             const el = $(e);
             const targetId = el.attr("data-bs-content-target");
             const content = $("#" + targetId);
-            const myAllowList = bootstrap.Popover.Default.allowList;
-
-            // // 2. Add all your necessary SVG tags and attributes
-            // myAllowList.svg = [
-            //     "version",
-            //     "xmlns",
-            //     "xmlns:xlink",
-            //     "x",
-            //     "y",
-            //     "viewBox",
-            //     "enable-background",
-            //     "xml:space",
-            // ];
-            // myAllowList.g = ["id"];
-            // myAllowList.text = ["id", "transform", "font-family", "font-size"];
-            // myAllowList.polygon = ["id", "fill", "data-key", "points", "selected"];
-            // myAllowList.path = ["id", "fill", "data-key", "d", "selected"];
 
             new bootstrap.Popover(el[0], {
                 html: true,
                 container: "body",
                 content: content.html(),
-                // allowList: myAllowList
                 sanitize: false,
                 customClass: "teeth-popover",
             });
@@ -81,8 +63,53 @@ $(() => {
                 to_date: to_date ? to_date + " 23:59:59" : "",
             },
             success: function (data) {
-                $(".table-responsive tbody").html(data["body"]);
-                $(".table-responsive tfoot").html(data["footer"]);
+                $(".table-responsive tbody").html(
+                    data.body
+                        .map((entry) => {
+                            return `
+                            <tr>
+                                <th scope="row">${entry.id}</th>
+                                <td>${entry.date}</td>
+                                <td>${entry.customer_name}</td>
+                                <td>${entry.item_name}</td>
+                                <td>${entry.teeth}</td>
+                                <td>${entry.amount}</td>
+                                <td>${entry.unit_price}</td>
+                                <td>${entry.discount}</td>
+                                <td>${entry.price}</td>
+                                <td>${entry.cost}</td>
+                                <td>
+                                    <div class="text-end">
+                                        <a class="text-decoration-none" data-bs-toggle="modal" href="#deleteModal" id="${entry.id}">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="#FFFFFF" width="24" height="24"
+                                                viewBox="0 0 24 24">
+                                                <path
+                                                    d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"/>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>`;
+                        })
+                        .join("")
+                );
+                $(".table-responsive tfoot").html(`
+                        <tr>
+                            <th scope="row" colspan="8" class="text-md-center">Number of Entries: ${data.footer.count}</th>
+                            <td>Total: ${data.footer.total_price}</td>
+                            <td>Total: ${data.footer.total_cost}</td>
+                            <td>
+                                <div class="text-end">
+                                    <a class="text-decoration-none" data-bs-toggle="modal" href="#deleteModal">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="#FFFFFF" width="24" height="24"
+                                        viewBox="0 0 24 24">
+                                            <path
+                                                d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"/>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>`);
                 handleDeleteModalClick();
                 initTeethPopovers();
             },

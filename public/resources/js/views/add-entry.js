@@ -1,6 +1,6 @@
 $(document).on("change", "#name", (e) => {
-    if (!e.target.value) {
-        $(e.target).selectpicker("val", "undefined");
+    if (!e.currentTarget.value) {
+        $(e.currentTarget).selectpicker("val", "undefined");
         window.location = document
             .querySelector('meta[name="customer-create-url"]')
             .getAttribute("content");
@@ -8,8 +8,8 @@ $(document).on("change", "#name", (e) => {
 });
 
 $(document).on("change", "#item", (e) => {
-    if (!e.target.value) {
-        $(e.target).selectpicker("val", "undefined");
+    if (!e.currentTarget.value) {
+        $(e.currentTarget).selectpicker("val", "undefined");
         window.location = document
             .querySelector('meta[name="item-create-url"]')
             .getAttribute("content");
@@ -48,9 +48,9 @@ $(() => {
         tabs.removeClass("active");
         panes.removeClass("show active");
 
-        $(e.target).addClass("active");
+        $(e.currentTarget).addClass("active");
 
-        const target = $(e.target).data("target");
+        const target = $(e.currentTarget).data("target");
         const pane = $(target);
 
         if (pane.length) {
@@ -59,19 +59,13 @@ $(() => {
     });
     // Toggle selection color on SVG teeth and sync with dropdown
     $("#Spots [data-key]").on("click", function (e) {
-        const el = $(e.target);
+        const el = $(e.currentTarget);
         el[0].toggleAttribute("selected");
         // compute select value from data-key
         const key = el.data("key");
         const num = ((key - 1) % 8) + 1;
         let prefix =
-            key <= 8
-                ? "UR-"
-                : key <= 16
-                ? "UL-"
-                : key <= 24
-                ? "LR-"
-                : "LL-";
+            key <= 8 ? "UR-" : key <= 16 ? "UL-" : key <= 24 ? "LR-" : "LL-";
         const val = prefix + num;
         // sync with select
         const select = $("#teeth");
@@ -87,7 +81,7 @@ $(() => {
     });
     // When list selection changes, sync SVG
     $("#teeth").on("change", (e) => {
-        const selected = $(e.target).val() || [];
+        const selected = $(e.currentTarget).val() || [];
         $("#Spots [data-key]").each((_, ee) => {
             const el = $(ee);
             const key = parseInt(el.data("key"), 10);

@@ -1,13 +1,13 @@
-$(document).on("click", ".dropdown-item", (e) => {
-    $("#dropdown_btn").text(e.target.textContent);
-    $("#search").trigger("change");
-});
-
-$(document).on("input", "#search", () => {
-    $("#search").trigger("change");
-});
-
 $(() => {
+    $(document).on("click", ".dropdown-item", (e) => {
+        $("#dropdown_btn").text(e.currentTarget.textContent);
+        $("#search").trigger("change");
+    });
+
+    $(document).on("input", "#search", () => {
+        $("#search").trigger("change");
+    });
+
     let range = $("#report_range");
     let change_date = (start, end) => {
         range.val(
@@ -22,7 +22,7 @@ $(() => {
         {
             startDate: moment().subtract(29, "days"),
             endDate: moment(),
-            parentEl: "#date_range_filter",
+            parentEl: "body",
             cancelButtonClasses: "btn-secondary",
             linkedCalendars: false,
             autoUpdateInput: false,
@@ -52,7 +52,7 @@ $(() => {
         change_date
     );
 
-    range.on("apply.daterangepicker", (ev, picker) => {
+    range.on("apply.daterangepicker", (_, picker) => {
         change_date(picker.startDate, picker.endDate);
     });
 

@@ -12,11 +12,11 @@
                 <div class="form-group row">
                     <label for="name" class="col-md-4 col-form-label text-md-right">Customer Name</label>
                     <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"
-                           name="name" value="{{ old('name') }}" autocomplete="name" autofocus>
+                        name="name" value="{{ old('name') }}" autocomplete="name" autofocus>
                     @if ($errors->has('name'))
                         <span class="invalid-feedback" role="alert">
-                    <strong>{{ $errors->first('name') }}</strong>
-                </span>
+                            <strong>{{ $errors->first('name') }}</strong>
+                        </span>
                     @endif
                 </div>
                 <div class="row pt-4">

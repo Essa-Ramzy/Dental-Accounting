@@ -108,12 +108,6 @@
                 <td>{{ $entry->customer->name }}</td>
                 <td>{{ $entry->item->name }}</td>
                 <td>
-                    @php
-                        // Prepare selected teeth array
-                        $teethArr = $teeth_array = collect(explode(', ', $entry->teeth))
-                            ->map(fn($t) => explode('-', trim($t)))
-                            ->flatMap(fn($pair) => collect(str_split($pair[1]))->map(fn($n) => "$pair[0]-$n"));
-                    @endphp
                     <span role="button" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true"
                         data-bs-content-target="toothTooltip{{ $entry->id }}">
                         {{ $entry->teeth }}
@@ -122,7 +116,10 @@
                         <div class="tab-pane show active" id="visual" role="tabpanel" aria-labelledby="visual-tab">
                             {{-- SVG Tooth Chart --}}
                             <div class="tooth-chart mx-auto">
-                                @include('forms.choosetry', ['selectedTeeth' => $teethArr])
+                                @include('forms.teeth_visual', [
+                                    'selectedTeeth' => collect(explode(', ', $entry->teeth))->map(fn($t) => explode('-', trim($t)))->flatMap(
+                                            fn($pair) => collect(str_split($pair[1]))->map(fn($n) => "$pair[0]-$n")),
+                                ])
                             </div>
                         </div>
                     </div>
@@ -182,7 +179,7 @@
 @endsection
 @section('modal')
     <!-- This is the modal for deleting an entry -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="Delete" aria-hidden="true">
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="Delete">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content rounded-3 shadow">
                 <div class="modal-body p-4 text-center">

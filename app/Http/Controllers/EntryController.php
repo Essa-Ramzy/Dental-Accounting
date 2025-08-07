@@ -6,6 +6,7 @@ use App\Models\Entry;
 use App\Models\Customer;
 use App\Models\Item;
 use Spatie\LaravelPdf\Facades\Pdf;
+use Illuminate\Support\Carbon;
 
 class EntryController extends Controller
 {
@@ -59,51 +60,29 @@ class EntryController extends Controller
     {
         if (request()->ajax()) {
             $entries = $this->searchFunc(request()->all());
-            $body = '';
-            foreach ($entries as $entry) {
-                $body .= "
-                <tr>
-                    <th scope=\"row\">{$entry->id}</th>
-                    <td>{$entry->date->format('d-m-Y')}</td>
-                    <td>{$entry->customer->name}</td>
-                    <td>{$entry->item->name}</td>
-                    <td>{$entry->teeth}</td>
-                    <td>{$entry->amount}</td>
-                    <td>{$entry->unit_price}</td>
-                    <td>{$entry->discount}</td>
-                    <td>{$entry->price}</td>
-                    <td>{$entry->cost}</td>
-                    <td>
-                        <div class=\"text-end\">
-                            <a class=\"text-decoration-none\" data-bs-toggle=\"modal\" href=\"#deleteModal\" id=\"{$entry->id}\">
-                                <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"#FFFFFF\" width=\"24\" height=\"24\"
-                                     viewBox=\"0 0 24 24\">
-                                    <path
-                                        d=\"M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z\"/>
-                                </svg>
-                            </a>
-                        </div>
-                    </td>
-                </tr>";
-            }
-            $footer = "
-            <tr>
-                <th scope=\"row\" colspan=\"8\" class=\"text-md-center\">Number of Entries: {$entries->count()}</th>
-                <td>Total: {$entries->sum('price')}</td>
-                <td>Total: {$entries->sum('cost')}</td>
-                <td>
-                    <div class=\"text-end\">
-                        <a class=\"text-decoration-none\" data-bs-toggle=\"modal\" href=\"#deleteModal\">
-                            <svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"#FFFFFF\" width=\"24\" height=\"24\"
-                            viewBox=\"0 0 24 24\">
-                                <path
-                                    d=\"M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z\"/>
-                            </svg>
-                        </a>
-                    </div>
-                </td>
-            </tr>";
-            return response()->json(['body' => $body, 'footer' => $footer]);
+            return response()->json([
+                'body' => $entries
+                    ->map(function ($entry) {
+                        $entry = $entry->toArray();
+                        return [
+                            'id' => $entry['id'],
+                            'date' => Carbon::parse($entry['date'])->format('d-m-Y'),
+                            'customer_name' => $entry['customer']['name'],
+                            'item_name' => $entry['item']['name'],
+                            'teeth' => $entry['teeth'],
+                            'amount' => $entry['amount'],
+                            'unit_price' => $entry['unit_price'],
+                            'discount' => $entry['discount'],
+                            'price' => $entry['price'],
+                            'cost' => $entry['cost']
+                        ];
+                    }),
+                'footer' => [
+                    'count' => $entries->count(),
+                    'total_price' => $entries->sum('price'),
+                    'total_cost' => $entries->sum('cost')
+                ]
+            ]);
         }
         return redirect(route('Home'));
     }

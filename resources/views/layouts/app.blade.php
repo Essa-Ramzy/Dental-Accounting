@@ -1,6 +1,7 @@
 <!-- This is the main layout for the web application -->
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="overflow-x-hidden">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,7 +13,8 @@
     @yield('head')
 </head>
 
-<body class="antialiased min-vh-100 d-flex flex-column overflow-x-hidden">
-@yield('app_content')
+<body class="antialiased min-vh-100 p-0 m-0 d-flex flex-column overflow-x-hidden">
+    @yield('app_content')
 </body>
+
 </html>
