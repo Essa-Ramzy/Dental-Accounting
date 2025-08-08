@@ -14,11 +14,11 @@ return new class extends Migration {
             $table->id();
             $table->date('date');
             $table->string('teeth');
-            $table->decimal('amount');
-            $table->decimal('unit_price');
+            $table->integer('amount');
+            $table->integer('unit_price');
             $table->decimal('discount');
-            $table->decimal('price');
-            $table->decimal('cost');
+            $table->integer('price');
+            $table->integer('cost');
             $table->foreignId('customer_id')->constrained('customers')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('item_id')->constrained('items')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();

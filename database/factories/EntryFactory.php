@@ -19,16 +19,18 @@ class EntryFactory extends Factory
         $numbers = collect(range(1, 8))->random(rand(1, 2))->implode('');
         return "$q-$numbers";
       })->implode(', ');
+    $unit_price = $this->faker->numberBetween(100, 500);
+    $amount = $this->faker->numberBetween(1, 10);
     return [
       'customer_id' => Customer::factory(),
       'item_id' => Item::factory(),
-      'date' => $this->faker->date(),
+      'date' => $this->faker->dateTimeBetween('-2 month', 'now'),
       'teeth' => $teeth,
-      'amount' => $this->faker->numberBetween(1, 10),
-      'unit_price' => $this->faker->randomFloat(2, 10, 500),
+      'amount' => $amount,
+      'unit_price' => $unit_price,
       'discount' => $this->faker->randomFloat(2, 0, 100),
-      'price' => $this->faker->randomFloat(2, 10, 500),
-      'cost' => $this->faker->randomFloat(2, 5, 400),
+      'price' => $unit_price * $amount,
+      'cost' => $this->faker->numberBetween(400, 800),
     ];
   }
 }

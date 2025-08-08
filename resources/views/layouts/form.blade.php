@@ -1,4 +1,4 @@
-@extends('layouts.app_with_header')
+@extends('layouts.app-with-header')
 @section('layout')
     <!-- This is the layout for the form view -->
     <main class="container">

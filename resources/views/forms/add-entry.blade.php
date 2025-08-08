@@ -72,7 +72,7 @@
                             <div class="tab-pane show active" id="visual" role="tabpanel" aria-labelledby="visual-tab">
                                 {{-- SVG Tooth Chart --}}
                                 <div class="tooth-chart w-50 mx-auto">
-                                    @include('forms.teeth_visual', ['selectedTeeth' => old('teeth')])
+                                    <x-teeth-visual :selectedTeeth="old('teeth')" />
                                 </div>
                             </div>
                             <div class="tab-pane" id="list" role="tabpanel" aria-labelledby="list-tab">

@@ -1,4 +1,4 @@
-@extends('layouts.app_with_header')
+@extends('layouts.app-with-header')
 @section('head')
     <meta name="search-url" content="{{ route($view . '.search') }}">
     <link rel="stylesheet" href="{{ asset('resources/css/daterangepicker.min.css') }}">

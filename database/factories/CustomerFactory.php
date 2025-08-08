@@ -11,7 +11,9 @@ class CustomerFactory extends Factory
   public function definition()
   {
     return [
-      'name' => $this->faker->name,
+      'name' => $this->faker->unique()->name,
+      'created_at' => $this->faker->dateTimeBetween('-2 month', 'now'),
+      'updated_at' => $this->faker->dateTimeBetween('-2 month', 'now'),
     ];
   }
 }

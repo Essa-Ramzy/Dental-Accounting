@@ -63,8 +63,9 @@ $(() => {
                 to_date: to_date ? to_date + " 23:59:59" : "",
             },
             success: function (data) {
+                console.log(data.teeth_list);
                 $(".table-responsive tbody").html(
-                    data.body
+                    Object.values(data.body)
                         .map((entry) => {
                             return `
                             <tr>
@@ -72,7 +73,19 @@ $(() => {
                                 <td>${entry.date}</td>
                                 <td>${entry.customer_name}</td>
                                 <td>${entry.item_name}</td>
-                                <td>${entry.teeth}</td>
+                                <td>
+                                    <span role="button" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true"
+                                        data-bs-content-target="toothTooltip${entry.id}">
+                                        ${entry.teeth}
+                                    </span>
+                                    <div id="toothTooltip${entry.id}" class="d-none">
+                                        <div class="tab-pane show active" id="visual" role="tabpanel" aria-labelledby="visual-tab">
+                                            <div class="tooth-chart mx-auto">
+                                                ${data.teeth_list[entry.id]}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
                                 <td>${entry.amount}</td>
                                 <td>${entry.unit_price}</td>
                                 <td>${entry.discount}</td>

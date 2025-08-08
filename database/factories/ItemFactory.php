@@ -12,9 +12,11 @@ class ItemFactory extends Factory
   {
     return [
       'name' => $this->faker->unique()->word,
-      'price' => $this->faker->randomFloat(2, 10, 500),
-      'cost' => $this->faker->randomFloat(2, 5, 400),
+      'price' => $this->faker->numberBetween(400, 800),
+      'cost' => $this->faker->numberBetween(200, 400),
       'description' => $this->faker->sentence,
+      'created_at' => $this->faker->dateTimeBetween('-2 month', 'now'),
+      'updated_at' => $this->faker->dateTimeBetween('-2 month', 'now'),
     ];
   }
 }

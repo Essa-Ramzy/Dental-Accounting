@@ -14,6 +14,14 @@ class Entry extends Model
     protected $fillable = ['customer_id', 'item_id', 'date', 'teeth', 'amount', 'unit_price', 'discount', 'price', 'cost'];
     protected $casts = ['date' => 'date'];
 
+    public function getTeethListAttribute()
+    {
+        return collect(explode(', ', $this->teeth))
+            ->map(fn($t) => explode('-', trim($t)))
+            ->flatMap(fn($pair) => collect(str_split($pair[1]))
+                ->map(fn($n) => "$pair[0]-$n"));
+    }
+
     public function customer()
     {
         return $this->belongsTo(Customer::class);

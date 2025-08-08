@@ -47,7 +47,7 @@ $(() => {
             },
             success: function (data) {
                 $(".table-responsive tbody").html(
-                    data.body
+                    Object.values(data.body)
                         .map((item) => {
                             return `
                             <tr>
@@ -86,7 +86,7 @@ $(() => {
                                 </td>
                             </tr>`;
                         })
-                        .join('')
+                        .join("")
                 );
                 $(".table-responsive tfoot").html(`
                         <tr>

@@ -114,12 +114,8 @@
                     </span>
                     <div id="toothTooltip{{ $entry->id }}" class="d-none">
                         <div class="tab-pane show active" id="visual" role="tabpanel" aria-labelledby="visual-tab">
-                            {{-- SVG Tooth Chart --}}
                             <div class="tooth-chart mx-auto">
-                                @include('forms.teeth_visual', [
-                                    'selectedTeeth' => collect(explode(', ', $entry->teeth))->map(fn($t) => explode('-', trim($t)))->flatMap(
-                                            fn($pair) => collect(str_split($pair[1]))->map(fn($n) => "$pair[0]-$n")),
-                                ])
+                                <x-teeth-visual :selectedTeeth="$entry->teeth_list" />
                             </div>
                         </div>
                     </div>

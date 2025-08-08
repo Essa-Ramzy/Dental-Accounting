@@ -81,7 +81,12 @@ class EntryController extends Controller
                     'count' => $entries->count(),
                     'total_price' => $entries->sum('price'),
                     'total_cost' => $entries->sum('cost')
-                ]
+                ],
+                'teeth_list' => $entries->mapWithKeys(function ($entry) {
+                    return [
+                        $entry->id => view('components.teeth-visual', ['selectedTeeth' => $entry->teeth_list])->render()
+                    ];
+                })
             ]);
         }
         return redirect(route('Home'));
@@ -91,7 +96,7 @@ class EntryController extends Controller
     {
         $customers = Customer::all();
         $items = Item::all();
-        return view('forms.add_entry', compact('customers', 'items'));
+        return view('forms.add-entry', compact('customers', 'items'));
     }
 
     public function store()
@@ -169,7 +174,7 @@ class EntryController extends Controller
         $columns = request()->except(['_token', 'filter', 'search', 'from_date', 'to_date']);
         $entries = $this->searchFunc(request()->all());
         $count = count($columns) - isset($columns['price']) - isset($columns['cost']);
-        $pdf = Pdf::view('pdf.entry_pdf', compact('entries', 'columns', 'count'));
+        $pdf = Pdf::view('pdf.entry-pdf', compact('entries', 'columns', 'count'));
         return $pdf->format('A4')->landscape()->download('entries.pdf');
     }
 }

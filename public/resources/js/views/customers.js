@@ -47,7 +47,7 @@ $(() => {
             },
             success: function (data) {
                 $(".table-responsive tbody").html(
-                    data.body
+                    Object.values(data.body)
                         .map((customer) => {
                             return `
                             <tr>

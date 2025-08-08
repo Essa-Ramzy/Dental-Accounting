@@ -65,7 +65,7 @@ class ItemController extends Controller
 
     public function create()
     {
-        return view('forms.add_item');
+        return view('forms.add-item');
     }
 
     public function store()
@@ -95,7 +95,7 @@ class ItemController extends Controller
     public function edit($id)
     {
         $item = Item::find($id);
-        return view('forms.edit_item', compact('item'));
+        return view('forms.edit-item', compact('item'));
     }
 
     public function update($id)

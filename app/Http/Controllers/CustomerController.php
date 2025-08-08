@@ -59,7 +59,7 @@ class CustomerController extends Controller
 
     public function create()
     {
-        return view('forms.add_customer');
+        return view('forms.add-customer');
     }
 
     public function store()
@@ -82,7 +82,7 @@ class CustomerController extends Controller
     public function edit($id)
     {
         $customer = Customer::find($id);
-        return view('forms.edit_customer', compact('customer'));
+        return view('forms.edit-customer', compact('customer'));
     }
 
     public function update($id)
