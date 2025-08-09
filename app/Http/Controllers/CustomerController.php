@@ -14,7 +14,7 @@ class CustomerController extends Controller
         return view('entries.customers', compact('customers', 'view'));
     }
 
-    private function searchFunc($request)
+    private function searchFunc()
     {
         if (request('search')) {
             if (request('filter') == 'all') {
@@ -38,7 +38,7 @@ class CustomerController extends Controller
     public function search()
     {
         if (request()->ajax()) {
-            $customers = $this->searchFunc(request()->all());
+            $customers = $this->searchFunc();
             return response()->json([
                 'body' => $customers->map(function ($customer) {
                     $customer = $customer->toArray();
@@ -59,6 +59,9 @@ class CustomerController extends Controller
 
     public function create()
     {
+        if (url()->previous() != route('Customer.create')) {
+            session()->put('previous_url', url()->previous());
+        }
         return view('forms.add-customer');
     }
 
@@ -70,12 +73,13 @@ class CustomerController extends Controller
 
         Customer::create($data);
 
-        return redirect(route('Customers'));
+        return redirect(session()->get('previous_url', route('Customers')))
+            ->with('createdCustomerId', Customer::latest()->first()->id);
     }
 
     public function delete()
     {
-        $this->searchFunc(request()->all())->each->delete();
+        $this->searchFunc()->each->delete();
         return redirect(route('Customers'));
     }
 

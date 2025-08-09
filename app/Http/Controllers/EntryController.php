@@ -17,41 +17,41 @@ class EntryController extends Controller
         return view('entries.index', compact('entries', 'view'));
     }
 
-    private function searchFunc($request)
+    private function searchFunc()
     {
-        if ($request['search']) {
-            if ($request['filter'] == 'all') {
+        if (request('search')) {
+            if (request('filter') == 'all') {
                 $entries = Entry::with(['customer', 'item'])
-                    ->where('id', 'like', '%' . $request['search'] . '%')
-                    ->orWhereHas('customer', function ($query) use ($request) {
-                        $query->where('name', 'like', '%' . $request['search'] . '%');
-                    })->orWhereHas('item', function ($query) use ($request) {
-                        $query->where('name', 'like', '%' . $request['search'] . '%');
-                    })->orWhere('teeth', 'like', '%' . $request['search'] . '%')
-                    ->orWhere('amount', 'like', '%' . $request['search'] . '%')
-                    ->orWhere('unit_price', 'like', '%' . $request['search'] . '%')
-                    ->orWhere('discount', 'like', '%' . $request['search'] . '%')
-                    ->orWhere('price', 'like', '%' . $request['search'] . '%')
-                    ->orWhere('cost', 'like', '%' . $request['search'] . '%')->get();
-            } else if ($request['filter'] == 'name') {
-                $entries = Entry::with(['customer', 'item'])->whereHas('customer', function ($query) use ($request) {
-                    $query->where('name', 'like', '%' . $request['search'] . '%');
+                    ->where('id', 'like', '%' . request('search') . '%')
+                    ->orWhereHas('customer', function ($query) {
+                        $query->where('name', 'like', '%' . request('search') . '%');
+                    })->orWhereHas('item', function ($query) {
+                        $query->where('name', 'like', '%' . request('search') . '%');
+                    })->orWhere('teeth', 'like', '%' . request('search') . '%')
+                    ->orWhere('amount', 'like', '%' . request('search') . '%')
+                    ->orWhere('unit_price', 'like', '%' . request('search') . '%')
+                    ->orWhere('discount', 'like', '%' . request('search') . '%')
+                    ->orWhere('price', 'like', '%' . request('search') . '%')
+                    ->orWhere('cost', 'like', '%' . request('search') . '%')->get();
+            } else if (request('filter') == 'name') {
+                $entries = Entry::with(['customer', 'item'])->whereHas('customer', function ($query) {
+                    $query->where('name', 'like', '%' . request('search') . '%');
                 })->get();
-            } else if ($request['filter'] == 'item') {
-                $entries = Entry::with(['customer', 'item'])->whereHas('item', function ($query) use ($request) {
-                    $query->where('name', 'like', '%' . $request['search'] . '%');
+            } else if (request('filter') == 'item') {
+                $entries = Entry::with(['customer', 'item'])->whereHas('item', function ($query) {
+                    $query->where('name', 'like', '%' . request('search') . '%');
                 })->get();
             } else {
-                $entries = Entry::with(['customer', 'item'])->where($request['filter'], 'like', '%' . $request['search'] . '%')->get();
+                $entries = Entry::with(['customer', 'item'])->where(request('filter'), 'like', '%' . request('search') . '%')->get();
             }
         } else {
             $entries = Entry::with(['customer', 'item'])->get();
         }
-        if ($request['from_date']) {
-            $entries = $entries->where('date', '>=', $request['from_date']);
+        if (request('from_date')) {
+            $entries = $entries->where('date', '>=', request('from_date'));
         }
-        if ($request['to_date']) {
-            $entries = $entries->where('date', '<=', $request['to_date']);
+        if (request('to_date')) {
+            $entries = $entries->where('date', '<=', request('to_date'));
         }
         return $entries;
     }
@@ -59,7 +59,7 @@ class EntryController extends Controller
     public function search()
     {
         if (request()->ajax()) {
-            $entries = $this->searchFunc(request()->all());
+            $entries = $this->searchFunc();
             return response()->json([
                 'body' => $entries
                     ->map(function ($entry) {
@@ -153,7 +153,7 @@ class EntryController extends Controller
 
     public function delete()
     {
-        $this->searchFunc(request()->all())->each->delete();
+        $this->searchFunc()->each->delete();
         return redirect(route('Home'));
     }
 
@@ -172,7 +172,7 @@ class EntryController extends Controller
     public function export()
     {
         $columns = request()->except(['_token', 'filter', 'search', 'from_date', 'to_date']);
-        $entries = $this->searchFunc(request()->all());
+        $entries = $this->searchFunc();
         $count = count($columns) - isset($columns['price']) - isset($columns['cost']);
         $pdf = Pdf::view('pdf.entry-pdf', compact('entries', 'columns', 'count'));
         return $pdf->format('A4')->landscape()->download('entries.pdf');

@@ -24,7 +24,8 @@
                         value="{{ old('name') ?? '' }}" title="Select Customer" autofocus>
                         <option hidden></option>
                         @foreach ($customers as $customer)
-                            <option {{ collect(old('name'))->contains($customer->name) ? 'selected' : '' }}
+                            <option
+                                {{ (collect(old('name'))->contains($customer->name) or Session::get('createdCustomerId') == $customer->id) ? 'selected' : '' }}
                                 value="{{ $customer->name }}">{{ $customer->name }}</option>
                         @endforeach
                         <option value="">Create New Customer</option>
@@ -42,7 +43,8 @@
                         id="item" name="item" data-style="border focus-ring text-body" data-live-search="true"
                         value="{{ old('item') }}" title="Select Item">
                         @foreach ($items as $item)
-                            <option {{ collect(old('item'))->contains($item->name) ? 'selected' : '' }}
+                            <option
+                                {{ (collect(old('item'))->contains($item->name) or Session::get('createdItemId') == $item->id) ? 'selected' : '' }}
                                 value="{{ $item->name }}">{{ $item->name }}</option>
                         @endforeach
                         <option value="">Create New Item</option>
@@ -121,7 +123,7 @@
                     @endif
                 </div>
                 <div class="row py-4">
-                    <button class="btn btn-outline-primary">Add New Entry</button>
+                    <button type="submit" class="btn btn-outline-primary">Add New Entry</button>
                 </div>
             </div>
         </div>

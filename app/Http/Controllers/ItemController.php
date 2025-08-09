@@ -14,7 +14,7 @@ class ItemController extends Controller
         return view('entries.items', compact('items', 'view'));
     }
 
-    private function searchFunc($request)
+    private function searchFunc()
     {
         if (request('search')) {
             if (request('filter') == 'all') {
@@ -41,7 +41,7 @@ class ItemController extends Controller
     public function search()
     {
         if (request()->ajax()) {
-            $items = $this->searchFunc(request()->all());
+            $items = $this->searchFunc();
             return response()->json([
                 'body' => $items->map(function ($item) {
                     $item = $item->toArray();
@@ -65,6 +65,9 @@ class ItemController extends Controller
 
     public function create()
     {
+        if (url()->previous() != route('Item.create')) {
+            session()->put('previous_url', url()->previous());
+        }
         return view('forms.add-item');
     }
 
@@ -83,12 +86,13 @@ class ItemController extends Controller
 
         Item::create($data);
 
-        return redirect(route('Items'));
+        return redirect(session()->get('previous_url', route('Items')))
+            ->with('createdItemId', Item::latest()->first()->id);
     }
 
     public function delete()
     {
-        $this->searchFunc(request()->all())->each->delete();
+        $this->searchFunc()->each->delete();
         return redirect(route('Items'));
     }
 

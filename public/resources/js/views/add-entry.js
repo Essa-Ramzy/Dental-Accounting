@@ -1,22 +1,36 @@
-$(document).on("change", "#name", (e) => {
-    if (!e.currentTarget.value) {
-        $(e.currentTarget).selectpicker("val", "undefined");
-        window.location = document
-            .querySelector('meta[name="customer-create-url"]')
-            .getAttribute("content");
-    }
-});
-
-$(document).on("change", "#item", (e) => {
-    if (!e.currentTarget.value) {
-        $(e.currentTarget).selectpicker("val", "undefined");
-        window.location = document
-            .querySelector('meta[name="item-create-url"]')
-            .getAttribute("content");
-    }
-});
-
 $(() => {
+    $(document).on("change", "#name", (e) => {
+        if (!e.currentTarget.value) {
+            sessionStorage.removeItem("customer");
+            $(e.currentTarget).selectpicker("val", "undefined");
+            window.location = document
+                .querySelector('meta[name="customer-create-url"]')
+                .getAttribute("content");
+        } else {
+            sessionStorage.setItem("customer", $(e.currentTarget).val());
+        }
+    });
+
+    $(document).on("change", "#item", (e) => {
+        if (!e.currentTarget.value) {
+            sessionStorage.removeItem("item");
+            $(e.currentTarget).selectpicker("val", "undefined");
+            window.location = document
+                .querySelector('meta[name="item-create-url"]')
+                .getAttribute("content");
+        } else {
+            sessionStorage.setItem("item", $(e.currentTarget).val());
+        }
+    });
+
+    $(document).on("change", "#date", (e) => {
+        sessionStorage.setItem("date", $(e.currentTarget).val());
+    });
+
+    $(document).on("change", "#discount", (e) => {
+        sessionStorage.setItem("discount", $(e.currentTarget).val());
+    });
+
     $("#name.selectpicker").selectpicker({
         noneResultsText: `<a href="${document
             .querySelector('meta[name="customer-create-url"]')
@@ -57,6 +71,7 @@ $(() => {
             pane.addClass("show active");
         }
     });
+
     // Toggle selection color on SVG teeth and sync with dropdown
     $("#Spots [data-key]").on("click", function (e) {
         const el = $(e.currentTarget);
@@ -78,6 +93,7 @@ $(() => {
         }
         select.val(selected);
         select.selectpicker();
+        sessionStorage.setItem("teeth", selected);
     });
     // When list selection changes, sync SVG
     $("#teeth").on("change", (e) => {
@@ -99,5 +115,41 @@ $(() => {
                 el[0].toggleAttribute("selected");
             }
         });
+        sessionStorage.setItem("teeth", selected);
     });
+
+    if (performance.getEntriesByType("navigation")[0].type === "reload") {
+        sessionStorage.removeItem("customer");
+        sessionStorage.removeItem("item");
+        sessionStorage.removeItem("teeth");
+        sessionStorage.removeItem("date");
+        sessionStorage.removeItem("discount");
+    }
+
+    if ($("#name").val()) {
+        sessionStorage.setItem("customer", $("#name").val());
+    } else if (sessionStorage.getItem("customer")) {
+        $("#name").selectpicker("val", sessionStorage.getItem("customer"));
+    }
+
+    if ($("#item").val()) {
+        sessionStorage.setItem("item", $("#item").val());
+    } else if (sessionStorage.getItem("item")) {
+        $("#item").selectpicker("val", sessionStorage.getItem("item"));
+    }
+
+    if (sessionStorage.getItem("teeth")) {
+        $("#teeth").selectpicker(
+            "val",
+            sessionStorage.getItem("teeth").split(",")
+        ).trigger("change");
+    }
+
+    if (sessionStorage.getItem("date")) {
+        $("#date").val(sessionStorage.getItem("date"));
+    }
+
+    if (sessionStorage.getItem("discount")) {
+        $("#discount").val(sessionStorage.getItem("discount"));
+    }
 });

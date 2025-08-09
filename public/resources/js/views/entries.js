@@ -63,7 +63,6 @@ $(() => {
                 to_date: to_date ? to_date + " 23:59:59" : "",
             },
             success: function (data) {
-                console.log(data.teeth_list);
                 $(".table-responsive tbody").html(
                     Object.values(data.body)
                         .map((entry) => {
