@@ -89,7 +89,7 @@ class EntryController extends Controller
                 })
             ]);
         }
-        return redirect(route('Home'));
+        return redirect(route('Entries'));
     }
 
     public function create()
@@ -148,25 +148,25 @@ class EntryController extends Controller
 
         Entry::create($data);
 
-        return redirect(route('Home'));
+        return redirect(route('Entries'));
     }
 
     public function delete()
     {
         $this->searchFunc()->each->delete();
-        return redirect(route('Home'));
+        return redirect(route('Entries'));
     }
 
     public function customerRecords($id)
     {
         $customer = Customer::find($id)->name;
-        return redirect(route('Home'))->with(compact('customer'));
+        return redirect(route('Entries'))->with(compact('customer'));
     }
 
     public function itemRecords($id)
     {
         $item = Item::find($id)->name;
-        return redirect(route('Home'))->with(compact('item'));
+        return redirect(route('Entries'))->with(compact('item'));
     }
 
     public function export()

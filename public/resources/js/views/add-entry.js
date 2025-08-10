@@ -1,25 +1,62 @@
 $(() => {
+    let updateReceipt = ({
+        unitPrice = null,
+        amount = null,
+        discount = null,
+    }) => {
+        currency_mode = $(".mode-btn.active").data("mode") === "currency";
+        if (unitPrice === null) {
+            unitPrice = parseInt(
+                $("#receipt-unit-price").text().replace("E£ ", "")
+            );
+        }
+        if (amount === null) {
+            amount = parseInt($("#receipt-amount").text());
+        }
+        if (discount === null) {
+            discount = parseFloat(
+                $("#receipt-discount")
+                    .text()
+                    .replace(/^(E£|%)\s*/, "") || 0
+            ).toFixed(2);
+        }
+        if (currency_mode) {
+            total = unitPrice * amount - discount;
+        } else {
+            total = (unitPrice * amount * (100 - discount)) / 100;
+        }
+        $("#receipt-unit-price").text(`E£ ${unitPrice}`);
+        $("#receipt-amount").text(amount);
+        $("#receipt-discount").text(
+            `${currency_mode ? "E£" : "%"} ${discount}`
+        );
+        $("#receipt-total").text(`E£ ${total.toFixed(2)}`);
+    };
+
     $(document).on("change", "#name", (e) => {
-        if (!e.currentTarget.value) {
+        const select = $(e.currentTarget);
+        if (!select.val()) {
             sessionStorage.removeItem("customer");
-            $(e.currentTarget).selectpicker("val", "undefined");
+            select.selectpicker("val", "undefined");
             window.location = document
                 .querySelector('meta[name="customer-create-url"]')
                 .getAttribute("content");
         } else {
-            sessionStorage.setItem("customer", $(e.currentTarget).val());
+            sessionStorage.setItem("customer", select.val());
         }
     });
 
     $(document).on("change", "#item", (e) => {
-        if (!e.currentTarget.value) {
+        const select = $(e.currentTarget);
+        updateReceipt({ unitPrice: select.find(":selected").data("price") });
+        if (!select.val()) {
             sessionStorage.removeItem("item");
-            $(e.currentTarget).selectpicker("val", "undefined");
+            select.selectpicker("val", "undefined");
             window.location = document
                 .querySelector('meta[name="item-create-url"]')
                 .getAttribute("content");
         } else {
-            sessionStorage.setItem("item", $(e.currentTarget).val());
+            sessionStorage.setItem("item", select.val());
         }
     });
 
@@ -28,7 +65,42 @@ $(() => {
     });
 
     $(document).on("change", "#discount", (e) => {
-        sessionStorage.setItem("discount", $(e.currentTarget).val());
+        discount = parseFloat($(e.currentTarget).val()).toFixed(2);
+        sessionStorage.setItem("discount", discount);
+        updateReceipt({ discount });
+    });
+
+    $(document).on("click", ".mode-btn", (e) => {
+        let input = $("#discount");
+        let oldValue = parseFloat(input.val()) || 0;
+        let oldMode = $(".mode-btn.active").data("mode");
+        let newMode = $(e.currentTarget).data("mode");
+
+        $(e.currentTarget).siblings(".mode-btn").removeClass("active");
+        $(e.currentTarget).addClass("active");
+        sessionStorage.setItem("discount_mode", newMode);
+
+        if (oldMode !== newMode) {
+            let amount = $("#teeth").val()?.length || 0;
+            let price = $("#item").find(":selected")?.data("price") || 0;
+            let total = amount * price;
+
+            if (total > 0) {
+                if (newMode === "currency") {
+                    // Percent → Currency
+                    newValue = (oldValue / 100) * total;
+                } else {
+                    // Currency → Percent
+                    newValue = (oldValue / total) * 100;
+                }
+            } else {
+                newValue = 0;
+            }
+        }
+        newValue = newValue.toFixed(2);
+
+        input.val(isFinite(newValue) && newValue != 0 ? newValue : "");
+        updateReceipt({ discount: newValue });
     });
 
     $("#name.selectpicker").selectpicker({
@@ -94,6 +166,7 @@ $(() => {
         select.val(selected);
         select.selectpicker();
         sessionStorage.setItem("teeth", selected);
+        updateReceipt({ amount: selected.length });
     });
     // When list selection changes, sync SVG
     $("#teeth").on("change", (e) => {
@@ -116,6 +189,7 @@ $(() => {
             }
         });
         sessionStorage.setItem("teeth", selected);
+        updateReceipt({ amount: selected.length });
     });
 
     if (performance.getEntriesByType("navigation")[0].type === "reload") {
@@ -124,6 +198,7 @@ $(() => {
         sessionStorage.removeItem("teeth");
         sessionStorage.removeItem("date");
         sessionStorage.removeItem("discount");
+        sessionStorage.removeItem("discount_mode");
     }
 
     if ($("#name").val()) {
@@ -139,10 +214,10 @@ $(() => {
     }
 
     if (sessionStorage.getItem("teeth")) {
-        $("#teeth").selectpicker(
-            "val",
-            sessionStorage.getItem("teeth").split(",")
-        ).trigger("change");
+        $("#teeth")
+            .selectpicker("val", sessionStorage.getItem("teeth").split(","))
+            .trigger("change");
+        updateReceipt({ amount: sessionStorage.getItem("teeth").split(",").length });
     }
 
     if (sessionStorage.getItem("date")) {
@@ -151,5 +226,11 @@ $(() => {
 
     if (sessionStorage.getItem("discount")) {
         $("#discount").val(sessionStorage.getItem("discount"));
+        updateReceipt({ discount: sessionStorage.getItem("discount") });
+    }
+
+    if (sessionStorage.getItem("discount_mode")) {
+        $(".mode-btn").removeClass("active");
+        $(".mode-btn[data-mode='" + sessionStorage.getItem("discount_mode") + "']").addClass("active");
     }
 });

@@ -66,9 +66,10 @@ class ItemController extends Controller
     public function create()
     {
         if (url()->previous() != route('Item.create')) {
-            session()->put('previous_url', url()->previous());
+            session()->put('item_previous_url', url()->previous());
         }
-        return view('forms.add-item');
+        return view('forms.add-item')
+            ->with('previousUrl', session('item_previous_url'));
     }
 
     public function store()
@@ -86,7 +87,7 @@ class ItemController extends Controller
 
         Item::create($data);
 
-        return redirect(session()->get('previous_url', route('Items')))
+        return redirect(session()->get('item_previous_url', route('Items')))
             ->with('createdItemId', Item::latest()->first()->id);
     }
 

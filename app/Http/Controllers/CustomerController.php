@@ -60,9 +60,10 @@ class CustomerController extends Controller
     public function create()
     {
         if (url()->previous() != route('Customer.create')) {
-            session()->put('previous_url', url()->previous());
+            session()->put('customer_previous_url', url()->previous());
         }
-        return view('forms.add-customer');
+        return view('forms.add-customer')
+            ->with('previousUrl', session('customer_previous_url'));
     }
 
     public function store()
@@ -73,7 +74,7 @@ class CustomerController extends Controller
 
         Customer::create($data);
 
-        return redirect(session()->get('previous_url', route('Customers')))
+        return redirect(session()->get('customer_previous_url', route('Customers')))
             ->with('createdCustomerId', Customer::latest()->first()->id);
     }
 
