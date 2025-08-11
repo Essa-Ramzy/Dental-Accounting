@@ -89,11 +89,11 @@ class ItemController extends Controller
         $previous_url = session()->get('item_previous_url', route('Items'));
         session()->forget('item_previous_url');
 
-        return $previous_url == route('Items')
-            ? redirect()->back()
-                ->with('success', 'Item created successfully.')
-            : redirect($previous_url)
-                ->with('createdItemId', Item::latest()->first()->id);
+        return $previous_url == route('Entry.create')
+            ? redirect($previous_url)
+                ->with('createdItemId', Item::latest()->first()->id)
+            : redirect()->back()
+                ->with('success', 'Item created successfully.');
     }
 
     public function delete()

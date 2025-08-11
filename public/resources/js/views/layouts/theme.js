@@ -1,29 +1,63 @@
-$(() => {
-    const setTheme = (mode) => {
-        const html = $("html");
-
-        if (mode === "system") {
-            const prefersDark = window.matchMedia(
-                "(prefers-color-scheme: dark)"
-            ).matches;
-            html.attr("data-bs-theme", prefersDark ? "dark" : "light");
-        } else if (mode === "light" || mode === "dark") {
-            html.attr("data-bs-theme", mode);
+const setTheme = (mode) => {
+    const html = document.querySelector("html");
+    if (mode === "auto") {
+        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+            html.setAttribute("data-bs-theme", "dark");
         } else {
-            console.warn("Invalid theme mode:", mode);
+            html.removeAttribute("data-bs-theme");
         }
+    } else if (mode === "dark") {
+        html.setAttribute("data-bs-theme", "dark");
+    } else if (mode === "light") {
+        html.setAttribute("data-bs-theme", "light");
+    } else {
+        console.warn("Invalid theme mode:", mode);
+    }
+};
+
+const applyTheme = (mode) => {
+    const text = mode === "dark" ? "Dark" : mode === "light" ? "Light" : "Auto";
+    const icon =
+        mode === "dark"
+            ? "moon-stars-fill"
+            : mode === "light"
+            ? "sun-fill"
+            : "circle-half";
+    $("#bd-theme-text").text(text);
+    $("#bd-theme-icon").attr("href", `#${icon}`);
+    localStorage.setItem("theme", mode);
+    setTheme(mode);
+};
+
+window
+    .matchMedia("(prefers-color-scheme: dark)")
+    .addEventListener("change", () => {
+        const stored = localStorage.getItem("theme") || "auto";
+        if (stored === "auto") {
+            setTheme("auto");
+        }
+    });
+
+applyTheme(localStorage.getItem("theme") || "auto");
+
+$(() => {
+    applyTheme(localStorage.getItem("theme") || "auto");
+    theme_buttons = $("[data-bs-theme-value]");
+    change_selected = (mode) => {
+        theme_buttons.attr("aria-pressed", "false").removeClass("active");
+        theme_buttons
+            .filter(`[data-bs-theme-value="${mode}"]`)
+            .attr("aria-pressed", "true")
+            .addClass("active");
+        $("[data-bs-theme-value] svg:has([href='#check2']").addClass("d-none");
+        $("[data-bs-theme-value].active svg:has([href='#check2']").removeClass(
+            "d-none"
+        );
     };
-
-    setTheme("system");
-
-    window
-        .matchMedia("(prefers-color-scheme: dark)")
-        .addEventListener("change", () => {
-            if (
-                $("html").attr("data-bs-theme") !== "dark" &&
-                $("html").attr("data-bs-theme") !== "light"
-            ) {
-                setTheme("system");
-            }
-        });
+    change_selected(localStorage.getItem("theme") || "auto");
+    theme_buttons.on("click", (e) => {
+        const theme = $(e.currentTarget).attr("data-bs-theme-value");
+        change_selected(theme);
+        applyTheme(theme);
+    });
 });

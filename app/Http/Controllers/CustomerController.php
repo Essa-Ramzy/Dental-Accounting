@@ -76,11 +76,11 @@ class CustomerController extends Controller
         $previous_url = session()->get('customer_previous_url', route('Customers'));
         session()->forget('customer_previous_url');
 
-        return $previous_url == route('Customers')
-            ? redirect()->back()
-                ->with('success', 'Customer created successfully.')
-            : redirect($previous_url)
-                ->with('createdCustomerId', Customer::latest()->first()->id);
+        return $previous_url == route('Entry.create')
+            ? redirect($previous_url)
+                ->with('createdCustomerId', Customer::latest()->first()->id)
+            : redirect()->back()
+                ->with('success', 'Customer created successfully.');
     }
 
     public function delete()
