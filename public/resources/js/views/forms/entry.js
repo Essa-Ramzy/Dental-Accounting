@@ -61,30 +61,30 @@ $(() => {
                 .getAttribute("content");
         } else {
             sessionStorage.setItem("item", select.val());
+            $(".price-mode-btn.active").click();
         }
     });
 
     $(document).on("click", ".price-mode-btn", (e) => {
         item = $("#item").find(":selected");
-        if (!$(e.currentTarget).hasClass("active")) {
-            $(".price-mode-btn").removeClass("active");
-            $(e.currentTarget).addClass("active");
-            if ($(e.currentTarget).data("mode") === "old") {
-                item.data("price", item.data("old-price"));
-                $("#price").val(item.data("old-price"));
-                $("#cost").val(
-                    item.data("old-cost") * $("#teeth").val().length
-                );
-            } else {
-                item.data("price", item.data("new-price"));
-                $("#price").val(item.data("new-price"));
-                $("#cost").val(
-                    item.data("new-cost") * $("#teeth").val().length
-                );
-            }
-            updateReceipt({ unitPrice: item.data("price") });
+        $(".price-mode-btn").removeClass("active");
+        $(e.currentTarget).addClass("active");
+        if (!item.data("new-price")) {
+            $("#price").val(item.data("price"));
+            $("#cost").val("");
         }
+        else if ($(e.currentTarget).data("mode") === "old") {
+            item.data("price", item.data("old-price"));
+            $("#price").val(item.data("old-price"));
+            $("#cost").val(item.data("old-cost"));
+        } else {
+            item.data("price", item.data("new-price"));
+            $("#price").val(item.data("new-price"));
+            $("#cost").val(item.data("new-cost") * $("#teeth").val().length);
+        }
+        updateReceipt({ unitPrice: item.data("price") });
     });
+    $(".price-mode-btn.active").click();
 
     $(document).on("change", "#date", (e) => {
         sessionStorage.setItem("date", $(e.currentTarget).val());

@@ -70,9 +70,51 @@
                 d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z">
             </path>
         </symbol>
+        <symbol id="book-open" viewBox="0 0 24 24">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+        </symbol>
+        <symbol id="file-text" viewBox="0 0 24 24">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14,2 14,8 20,8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10,9 9,9 8,9"></polyline>
+        </symbol>
+        <symbol id="file-plus" viewBox="0 0 24 24">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14,2 14,8 20,8"></polyline>
+            <line x1="12" y1="18" x2="12" y2="12"></line>
+            <line x1="9" y1="15" x2="15" y2="15"></line>
+        </symbol>
+        <symbol id="tag" viewBox="0 0 24 24">
+            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+            <line x1="7" y1="7" x2="7.01" y2="7"></line>
+        </symbol>
+        <symbol id="tag-plus" viewBox="0 0 24 24">
+            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+            <line x1="7" y1="7" x2="7.01" y2="7"></line>
+            <line x1="12" y1="8" x2="12" y2="16"></line>
+            <line x1="8" y1="12" x2="16" y2="12"></line>
+        </symbol>
+        <symbol id="user" viewBox="0 0 24 24">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+        </symbol>
+        <symbol id="user-plus" viewBox="0 0 24 24">
+            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <line x1="19" y1="8" x2="19" y2="14"></line>
+            <line x1="22" y1="11" x2="16" y2="11"></line>
+        </symbol>
+        <symbol id="plus-circle" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="16"></line>
+            <line x1="8" y1="12" x2="16" y2="12"></line>
+        </symbol>
     </svg>
     <!-- Header (navigation bar) for the web application -->
-    <header class="px-3 py-2 text-bg-dark border-bottom">
+    <header class="px-3 py-2 text-bg-dark {{ Illuminate\Support\Facades\Route::is('Home') ? '' : 'border-bottom' }}">
         <nav class="container">
             <!-- Application logo and navigation links -->
             <div class="nav d-flex flex-wrap align-items-center justify-content-center">
@@ -154,7 +196,7 @@
                         <ul class="dropdown-menu dropdown-menu-end p-1" aria-labelledby="bd-theme-text"
                             data-bs-popper="static">
                             <li>
-                                <button type="button" class="dropdown-item d-flex align-items-center"
+                                <button type="button" class="dropdown-item d-flex align-items-center rounded mb-1"
                                     data-bs-theme-value="light" aria-pressed="false">
                                     <svg class="bi me-2 opacity-50" width="16" height="16"
                                         fill="var(--bs-body-color)" aria-hidden="true">
@@ -168,7 +210,7 @@
                                 </button>
                             </li>
                             <li>
-                                <button type="button" class="dropdown-item d-flex align-items-center active"
+                                <button type="button" class="dropdown-item d-flex align-items-center rounded my-1 active"
                                     data-bs-theme-value="dark" aria-pressed="true">
                                     <svg class="bi me-2 opacity-50" width="16" height="16"
                                         fill="var(--bs-body-color)" aria-hidden="true">
@@ -182,7 +224,7 @@
                                 </button>
                             </li>
                             <li>
-                                <button type="button" class="dropdown-item d-flex align-items-center"
+                                <button type="button" class="dropdown-item d-flex align-items-center mt-1 rounded"
                                     data-bs-theme-value="auto" aria-pressed="false">
                                     <svg class="bi me-2 opacity-50" width="16" height="16"
                                         fill="var(--bs-body-color)" aria-hidden="true">

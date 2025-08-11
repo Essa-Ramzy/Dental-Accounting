@@ -17,7 +17,9 @@ Route::fallback(function () {
     abort(404);
 });
 // Main routes that contains the tables of the database
-Route::get('/', 'App\Http\Controllers\HomeController@index')->name('Home');
+Route::get('/', function () {
+    return view('pages.home');
+})->name('Home');
 Route::get('/entries', 'App\Http\Controllers\EntryController@index')->name('Entries');
 Route::get('/items', 'App\Http\Controllers\ItemController@index')->name('Items');
 Route::get('/customers', 'App\Http\Controllers\CustomerController@index')->name('Customers');

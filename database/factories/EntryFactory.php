@@ -21,6 +21,7 @@ class EntryFactory extends Factory
       })->implode(', ');
     $unit_price = $this->faker->numberBetween(100, 500);
     $amount = $this->faker->numberBetween(1, 10);
+    $discount = $this->faker->randomFloat(2, 0, 100);
     return [
       'customer_id' => Customer::factory(),
       'item_id' => Item::factory(),
@@ -28,8 +29,8 @@ class EntryFactory extends Factory
       'teeth' => $teeth,
       'amount' => $amount,
       'unit_price' => $unit_price,
-      'discount' => $this->faker->randomFloat(2, 0, 100),
-      'price' => $unit_price * $amount,
+      'discount' => $discount,
+      'price' => $unit_price * $amount - $discount,
       'cost' => $this->faker->numberBetween(400, 800),
     ];
   }

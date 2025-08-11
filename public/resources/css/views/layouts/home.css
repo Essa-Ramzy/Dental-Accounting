@@ -1,0 +1,82 @@
+.card-hover {
+    transition: all 0.3s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-10%);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3) !important;
+}
+
+.min-vh-90 {
+    min-height: 90vh;
+}
+
+#hero-bg {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.text-shadow {
+    text-shadow: 0.125rem 0.125rem 0.25rem rgba(0, 0, 0, 0.8);
+}
+
+.text-white-75 {
+    color: rgba(255, 255, 255, 0.9) !important;
+    text-shadow: 0.0625rem 0.0625rem 0.125rem rgba(0, 0, 0, 0.7);
+}
+
+#hero-content .badge.bg-shadow {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.3);
+}
+
+#hero-content .badge {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+#hero-content .badge:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+#hero-content .badge:nth-child(2) {
+    animation-delay: 0.4s;
+}
+
+#hero-content .badge:nth-child(3) {
+    animation-delay: 0.6s;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#hero-content h1 {
+    animation: fadeInDown 0.8s ease-out;
+}
+
+#hero-content .lead {
+    animation: fadeInUp 0.8s ease-out 0.2s both;
+}
+
+#hero-content .btn {
+    animation: fadeInUp 0.8s ease-out 0.4s both;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-15%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

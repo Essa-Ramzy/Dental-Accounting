@@ -17,3 +17,8 @@
 #discount + div {
     margin-right: calc(1 * var(--bs-border-width));
 }
+
+#discount.is-invalid {
+    background-position: right calc(9.5 * (0.375em + 0.1875rem)) center;
+    padding-right: calc(3 * (1.5em + 0.75rem));
+}

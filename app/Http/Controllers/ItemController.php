@@ -52,6 +52,8 @@ class ItemController extends Controller
                         'price' => $item['price'],
                         'cost' => $item['cost'],
                         'description' => $item['description'],
+                        'edit_link' => route('Item.edit', $item['id']),
+                        'record_link' => route('Item.records', $item['id'])
                     ];
                 }),
                 'footer' => [
@@ -75,10 +77,10 @@ class ItemController extends Controller
     public function store()
     {
         $data = request()->validate([
-            'name' => ['required', 'unique:items'],
-            'price' => ['required', 'numeric'],
-            'cost' => ['required', 'numeric'],
-            'description' => ['nullable']
+            'name' => 'required|unique:items',
+            'price' => 'required|numeric',
+            'cost' => 'required|numeric',
+            'description' => 'nullable'
         ]);
 
         if (empty($data['description'])) {
@@ -89,11 +91,11 @@ class ItemController extends Controller
         $previous_url = session()->get('item_previous_url', route('Items'));
         session()->forget('item_previous_url');
 
-        return $previous_url == route('Entry.create')
-            ? redirect($previous_url)
-                ->with('createdItemId', Item::latest()->first()->id)
-            : redirect()->back()
-                ->with('success', 'Item created successfully.');
+        return ($previous_url == route('Items') or $previous_url == route('Home'))
+            ? redirect()->back()
+                ->with('success', 'Item created successfully.')
+            : redirect($previous_url)
+                ->with('createdItemId', Item::latest()->first()->id);
     }
 
     public function delete()
@@ -111,10 +113,10 @@ class ItemController extends Controller
     public function update($id)
     {
         $data = request()->validate([
-            'name' => ['required', 'unique:items,name,' . $id],
-            'price' => ['required', 'numeric'],
-            'cost' => ['required', 'numeric'],
-            'description' => ['nullable']
+            'name' => 'required|unique:items,name,' . $id,
+            'price' => 'required|numeric',
+            'cost' => 'required|numeric',
+            'description' => 'nullable'
         ]);
 
         if (empty($data['description'])) {

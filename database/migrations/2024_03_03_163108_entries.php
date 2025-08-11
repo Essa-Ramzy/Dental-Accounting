@@ -16,8 +16,8 @@ return new class extends Migration {
             $table->string('teeth');
             $table->integer('amount');
             $table->integer('unit_price');
-            $table->decimal('discount');
-            $table->integer('price');
+            $table->decimal('discount', places: 2);
+            $table->decimal('price', places: 2);
             $table->integer('cost');
             $table->foreignId('customer_id')->constrained('customers')->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('item_id')->constrained('items')->onUpdate('cascade')->onDelete('cascade');

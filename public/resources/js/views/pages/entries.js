@@ -96,9 +96,9 @@ $(() => {
                                 <td>${entry.cost}</td>
                                 <td>
                                     <div class="d-flex justify-content-end gap-2">
-                                        <a href=" . route('Customer.edit', ['id' => ${
-                                            entry.id
-                                        }]) . " class="text-decoration-none">
+                                        <a href="${
+                                            entry.edit_link
+                                        }" class="text-decoration-none">
                                             <svg id="edit" width="20" height="20" xmlns="http://www.w3.org/2000/svg"
                                                 class="icon-link-hover">
                                                 <use href="#pencil-square" fill="none" stroke="var(--bs-body-color)"

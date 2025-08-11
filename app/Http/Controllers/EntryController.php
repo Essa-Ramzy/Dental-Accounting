@@ -74,7 +74,8 @@ class EntryController extends Controller
                             'unit_price' => $entry['unit_price'],
                             'discount' => $entry['discount'],
                             'price' => $entry['price'],
-                            'cost' => $entry['cost']
+                            'cost' => $entry['cost'],
+                            'edit_link' => route('Entry.edit', $entry['id'])
                         ];
                     }),
                 'footer' => [
@@ -181,14 +182,14 @@ class EntryController extends Controller
         $data = request()->validate([
             'name' => 'required',
             'item' => 'required',
-            'price' => 'required|numeric',
-            'cost' => 'required|numeric',
+            'unit_price' => 'nullable|numeric',
+            'cost' => 'nullable|numeric',
             'date' => 'nullable|date',
             'teeth' => 'required',
             'discount' => [
                 'nullable',
                 function ($attribute, $value, $fail) {
-                    $total = request('price') * count(request('teeth') ?? []);
+                    $total = (request('unit_price', 0)) * count(request('teeth', []));
                     if ($value > $total) {
                         $fail('Discount cannot exceed total price');
                     }
@@ -203,8 +204,8 @@ class EntryController extends Controller
         $data['item_id'] = $item->id;
 
         $data['amount'] = count($data['teeth']);
-        $data['price'] = $data['price'] * $data['amount'] - $data['discount'];
-        $data['cost'] = $data['cost'] * $data['amount'];
+        $data['price'] = ($data['unit_price'] ?? $item->price) * $data['amount'] - $data['discount'];
+        $data['cost'] = $data['cost'] ?? $item->cost * $data['amount'];
 
         $result = [];
         $sub = '';

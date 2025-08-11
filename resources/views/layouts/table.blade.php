@@ -57,7 +57,7 @@
         </div>
         <!-- Table to display the data -->
         <div class="container-fluid table-responsive flex-grow-1">
-            <table id="dataTable" class="table table-striped m-0">
+            <table class="table table-striped m-0">
                 @yield('content')
             </table>
         </div>

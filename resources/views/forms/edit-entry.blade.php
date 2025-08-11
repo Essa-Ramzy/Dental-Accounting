@@ -14,8 +14,8 @@
     <form action="{{ route('Entry.update', ['id' => $entry->id]) }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('PATCH')
-        <input type="hidden" name="price" id="price" value="{{ $entry->unit_price }}">
-        <input type="hidden" name="cost" id="cost" value="{{ $entry->cost }}">
+        <input type="hidden" name="unit_price" id="price" value="{{ old('unit_price', $entry->unit_price) }}">
+        <input type="hidden" name="cost" id="cost" value="{{ old('cost', $entry->cost) }}">
         <div class="row">
             <div class="col-8 mx-auto">
                 <div class="d-flex justify-content-center align-items-center pt-3 position-relative">
@@ -127,7 +127,7 @@
                 <!-- Discount for the new entry -->
                 <div class="form-group row m-0">
                     <label for="discount" class="col-md-4 col-form-label text-md-right">Discount</label>
-                    <div class="p-0 position-relative">
+                    <div class="p-0 position-relative{{ $errors->has('discount') ? ' is-invalid' : '' }}">
                         <input id="discount" type="number" step="0.01" placeholder="0.00"
                             class="form-control z-n1{{ $errors->has('discount') ? ' is-invalid' : '' }}" name="discount"
                             value="{{ old('discount', $entry->discount) }}" autocomplete="discount">
@@ -137,12 +137,12 @@
                             <button class="btn btn-outline-primary border-0 rounded-0 rounded-end-1 discount-mode-btn"
                                 type="button" data-mode="percent">%</button>
                         </div>
-                        @if ($errors->has('discount'))
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $errors->first('discount') }}</strong>
-                            </span>
-                        @endif
                     </div>
+                    @if ($errors->has('discount'))
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $errors->first('discount') }}</strong>
+                        </span>
+                    @endif
                 </div>
                 <div class="form-group row m-0">
                     <label class="col-form-label text-md-right">Price Mode</label>

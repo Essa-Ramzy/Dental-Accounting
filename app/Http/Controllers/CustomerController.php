@@ -46,6 +46,8 @@ class CustomerController extends Controller
                         'id' => $customer['id'],
                         'date' => Carbon::parse($customer['updated_at'])->format('d-m-Y'),
                         'name' => $customer['name'],
+                        'edit_link' => route('Customer.edit', $customer['id']),
+                        'record_link' => route('Customer.records', $customer['id'])
                     ];
                 }),
                 'footer' => [
@@ -69,18 +71,18 @@ class CustomerController extends Controller
     public function store()
     {
         $data = request()->validate([
-            'name' => ['required', 'unique:customers']
+            'name' => 'required|unique:customers'
         ]);
 
         Customer::create($data);
         $previous_url = session()->get('customer_previous_url', route('Customers'));
         session()->forget('customer_previous_url');
 
-        return $previous_url == route('Entry.create')
-            ? redirect($previous_url)
-                ->with('createdCustomerId', Customer::latest()->first()->id)
-            : redirect()->back()
-                ->with('success', 'Customer created successfully.');
+        return ($previous_url == route('Customers') or $previous_url == route('Home'))
+            ? redirect()->back()
+                ->with('success', 'Customer created successfully.')
+            : redirect($previous_url)
+                ->with('createdCustomerId', Customer::latest()->first()->id);
     }
 
     public function delete()
@@ -98,7 +100,7 @@ class CustomerController extends Controller
     public function update($id)
     {
         $data = request()->validate([
-            'name' => ['required', 'unique:customers,name,' . $id]
+            'name' => 'required|unique:customers,name,' . $id
         ]);
 
         Customer::whereId($id)->update($data);

@@ -58,12 +58,12 @@ $(() => {
                                 <td>${item.cost}</td>
                                 <td>${item.description}</td>
                                 <td>
-                                    <a href=" . route('Item.records', ['id' => ${item.id}]) . " type="button"
+                                    <a href="${item.record_link}" type="button"
                                     class="btn btn-sm btn-info col-8 offset-2">View</a>
                                 </td>
                                 <td>
                                     <div class="d-flex justify-content-end gap-2">
-                                        <a href=" . route('Item.edit', ['id' => ${item.id}]) . " class="text-decoration-none">
+                                        <a href="${item.edit_link}" class="text-decoration-none">
                                             <svg id="edit" width="20" height="20" xmlns="http://www.w3.org/2000/svg"
                                                 class="icon-link-hover">
                                                 <use href="#pencil-square" fill="none" stroke="var(--bs-body-color)"
