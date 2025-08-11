@@ -36,12 +36,14 @@
                 <div class="col-md-6 form-group p-0 ps-2">
                     <!-- Search bar for the filter column -->
                     <label for="search" class="col-md-4 pt-0 col-form-label text-md-right">Search</label>
-                    <div class="form-group p-0 w-100 d-flex align-items-end">
-                        <input class="form-control rounded-0 rounded-start" type="search" placeholder="Search" aria-label="Search" id="search"
+                    <div class="form-group p-0 w-100 d-flex align-items-end p-0 position-relative">
+                        <input class="form-control" type="search" placeholder="Search" aria-label="Search" id="search"
                             value="{{ Session::get('customer') ?? (Session::get('item') ?? '') }}">
-                        <div class="dropdown">
+                        <div class="dropdown position-absolute end-0 top-50 translate-middle-y d-flex">
                             <!-- Filter dropdown button that displays the filter column search options -->
-                            <button id="dropdown_btn" class="btn btn-secondary dropdown-toggle rounded-0 rounded-end" type="button"
+                            <button id="dropdown_btn"
+                                class="btn btn-secondary dropdown-toggle rounded-0 rounded-end border-0 rounded-end-1"
+                                style="margin-right: calc(1 * var(--bs-border-width))" type="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">Search by
                             </button>
                             <!-- Filter column search dropdown menu -->

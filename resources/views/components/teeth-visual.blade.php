@@ -1,57 +1,80 @@
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
     viewBox="0 0 450 700" enable-background="new 0 0 450 700" xml:space="preserve">
     <g id="toothLabels">
-        <text id="UR-1" transform="matrix(1 0 0 1 231 112)" font-family="'Avenir-Heavy'" font-size="21px">1</text>
-        <text id="UR-2" transform="matrix(1 0 0 1 261 118)" font-family="'Avenir-Heavy'" font-size="21px">2</text>
-        <text id="UR-3" transform="matrix(1 0 0 1 283 142)" font-family="'Avenir-Heavy'" font-size="21px">3</text>
-        <text id="UR-4" transform="matrix(1 0 0 1 300 172)" font-family="'Avenir-Heavy'" font-size="21px">4</text>
-        <text id="UR-5" transform="matrix(1 0 0 1 312 200)" font-family="'Avenir-Heavy'" font-size="21px">5</text>
-        <text id="UR-6" transform="matrix(1 0 0 1 328 236)" font-family="'Avenir-Heavy'" font-size="21px">6</text>
-        <text id="UR-7" transform="matrix(1 0 0 1 335 275)" font-family="'Avenir-Heavy'" font-size="21px">7</text>
-        <text id="UR-8" transform="matrix(1 0 0 1 338 324)" font-family="'Avenir-Heavy'" font-size="21px">8</text>
-        <text id="UL-1" transform="matrix(1 0 0 1 200 112)" font-family="'Avenir-Heavy'" font-size="21px">1</text>
-        <text id="UL-2" transform="matrix(1 0 0 1 170 118)" font-family="'Avenir-Heavy'" font-size="21px">2</text>
-        <text id="UL-3" transform="matrix(1 0 0 1 148 142)" font-family="'Avenir-Heavy'" font-size="21px">3</text>
-        <text id="UL-4" transform="matrix(1 0 0 1 131 172)" font-family="'Avenir-Heavy'" font-size="21px">4</text>
-        <text id="UL-5" transform="matrix(1 0 0 1 119 200)" font-family="'Avenir-Heavy'" font-size="21px">5</text>
-        <text id="UL-6" transform="matrix(1 0 0 1 103 236)" font-family="'Avenir-Heavy'" font-size="21px">6</text>
-        <text id="UL-7" transform="matrix(1 0 0 1 096 275)" font-family="'Avenir-Heavy'" font-size="21px">7</text>
-        <text id="UL-8" transform="matrix(1 0 0 1 093 324)" font-family="'Avenir-Heavy'" font-size="21px">8</text>
-        <text id="LR-1" transform="matrix(1 0 0 1 232 628)" font-family="'Avenir-Heavy'" font-size="21px">1</text>
-        <text id="LR-2" transform="matrix(1 0 0 1 260 621)" font-family="'Avenir-Heavy'" font-size="21px">2</text>
-        <text id="LR-3" transform="matrix(1 0 0 1 282 603)" font-family="'Avenir-Heavy'" font-size="21px">3</text>
-        <text id="LR-4" transform="matrix(1 0 0 1 303 573)" font-family="'Avenir-Heavy'" font-size="21px">4</text>
-        <text id="LR-5" transform="matrix(1 0 0 1 321 538)" font-family="'Avenir-Heavy'" font-size="21px">5</text>
-        <text id="LR-6" transform="matrix(1 0 0 1 337 495)" font-family="'Avenir-Heavy'" font-size="21px">6</text>
-        <text id="LR-7" transform="matrix(1 0 0 1 345 449)" font-family="'Avenir-Heavy'" font-size="21px">7</text>
-        <text id="LR-8" transform="matrix(1 0 0 1 342 402)" font-family="'Avenir-Heavy'"
-            font-size="21px">8</text>
-        <text id="LL-1" transform="matrix(1 0 0 1 207 628)" font-family="'Avenir-Heavy'"
+        <text id="UR-1" transform="matrix(1 0 0 1 231 112)" fill="var(--bs-body-color)" font-family="'Avenir-Heavy'"
             font-size="21px">1</text>
-        <text id="LL-2" transform="matrix(1 0 0 1 179 621)" font-family="'Avenir-Heavy'"
-            font-size="21px">2</text>
-        <text id="LL-3" transform="matrix(1 0 0 1 157 603)" font-family="'Avenir-Heavy'"
-            font-size="21px">3</text>
-        <text id="LL-4" transform="matrix(1 0 0 1 136 573)" font-family="'Avenir-Heavy'"
-            font-size="21px">4</text>
-        <text id="LL-5" transform="matrix(1 0 0 1 118 538)" font-family="'Avenir-Heavy'"
-            font-size="21px">5</text>
-        <text id="LL-6" transform="matrix(1 0 0 1 102 495)" font-family="'Avenir-Heavy'"
-            font-size="21px">6</text>
-        <text id="LL-7" transform="matrix(1 0 0 1 094 449)" font-family="'Avenir-Heavy'"
-            font-size="21px">7</text>
-        <text id="LL-8" transform="matrix(1 0 0 1 097 402)" font-family="'Avenir-Heavy'"
-            font-size="21px">8</text>
+        <text id="UR-2" transform="matrix(1 0 0 1 261 118)" fill="var(--bs-body-color)"
+            font-family="'Avenir-Heavy'" font-size="21px">2</text>
+        <text id="UR-3" transform="matrix(1 0 0 1 283 142)" fill="var(--bs-body-color)"
+            font-family="'Avenir-Heavy'" font-size="21px">3</text>
+        <text id="UR-4" transform="matrix(1 0 0 1 300 172)" fill="var(--bs-body-color)"
+            font-family="'Avenir-Heavy'" font-size="21px">4</text>
+        <text id="UR-5" transform="matrix(1 0 0 1 312 200)" fill="var(--bs-body-color)"
+            font-family="'Avenir-Heavy'" font-size="21px">5</text>
+        <text id="UR-6" transform="matrix(1 0 0 1 328 236)" fill="var(--bs-body-color)"
+            font-family="'Avenir-Heavy'" font-size="21px">6</text>
+        <text id="UR-7" transform="matrix(1 0 0 1 335 275)" fill="var(--bs-body-color)"
+            font-family="'Avenir-Heavy'" font-size="21px">7</text>
+        <text id="UR-8" transform="matrix(1 0 0 1 338 324)" fill="var(--bs-body-color)"
+            font-family="'Avenir-Heavy'" font-size="21px">8</text>
+        <text id="UL-1" transform="matrix(1 0 0 1 200 112)" fill="var(--bs-body-color)"
+            font-family="'Avenir-Heavy'" font-size="21px">1</text>
+        <text id="UL-2" transform="matrix(1 0 0 1 170 118)" fill="var(--bs-body-color)"
+            font-family="'Avenir-Heavy'" font-size="21px">2</text>
+        <text id="UL-3" transform="matrix(1 0 0 1 148 142)" fill="var(--bs-body-color)"
+            font-family="'Avenir-Heavy'" font-size="21px">3</text>
+        <text id="UL-4" transform="matrix(1 0 0 1 131 172)" fill="var(--bs-body-color)"
+            font-family="'Avenir-Heavy'" font-size="21px">4</text>
+        <text id="UL-5" transform="matrix(1 0 0 1 119 200)" fill="var(--bs-body-color)"
+            font-family="'Avenir-Heavy'" font-size="21px">5</text>
+        <text id="UL-6" transform="matrix(1 0 0 1 103 236)" fill="var(--bs-body-color)"
+            font-family="'Avenir-Heavy'" font-size="21px">6</text>
+        <text id="UL-7" transform="matrix(1 0 0 1 096 275)" fill="var(--bs-body-color)"
+            font-family="'Avenir-Heavy'" font-size="21px">7</text>
+        <text id="UL-8" transform="matrix(1 0 0 1 093 324)" fill="var(--bs-body-color)"
+            font-family="'Avenir-Heavy'" font-size="21px">8</text>
+        <text id="LR-1" transform="matrix(1 0 0 1 232 628)" fill="var(--bs-body-color)"
+            font-family="'Avenir-Heavy'" font-size="21px">1</text>
+        <text id="LR-2" transform="matrix(1 0 0 1 260 621)" fill="var(--bs-body-color)"
+            font-family="'Avenir-Heavy'" font-size="21px">2</text>
+        <text id="LR-3" transform="matrix(1 0 0 1 282 603)" fill="var(--bs-body-color)"
+            font-family="'Avenir-Heavy'" font-size="21px">3</text>
+        <text id="LR-4" transform="matrix(1 0 0 1 303 573)" fill="var(--bs-body-color)"
+            font-family="'Avenir-Heavy'" font-size="21px">4</text>
+        <text id="LR-5" transform="matrix(1 0 0 1 321 538)" fill="var(--bs-body-color)"
+            font-family="'Avenir-Heavy'" font-size="21px">5</text>
+        <text id="LR-6" transform="matrix(1 0 0 1 337 495)" fill="var(--bs-body-color)"
+            font-family="'Avenir-Heavy'" font-size="21px">6</text>
+        <text id="LR-7" transform="matrix(1 0 0 1 345 449)" fill="var(--bs-body-color)"
+            font-family="'Avenir-Heavy'" font-size="21px">7</text>
+        <text id="LR-8" transform="matrix(1 0 0 1 342 402)" fill="var(--bs-body-color)"
+            font-family="'Avenir-Heavy'" font-size="21px">8</text>
+        <text id="LL-1" transform="matrix(1 0 0 1 207 628)" fill="var(--bs-body-color)"
+            font-family="'Avenir-Heavy'" font-size="21px">1</text>
+        <text id="LL-2" transform="matrix(1 0 0 1 179 621)" fill="var(--bs-body-color)"
+            font-family="'Avenir-Heavy'" font-size="21px">2</text>
+        <text id="LL-3" transform="matrix(1 0 0 1 157 603)" fill="var(--bs-body-color)"
+            font-family="'Avenir-Heavy'" font-size="21px">3</text>
+        <text id="LL-4" transform="matrix(1 0 0 1 136 573)" fill="var(--bs-body-color)"
+            font-family="'Avenir-Heavy'" font-size="21px">4</text>
+        <text id="LL-5" transform="matrix(1 0 0 1 118 538)" fill="var(--bs-body-color)"
+            font-family="'Avenir-Heavy'" font-size="21px">5</text>
+        <text id="LL-6" transform="matrix(1 0 0 1 102 495)" fill="var(--bs-body-color)"
+            font-family="'Avenir-Heavy'" font-size="21px">6</text>
+        <text id="LL-7" transform="matrix(1 0 0 1 094 449)" fill="var(--bs-body-color)"
+            font-family="'Avenir-Heavy'" font-size="21px">7</text>
+        <text id="LL-8" transform="matrix(1 0 0 1 097 402)" fill="var(--bs-body-color)"
+            font-family="'Avenir-Heavy'" font-size="21px">8</text>
     </g>
     <g id="quarters">
-        <text id="UR" transform="matrix(1 0 0 1 330 060)" font-family="'MyriadPro-Regular'"
-            font-size="16px">UPPER RIGHT</text>
-        <text id="UL" transform="matrix(1 0 0 1 010 060)" font-family="'MyriadPro-Regular'"
-            font-size="16px">UPPER LEFT</text>
-        <text id="LR" transform="matrix(1 0 0 1 330 660)" font-family="'MyriadPro-Regular'"
-            font-size="16px">LOWER RIGHT</text>
-        <text id="LL" transform="matrix(1 0 0 1 010 660)" font-family="'MyriadPro-Regular'"
-            font-size="16px">LOWER LEFT</text>
+        <text id="UR" transform="matrix(1 0 0 1 330 060)" fill="var(--bs-body-color)"
+            font-family="'MyriadPro-Regular'" font-size="16px">UPPER RIGHT</text>
+        <text id="UL" transform="matrix(1 0 0 1 010 060)" fill="var(--bs-body-color)"
+            font-family="'MyriadPro-Regular'" font-size="16px">UPPER LEFT</text>
+        <text id="LR" transform="matrix(1 0 0 1 330 660)" fill="var(--bs-body-color)"
+            font-family="'MyriadPro-Regular'" font-size="16px">LOWER RIGHT</text>
+        <text id="LL" transform="matrix(1 0 0 1 010 660)" fill="var(--bs-body-color)"
+            font-family="'MyriadPro-Regular'" font-size="16px">LOWER LEFT</text>
     </g>
     <g id="Spots">
         <polygon id="Tooth1" fill="#FFFFFF" data-key="1"

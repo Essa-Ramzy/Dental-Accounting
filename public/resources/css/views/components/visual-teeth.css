@@ -13,10 +13,6 @@
     fill: #ff0000 !important;
 }
 
-.tooth-chart text {
-    fill: var(--bs-body-color);
-}
-
 .teeth-popover {
     min-width: 15%;
 }
