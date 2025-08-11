@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="{{ asset('resources/css/daterangepicker.min.css') }}">
     <script src="{{ asset('resources/js/moment.min.js') }}"></script>
     <script src="{{ asset('resources/js/daterangepicker.min.js') }}"></script>
-    <script src="{{ asset('resources/js/views/table.js') }}"></script>
+    <script src="{{ asset('resources/js/views/layouts/table.js') }}"></script>
 @endsection
 @section('layout')
     <!-- This is the layout for the table view -->
@@ -55,7 +55,7 @@
         </div>
         <!-- Table to display the data -->
         <div class="container-fluid table-responsive flex-grow-1">
-            <table class="table table-striped m-0">
+            <table id="dataTable" class="table table-striped m-0">
                 @yield('content')
             </table>
         </div>

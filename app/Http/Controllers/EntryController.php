@@ -14,7 +14,7 @@ class EntryController extends Controller
     {
         $entries = Entry::with(['customer', 'item'])->get();
         $view = "Entry";
-        return view('entries.index', compact('entries', 'view'));
+        return view('pages.entries', compact('entries', 'view'));
     }
 
     private function searchFunc()
@@ -106,7 +106,17 @@ class EntryController extends Controller
             'item' => 'required',
             'date' => 'nullable|date',
             'teeth' => 'required',
-            'discount' => 'nullable'
+            'discount' => [
+                'nullable',
+                function ($attribute, $value, $fail) {
+                    $item = Item::where('name', request('item'))->first();
+                    $price = $item ? $item->price : 0;
+                    $total = $price * count(request('teeth') ?? []);
+                    if ($value > $total) {
+                        $fail('Discount cannot exceed total price');
+                    }
+                }
+            ],
         ]);
 
         $customer = Customer::where('name', '=', request('name'))->first();
@@ -148,12 +158,81 @@ class EntryController extends Controller
 
         Entry::create($data);
 
-        return redirect(route('Entries'));
+        return redirect()->back()
+            ->with('success', 'Entry created successfully.');
     }
 
     public function delete()
     {
         $this->searchFunc()->each->delete();
+        return redirect(route('Entries'));
+    }
+
+    public function edit($id)
+    {
+        $entry = Entry::find($id);
+        $customers = Customer::all();
+        $items = Item::all();
+        return view('forms.edit-entry', compact('entry', 'customers', 'items'));
+    }
+
+    public function update($id)
+    {
+        $data = request()->validate([
+            'name' => 'required',
+            'item' => 'required',
+            'price' => 'required|numeric',
+            'cost' => 'required|numeric',
+            'date' => 'nullable|date',
+            'teeth' => 'required',
+            'discount' => [
+                'nullable',
+                function ($attribute, $value, $fail) {
+                    $total = request('price') * count(request('teeth') ?? []);
+                    if ($value > $total) {
+                        $fail('Discount cannot exceed total price');
+                    }
+                }
+            ],
+        ]);
+
+        $customer = Customer::where('name', '=', request('name'))->first();
+        $item = Item::where('name', '=', request('item'))->first();
+
+        $data['customer_id'] = $customer->id;
+        $data['item_id'] = $item->id;
+
+        $data['amount'] = count($data['teeth']);
+        $data['price'] = $data['price'] * $data['amount'] - $data['discount'];
+        $data['cost'] = $data['cost'] * $data['amount'];
+
+        $result = [];
+        $sub = '';
+
+        for ($i = 0; $i < $data['amount']; $i++) {
+            if ($i == 0) {
+                $sub = $data['teeth'][$i];
+            } else {
+                if (substr($data['teeth'][$i], 0, 2) != substr($data['teeth'][$i - 1], 0, 2)) {
+                    $result[] = $sub;
+                    $sub = $data['teeth'][$i];
+                } else {
+                    $sub .= substr($data['teeth'][$i], 3);
+                }
+            }
+        }
+
+        $result[] = $sub;
+        $data['teeth'] = implode(', ', $result);
+
+        if ($data['date'] == null)
+            $data['date'] = now();
+
+        if ($data['discount'] == null)
+            $data['discount'] = 0;
+
+        Entry::find($id)->update($data);
+
         return redirect(route('Entries'));
     }
 

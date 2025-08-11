@@ -22,6 +22,11 @@ class Entry extends Model
                 ->map(fn($n) => "$pair[0]-$n"));
     }
 
+    public function getUnitCostAttribute()
+    {
+        return $this->cost / $this->amount;
+    }
+
     public function customer()
     {
         return $this->belongsTo(Customer::class);

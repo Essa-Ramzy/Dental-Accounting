@@ -4,7 +4,8 @@ $(() => {
         amount = null,
         discount = null,
     }) => {
-        currency_mode = $(".mode-btn.active").data("mode") === "currency";
+        currency_mode =
+            $(".discount-mode-btn.active").data("mode") === "currency";
         if (unitPrice === null) {
             unitPrice = parseInt(
                 $("#receipt-unit-price").text().replace("E£ ", "")
@@ -18,7 +19,8 @@ $(() => {
                 $("#receipt-discount")
                     .text()
                     .replace(/^(E£|%)\s*/, "") || 0
-            ).toFixed(2);
+            );
+            discount = discount.toFixed(Number.isInteger(discount) ? 0 : 2);
         }
         if (currency_mode) {
             total = unitPrice * amount - discount;
@@ -30,7 +32,9 @@ $(() => {
         $("#receipt-discount").text(
             `${currency_mode ? "E£" : "%"} ${discount}`
         );
-        $("#receipt-total").text(`E£ ${total.toFixed(2)}`);
+        $("#receipt-total").text(
+            `E£ ${total.toFixed(Number.isInteger(total) ? 0 : 2)}`
+        );
     };
 
     $(document).on("change", "#name", (e) => {
@@ -60,47 +64,73 @@ $(() => {
         }
     });
 
+    $(document).on("click", ".price-mode-btn", (e) => {
+        item = $("#item").find(":selected");
+        if (!$(e.currentTarget).hasClass("active")) {
+            $(".price-mode-btn").removeClass("active");
+            $(e.currentTarget).addClass("active");
+            if ($(e.currentTarget).data("mode") === "old") {
+                item.data("price", item.data("old-price"));
+                $("#price").val(item.data("old-price"));
+                $("#cost").val(
+                    item.data("old-cost") * $("#teeth").val().length
+                );
+            } else {
+                item.data("price", item.data("new-price"));
+                $("#price").val(item.data("new-price"));
+                $("#cost").val(
+                    item.data("new-cost") * $("#teeth").val().length
+                );
+            }
+            updateReceipt({ unitPrice: item.data("price") });
+        }
+    });
+
     $(document).on("change", "#date", (e) => {
         sessionStorage.setItem("date", $(e.currentTarget).val());
     });
 
     $(document).on("change", "#discount", (e) => {
-        discount = parseFloat($(e.currentTarget).val()).toFixed(2);
+        discountVal = parseFloat($(e.currentTarget).val());
+        discount = discountVal.toFixed(Number.isInteger(discountVal) ? 0 : 2);
         sessionStorage.setItem("discount", discount);
         updateReceipt({ discount });
     });
 
-    $(document).on("click", ".mode-btn", (e) => {
-        let input = $("#discount");
-        let oldValue = parseFloat(input.val()) || 0;
-        let oldMode = $(".mode-btn.active").data("mode");
+    $(document).on("click", ".discount-mode-btn", (e) => {
+        let discount = $("#discount");
+        let Value = parseFloat(discount.val()) || 0;
+        let oldMode = $(".discount-mode-btn.active").data("mode");
         let newMode = $(e.currentTarget).data("mode");
 
-        $(e.currentTarget).siblings(".mode-btn").removeClass("active");
+        $(e.currentTarget).siblings(".discount-mode-btn").removeClass("active");
         $(e.currentTarget).addClass("active");
         sessionStorage.setItem("discount_mode", newMode);
 
         if (oldMode !== newMode) {
-            let amount = $("#teeth").val()?.length || 0;
-            let price = $("#item").find(":selected")?.data("price") || 0;
+            let amount = $("#teeth").val().length || 0;
+            let price = $("#item").find(":selected").data("price") || 0;
             let total = amount * price;
 
             if (total > 0) {
                 if (newMode === "currency") {
                     // Percent → Currency
-                    newValue = (oldValue / 100) * total;
+                    Value = (Value / 100) * total;
                 } else {
                     // Currency → Percent
-                    newValue = (oldValue / total) * 100;
+                    Value = (Value / total) * 100;
                 }
             } else {
-                newValue = 0;
+                Value = 0;
             }
+            Value = parseFloat(Value.toFixed(2));
         }
-        newValue = newValue.toFixed(2);
+        Value = Value.toFixed(Number.isInteger(Value) ? 0 : 2);
 
-        input.val(isFinite(newValue) && newValue != 0 ? newValue : "");
-        updateReceipt({ discount: newValue });
+        discount
+            .val(isFinite(Value) && Value != 0 ? Value : "")
+            .trigger("focus");
+        updateReceipt({ discount: Value });
     });
 
     $("#name.selectpicker").selectpicker({
@@ -192,7 +222,10 @@ $(() => {
         updateReceipt({ amount: selected.length });
     });
 
-    if (performance.getEntriesByType("navigation")[0].type === "reload") {
+    if (
+        performance.getEntriesByType("navigation")[0].type === "reload" ||
+        $(".fade-out").length
+    ) {
         sessionStorage.removeItem("customer");
         sessionStorage.removeItem("item");
         sessionStorage.removeItem("teeth");
@@ -217,7 +250,9 @@ $(() => {
         $("#teeth")
             .selectpicker("val", sessionStorage.getItem("teeth").split(","))
             .trigger("change");
-        updateReceipt({ amount: sessionStorage.getItem("teeth").split(",").length });
+        updateReceipt({
+            amount: sessionStorage.getItem("teeth").split(",").length,
+        });
     }
 
     if (sessionStorage.getItem("date")) {
@@ -230,7 +265,25 @@ $(() => {
     }
 
     if (sessionStorage.getItem("discount_mode")) {
-        $(".mode-btn").removeClass("active");
-        $(".mode-btn[data-mode='" + sessionStorage.getItem("discount_mode") + "']").addClass("active");
+        $(".discount-mode-btn").removeClass("active");
+        $(
+            ".discount-mode-btn[data-mode='" +
+                sessionStorage.getItem("discount_mode") +
+                "']"
+        ).addClass("active");
     }
+
+    $(document).on("submit", "form", (e) => {
+        if ($(".discount-mode-btn.active").data("mode") === "percent") {
+            $(".discount-mode-btn[data-mode='currency']").trigger("click");
+            sessionStorage.setItem("discount_mode", "percent");
+        }
+    });
+
+    discount = parseFloat($("#discount").val() || 0);
+    updateReceipt({
+        unitPrice: $("#item").find(":selected").data("price") || 0,
+        amount: $("#teeth").val().length || 0,
+        discount: discount.toFixed(Number.isInteger(discount) ? 0 : 2),
+    });
 });

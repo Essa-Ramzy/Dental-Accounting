@@ -4,6 +4,7 @@ $(() => {
     sessionStorage.removeItem("teeth");
     sessionStorage.removeItem("date");
     sessionStorage.removeItem("discount");
+    sessionStorage.removeItem("discount_mode");
 
     $(document).on("click", ".dropdown-item", (e) => {
         $("#dropdown_btn").text(e.currentTarget.textContent);

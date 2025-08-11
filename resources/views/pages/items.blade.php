@@ -1,34 +1,40 @@
 @extends('layouts.table')
 @section('head')
     @parent
-    <script src="{{ asset('resources/js/views/customers.js') }}"></script>
+    <script src="{{ asset('resources/js/views/pages/items.js') }}"></script>
 @endsection
 @section('content')
-    <!-- This is the layout for the customers table -->
+    <!-- This is the layout for the items table -->
     <thead>
         <tr>
             <th scope="col">#</th>
             <th scope="col">Date</th>
             <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Cost</th>
+            <th scope="col">Description</th>
             <th scope="col" class="text-center">Records</th>
             <th scope="col"></th>
         </tr>
     </thead>
     <tbody>
-        @foreach ($customers as $customer)
+        @foreach ($items as $item)
             <tr>
-                <th scope="row">{{ $customer->id }}</th>
-                <td>{{ $customer->updated_at->format('d-m-Y') }}</td>
-                <td>{{ $customer->name }}</td>
-                <!-- View the records of the customer in the entries table -->
+                <th scope="row">{{ $item->id }}</th>
+                <td>{{ $item->updated_at->format('d-m-Y') }}</td>
+                <td>{{ $item->name }}</td>
+                <td>{{ $item->price }}</td>
+                <td>{{ $item->cost }}</td>
+                <td>{{ $item->description }}</td>
+                <!-- View the records of the item in the entries table -->
                 <td>
-                    <a href="{{ route('Customer.records', ['id' => $customer->id]) }}" type="button"
+                    <a href="{{ route('Item.records', ['id' => $item->id]) }}" type="button"
                         class="btn btn-sm btn-info col-8 offset-2">View</a>
                 </td>
-                <!-- Edit and delete the customer -->
+                <!-- Edit and delete the item -->
                 <td>
                     <div class="d-flex justify-content-end gap-2">
-                        <a href="{{ route('Customer.edit', ['id' => $customer->id]) }}" class="text-decoration-none">
+                        <a href="{{ route('Item.edit', ['id' => $item->id]) }}" class="text-decoration-none">
                             <svg id="edit" width="20" height="20" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg" class="icon-link-hover">
                                 <path
@@ -39,7 +45,7 @@
                                     stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </a>
-                        <a class="text-decoration-none" data-bs-toggle="modal" href="#deleteModal" id="{{ $customer->id }}">
+                        <a class="text-decoration-none" data-bs-toggle="modal" href="#deleteModal" id="{{ $item->id }}">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="#FFFFFF" width="24" height="24"
                                 viewBox="0 0 24 24">
                                 <path
@@ -53,9 +59,9 @@
     </tbody>
     <tfoot>
         <tr>
-            <th scope="row" colspan="4" class="text-md-center">Number of Customers: {{ $customers->count() }}</th>
+            <th scope="row" colspan="7" class="text-md-center">Number of Items: {{ $items->count() }}</th>
+            <!-- Delete all the items displayed in the table -->
             <td>
-                <!-- Delete all the customers displayed in the table -->
                 <div class="text-end">
                     <a class="text-decoration-none" data-bs-toggle="modal" href="#deleteModal">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="#FFFFFF" width="24" height="24"
@@ -70,26 +76,29 @@
     </tfoot>
 @endsection
 @section('dropdown')
-    <!-- This is the dropdown menu for the filter column search in the customers table -->
+    <!-- This is the dropdown menu for the filter column search options in the items table -->
     <li class="dropdown-item">All</li>
     <li class="dropdown-item">ID</li>
     <li class="dropdown-item">Name</li>
+    <li class="dropdown-item">Price</li>
+    <li class="dropdown-item">Cost</li>
 @endsection
 @section('modal')
-    <!-- This is the delete modal for the customers table -->
+    <!-- This is the modal for deleting an item -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="Delete">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content rounded-3 shadow">
                 <div class="modal-body p-4 text-center">
-                    <h5 class="mb-0">Delete Selected Customer(s)?</h5>
-                    <p class="mb-0">You can always change your mind. All the entries related to this customer will be
-                        deleted as well. Are you Sure?</p>
+                    <h5 class="mb-0">Delete Selected Item(s)?</h5>
+                    <p class="mb-0">You can always change your mind. All the entries related to this item will be
+                        deleted as
+                        well. Are you Sure?</p>
                 </div>
-                <form class="modal-footer flex-nowrap p-0" action="{{ route('Customer.delete') }}" method="post"
+                <form class="modal-footer flex-nowrap p-0" action="{{ route('Item.delete') }}" method="post"
                     enctype="multipart/form-data">
                     @csrf
                     @method('delete')
-                    <!-- Hidden input in case of deleting several customers -->
+                    <!-- Hidden inputs in case of deleting several items -->
                     <input hidden aria-label="delete_filter" name="filter">
                     <input hidden aria-label="delete_search" name="search">
                     <input hidden aria-label="delete_from_date" name="from_date">

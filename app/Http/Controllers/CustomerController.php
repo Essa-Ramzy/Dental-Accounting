@@ -11,7 +11,7 @@ class CustomerController extends Controller
     {
         $customers = Customer::all();
         $view = "Customer";
-        return view('entries.customers', compact('customers', 'view'));
+        return view('pages.customers', compact('customers', 'view'));
     }
 
     private function searchFunc()
@@ -63,7 +63,7 @@ class CustomerController extends Controller
             session()->put('customer_previous_url', url()->previous());
         }
         return view('forms.add-customer')
-            ->with('previousUrl', session('customer_previous_url'));
+            ->with('previousUrl', session('customer_previous_url', route('Customers')));
     }
 
     public function store()
@@ -73,9 +73,14 @@ class CustomerController extends Controller
         ]);
 
         Customer::create($data);
+        $previous_url = session()->get('customer_previous_url', route('Customers'));
+        session()->forget('customer_previous_url');
 
-        return redirect(session()->get('customer_previous_url', route('Customers')))
-            ->with('createdCustomerId', Customer::latest()->first()->id);
+        return $previous_url == route('Customers')
+            ? redirect()->back()
+                ->with('success', 'Customer created successfully.')
+            : redirect($previous_url)
+                ->with('createdCustomerId', Customer::latest()->first()->id);
     }
 
     public function delete()

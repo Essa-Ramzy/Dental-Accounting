@@ -37,9 +37,11 @@ Route::delete('/delete', 'App\Http\Controllers\EntryController@delete')->name('E
 Route::delete('/items/delete', 'App\Http\Controllers\ItemController@delete')->name('Item.delete');
 Route::delete('/customers/delete', 'App\Http\Controllers\CustomerController@delete')->name('Customer.delete');
 // Edit routes to render the edit forms
+Route::get('/entries/{id}/edit', 'App\Http\Controllers\EntryController@edit')->name('Entry.edit');
 Route::get('/items/{id}/edit', 'App\Http\Controllers\ItemController@edit')->name('Item.edit');
 Route::get('/customers/{id}/edit', 'App\Http\Controllers\CustomerController@edit')->name('Customer.edit');
 // Update routes to update the data in the database
+Route::patch('/entries/{id}/update', 'App\Http\Controllers\EntryController@update')->name('Entry.update');
 Route::patch('/items/{id}/update', 'App\Http\Controllers\ItemController@update')->name('Item.update');
 Route::patch('/customers/{id}/update', 'App\Http\Controllers\CustomerController@update')->name('Customer.update');
 // Routes to show the records of the customers and items in entries

@@ -11,7 +11,7 @@ class ItemController extends Controller
     {
         $items = Item::all();
         $view = "Item";
-        return view('entries.items', compact('items', 'view'));
+        return view('pages.items', compact('items', 'view'));
     }
 
     private function searchFunc()
@@ -69,7 +69,7 @@ class ItemController extends Controller
             session()->put('item_previous_url', url()->previous());
         }
         return view('forms.add-item')
-            ->with('previousUrl', session('item_previous_url'));
+            ->with('previousUrl', session('item_previous_url', route('Items')));
     }
 
     public function store()
@@ -86,9 +86,14 @@ class ItemController extends Controller
         }
 
         Item::create($data);
+        $previous_url = session()->get('item_previous_url', route('Items'));
+        session()->forget('item_previous_url');
 
-        return redirect(session()->get('item_previous_url', route('Items')))
-            ->with('createdItemId', Item::latest()->first()->id);
+        return $previous_url == route('Items')
+            ? redirect()->back()
+                ->with('success', 'Item created successfully.')
+            : redirect($previous_url)
+                ->with('createdItemId', Item::latest()->first()->id);
     }
 
     public function delete()
@@ -116,7 +121,7 @@ class ItemController extends Controller
             $data['description'] = "N/A";
         }
 
-        Item::where('id', $id)->update($data);
+        Item::find($id)->update($data);
 
         return redirect(route('Items'));
     }
