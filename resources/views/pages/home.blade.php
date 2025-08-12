@@ -6,8 +6,10 @@
     <!-- Hero Cover Section -->
     <div class="position-relative overflow-hidden min-vh-90">
         <!-- Background Image -->
-        <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-75" id="hero-bg"
+        <div class="position-absolute top-0 start-0 w-100 h-100" id="hero-bg"
             style="background-image: url('{{ asset('resources/img/hero-bg.png') }}');">
+        </div>
+        <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-50">
         </div>
         <!-- Content -->
         <div class="container position-absolute top-50 start-50 translate-middle h-100 d-flex align-items-center"

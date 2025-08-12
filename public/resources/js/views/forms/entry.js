@@ -72,15 +72,14 @@ $(() => {
         if (!item.data("new-price")) {
             $("#price").val(item.data("price"));
             $("#cost").val("");
-        }
-        else if ($(e.currentTarget).data("mode") === "old") {
+        } else if ($(e.currentTarget).data("mode") === "old") {
             item.data("price", item.data("old-price"));
             $("#price").val(item.data("old-price"));
             $("#cost").val(item.data("old-cost"));
         } else {
             item.data("price", item.data("new-price"));
             $("#price").val(item.data("new-price"));
-            $("#cost").val(item.data("new-cost") * $("#teeth").val().length);
+            $("#cost").val(item.data("new-cost"));
         }
         updateReceipt({ unitPrice: item.data("price") });
     });

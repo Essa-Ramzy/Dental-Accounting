@@ -1,230 +1,630 @@
 # Dental Clinic Accounting Web Application
 
 ![Version](https://img.shields.io/badge/version-1.0.0-blue)
-![Build](https://img.shields.io/badge/build-passing-brightgreen)
+![Laravel](https://img.shields.io/badge/Laravel-12.x-FF2D20?logo=laravel)
+![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?logo=php)
 ![License](https://img.shields.io/badge/license-MIT-green)
+
+A comprehensive web application designed for dental clinics to manage accounting records, track patient treatments, and generate detailed reports with visual tooth selection interface.
+
+## Key Features
+
+-   **Interactive Tooth Selection**: Visual SVG-based tooth chart for precise treatment recording
+-   **Patient Management**: Complete CRUD operations for customer records
+-   **Treatment Tracking**: Detailed entry system with pricing, discounts, and cost tracking
+-   **Inventory Management**: Item catalog with pricing and cost management
+-   **Advanced Filtering**: Search and filter entries by date, customer, item, and more
+-   **PDF Export**: Generate detailed reports with customizable column selection
+-   **Responsive Design**: Modern Bootstrap-based UI with dark/light theme support
+-   **Real-time Calculations**: Automatic price calculations with discount support
 
 ## Table of Contents
 
-- [Demo](#demo)
-- [Getting Started](#getting-started)
-    - [Prerequisites](#prerequisites)
-    - [Setup](#setup)
-    - [Install Dependencies](#install-dependencies)
-    - [Configure the Application](#configure-the-application)
-    - [Access the Application](#access-the-application)
-- [Overview](#overview)
-    - [Models](#models)
-    - [Controllers](#controllers)
-- [Using the Application](#using-the-application)
+-   [Demo](#demo)
+-   [Technology Stack](#technology-stack)
+-   [Getting Started](#getting-started)
+    -   [Prerequisites](#prerequisites)
+    -   [Installation](#installation)
+    -   [Configuration](#configuration)
+    -   [Database Setup](#database-setup)
+    -   [Running the Application](#running-the-application)
+    -   [Setup Guide Video](#setup-guide-video)
+-   [Project Structure](#project-structure)
+    -   [Models](#models)
+    -   [Controllers](#controllers)
+    -   [Views](#views)
+    -   [Components](#components)
+-   [Features & Usage](#features--usage)
+    -   [Entry Management](#entry-management)
+    -   [Patient Management](#patient-management)
+    -   [Item Management](#item-management)
+    -   [Visual Teeth Selection](#visual-teeth-selection)
+    -   [Search & Filtering](#search--filtering)
+    -   [PDF Export](#pdf-export)
+-   [API Routes](#api-routes)
+-   [Development](#development)
 
 ## Demo
 
-[Demo](https://github.com/user-attachments/assets/577c3432-b4a3-4f0f-8f1b-124e50308783)
+<div align="center">
+  <video src="https://github.com/user-attachments/assets/577c3432-b4a3-4f0f-8f1b-124e50308783" alt="Demo Video" style="border-radius: 15px; max-width: 80%;" controls>
+    <em>If you can't see the video, <a href="https://github.com/user-attachments/assets/577c3432-b4a3-4f0f-8f1b-124e50308783">click here to watch it directly</a>.</em>
+  </video>
+</div>
+
+## Technology Stack
+
+-   **Backend**: Laravel 12.x
+-   **Frontend**: Bootstrap 5, jQuery, HTML5, CSS3
+-   **Database**: MySQL
+-   **PDF Generation**: Spatie Laravel PDF with Puppeteer
+-   **Interactive Components**: SVG-based tooth visualization
+-   **PHP Version**: 8.2+
 
 ## Getting Started
 
-Before you can use the application, you need to start the project. Here are the general steps you might follow:
-
 ### Prerequisites
 
-1. **Install XAMPP**: If you haven't already, download and install XAMPP from the [official website](https://www.apachefriends.org/index.html).
+Before setting up the application, ensure you have the following installed:
 
-2. **Install 7z or Git**: These are required for some dependencies during the `composer install` process. You can download 7z from the [official website](https://www.7-zip.org/download.html) and Git from its [official website](https://git-scm.com/downloads).
+1. **Web Server** (Choose one):
 
-3. **Install Composer**: Composer is a tool for dependency management in PHP. You can download it from the [official website](https://getcomposer.org/download/).
+    - **XAMPP** (Recommended for beginners): [apachefriends.org](https://www.apachefriends.org/)
+    - **WAMP**: [wampserver.com](http://www.wampserver.com/)
+    - **MAMP**: [mamp.info](https://www.mamp.info/)
+    - Or any other Apache/Nginx server
 
-4. **Install Node.js**: Node.js is a JavaScript runtime built on Chrome's V8 JavaScript engine. You can download it from the [official website](https://nodejs.org/en/download/).
+2. **Composer**
 
-### Setup
+    - Download from [getcomposer.org](https://getcomposer.org/download/)
 
-5. **Clone the Repository**: Clone the project repository to your local machine using Git.
+3. **Node.js & NPM**
 
-6. **Place the Project in htdocs**: Move the project folder into the `htdocs` directory inside your XAMPP installation directory.
+    - Download from [nodejs.org](https://nodejs.org/)
+    - Required for PDF generation (Puppeteer dependency)
 
-### Install Dependencies
+4. **MySQL Database Server and PHP** (Usually included with the web server packages above)
 
-7. **Install PHP Dependencies**: Navigate to the project directory in your terminal and run the following command:
+### Installation
+
+1. **Clone or Download the Repository**
 
     ```bash
+    git clone https://github.com/Essa-Ramzy/Dental-Accounting.git
+    # or download and extract the ZIP file
+    ```
+
+2. **Move to Web Server Directory**
+
+    - For XAMPP: Move the project folder to `xampp/htdocs/`
+    - For other servers: Move to the appropriate document root
+
+3. **Install PHP Dependencies**
+
+    ```bash
+    cd dental-accounting
     composer install
     ```
 
-8. **Install JavaScript Dependencies (required for PDF export feature)**: Continue in the project directory and execute the following command:
-
+4. **Install Node.js Dependencies**
     ```bash
     npm install
     ```
 
-### Configure the Application
+### Configuration
 
-9. **Generate Key**: After installing all the dependencies, you need to generate a new application key. Run the following command in your terminal:
+1. **Environment Setup**
+
     ```bash
+    # Copy the example environment file
+    cp .env.example .env
+
+    # Generate application key
     php artisan key:generate
     ```
 
-10. **Setup the Database**: First, if you don't have a `.env` file in your project root, you can create one by making a copy of the `.env.example` file and renaming it to `.env`. Then, update the `.env` file with your database connection details. The host will usually be `localhost` and the database will be the name of the database you want to create.
+2. **Database Configuration**
 
-11. **Run Migrations**: Execute the following command in your terminal:
+    Open the `.env` file and update the database settings:
+
+    ```env
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=dental_accounting
+    DB_USERNAME=root
+    DB_PASSWORD=your_password
+    ```
+
+3. **Create Database**
+    - Open phpMyAdmin (usually at `http://localhost/phpmyadmin`)
+    - Create a new database named `dental_accounting` (or your chosen name)
+
+### Database Setup
+
+1. **Run Migrations**
 
     ```bash
     php artisan migrate
     ```
 
-    This command will migrate the database. If the database does not exist, Laravel will prompt you to create it. Confirm the creation and Laravel will generate the necessary tables in your database.
+2. **Seed Sample Data** (Optional)
+    ```bash
+    php artisan db:seed
+    ```
+    This will create sample customers, items, and entries for testing.
 
-### Access the Application
+### Running the Application
 
-12. **Start XAMPP**: Open the XAMPP control panel and start the Apache and MySQL services.
+1. **Start Web Server Services**
 
-13. You should now be able to access the application in your web browser at `http://localhost/your_project_folder/public`.
+    - **XAMPP**: Open XAMPP Control Panel and start Apache and MySQL
+    - **Other servers**: Start according to your server's documentation
 
-Please note that these are general steps and the actual steps may vary based on the specific setup of your project. Always refer to any setup instructions provided in the project repository for the most accurate information.
+2. **Access the Application**
 
-### Step-by-Step Video Guide for Project Startup
+    - Open your browser and navigate to:
+        ```
+        http://localhost/Dental-Accounting/public
+        ```
+    - Or if using a virtual host: `http://your-domain.local`
 
-For a visual walkthrough of the setup process, please watch our setup guide video:
+3. **Development Server** (Alternative - PDF Generation Won't Work)
+    ```bash
+    php artisan serve
+    ```
+    Then access at `http://localhost:8000`
 
-[Setup Guide Video](https://github.com/Essa-Ramzy/Dental-Accounting/assets/100089248/f823d116-ac87-4207-981a-1012028f9347)
+### Setup Guide Video
 
-## Overview
+<div align="center">
+  <video src="https://github.com/Essa-Ramzy/Dental-Accounting/assets/100089248/f823d116-ac87-4207-981a-1012028f9347" alt="Setup Guide Video" style="border-radius: 15px; max-width: 80%;" controls>
+    <em>If you can't see the video, <a href="https://github.com/Essa-Ramzy/Dental-Accounting/assets/100089248/f823d116-ac87-4207-981a-1012028f9347">click here to watch it directly</a>.</em>
+  </video>
+</div>
 
-This Laravel application is structured around the MVC (Model-View-Controller) pattern. Here's a detailed overview of each component:
+## Project Structure
+
+This Laravel application follows the MVC (Model-View-Controller) architecture with additional components for enhanced functionality.
 
 ### Models
 
-Models represent the data structure of the application and are typically tied to database tables. Each model corresponds to a table in the database. They contain methods for retrieving, storing, and updating data in the database.
+The application uses three main Eloquent models representing the core entities:
 
-#### Item Model
+#### Customer Model (`app/Models/Customer.php`)
 
-The `Item` model represents an item in the application. 
+Represents clinic patients/customers.
 
-**Fields:**
+**Database Fields:**
 
-- `name`: The name of the item.
-- `price`: The price of the item.
-- `cost`: The cost of the item.
-- `description`: The description of the item.
-
-**Relationships:**
-
-- `hasMany('Entry')`: An item can have many entries.
-
-#### Customer Model
-
-The `Customer` model represents a customer in the application. 
-
-**Fields:**
-
-- `name`: The name of the customer.
+-   `id`: Primary key (auto-increment)
+-   `name`: Customer's full name (unique)
+-   `created_at`: Record creation timestamp
+-   `updated_at`: Last modification timestamp
 
 **Relationships:**
 
-- `hasMany('Entry')`: A customer can have many entries.
+-   `hasMany('Entry')`: A customer can have multiple treatment entries
 
-#### Entry Model
+**Key Features:**
 
-The `Entry` model represents an entry in the application.
+-   Unique name constraint to prevent duplicates
+-   Factory and seeder support for testing
 
-**Fields:**
+#### Item Model (`app/Models/Item.php`)
 
-- `customer_id`: The ID of the customer associated with the entry.
-- `item_id`: The ID of the item associated with the entry.
-- `date`: The date of the entry.
-- `teeth`: Specifies the teeth of the customer on which the item is being applied.
-- `amount`: The number of teeth involved in the entry.
-- `unit_price`: The price for one item being applied to one tooth.
-- `discount`: The discount for the entry.
-- `price`: The total price of the entry.
-- `cost`: The total cost of the entry.
+Represents dental procedures, treatments, or products.
+
+**Database Fields:**
+
+-   `id`: Primary key (auto-increment)
+-   `name`: Item/procedure name (unique)
+-   `price`: Selling price (integer, stored in pounds)
+-   `cost`: Item cost (integer, stored in pounds)
+-   `description`: Optional detailed description or notes
+-   `created_at`: Record creation timestamp
+-   `updated_at`: Last modification timestamp
 
 **Relationships:**
 
-- `belongsTo('Customer')`: Each entry belongs to a customer.
-- `belongsTo('Item')`: Each entry belongs to an item.
+-   `hasMany('Entry')`: An item can be used in multiple entries
+
+**Key Features:**
+
+-   Price and cost stored as integers to avoid floating-point issues
+-   Optional description field for detailed procedure notes
+-   Unique name constraint
+
+#### Entry Model (`app/Models/Entry.php`)
+
+Represents individual treatment records linking customers to items.
+
+**Database Fields:**
+
+-   `id`: Primary key (auto-increment)
+-   `customer_id`: Foreign key to customers table
+-   `item_id`: Foreign key to items table
+-   `date`: Treatment date
+-   `teeth`: Comma-separated list of affected teeth (e.g., "UR-125, UL-2, LL-45")
+-   `amount`: Number of teeth/units treated
+-   `unit_price`: Price per unit/tooth
+-   `discount`: Discount in pounds/percentage (decimal, 2 places)
+-   `price`: Total calculated price after discount
+-   `cost`: Total cost for the treatment
+-   `created_at`: Record creation timestamp
+-   `updated_at`: Last modification timestamp
+
+**Relationships:**
+
+-   `belongsTo('Customer')`: Each entry belongs to one customer
+-   `belongsTo('Item')`: Each entry belongs to one item/procedure
+
+**Computed Properties:**
+
+-   `teeth_list`: Converts teeth string to collection for easier manipulation
+-   `unit_cost`: Calculates cost per unit/tooth
+
+**Key Features:**
+
+-   Automatic price calculation based on amount, unit_price, and discount
+-   Flexible teeth notation system supporting dental quadrants (UR, UL, LR, LL)
+-   Financial tracking with separate cost and price fields
 
 ### Controllers
 
-Controllers handle the business logic of the application. They respond to HTTP requests, interact with models, and return views.
+Controllers handle HTTP requests and business logic, following RESTful conventions.
 
-#### ItemController
+#### EntryController (`app/Http/Controllers/EntryController.php`)
 
-The `ItemController` handles the CRUD operations for items. 
+Manages dental treatment entries with comprehensive CRUD operations.
 
-**Methods:**
+**Key Methods:**
 
-- `search`: This function is used to handle AJAX search requests. It uses the `searchFunc` to get the filtered items and constructs an HTML string for the body and footer of the table. If the request is not AJAX, it redirects to the items page.
-- `create`: Shows the form for creating a new item. It returns a view with the form.
-- `store`: Stores a newly created item in the database. It validates the request data and creates a new item. After creating the item, it redirects to the items page.
-- `delete`: Deletes items based on the search query, filter type, and date range. It uses the `searchFunc` to get the items to delete. After deleting the items, it redirects to the items page.
-- `edit`: Shows the form for editing an existing item. It finds the item by id and returns a view with the item.
-- `update`: Updates an existing item in the database. It validates the request data and updates the item. After updating the item, it redirects to the items page.
+-   `index()`: Display table of entries with relationships (customers, items)
+-   `create()`: Show entry creation form with customer/item dropdowns
+-   `store()`: Validate and save new entries with automatic calculations
+-   `edit($id)`: Display edit form pre-populated with entry data
+-   `update($id)`: Update existing entries with validation
+-   `delete()`: Bulk delete entries based on search criteria
+-   `search()`: AJAX endpoint for real-time filtering and search
+-   `customerRecords($id)`: Filter entries by specific customer
+-   `itemRecords($id)`: Filter entries by specific item
+-   `export()`: Generate PDF reports with custom column selection
 
-#### CustomerController
+**Validation Rules:**
 
-The `CustomerController` handles the CRUD operations for customers. 
+-   Discount must be a positive integer
+-   Optional description field
 
-**Methods:**
+**Special Features:**
 
-- `index`: Displays a list of customers. It retrieves all customers from the database and returns a view with the customers and the view name.
-- `searchFunc`: This private function is used to filter customers based on the search query, filter type, and date range. It returns the filtered customers.
-- `search`: This function is used to handle AJAX search requests. It uses the `searchFunc` to get the filtered customers and constructs an HTML string for the body and footer of the table. If the request is not AJAX, it redirects to the customers page.
-- `create`: Shows the form for creating a new customer.
-- `store`: Stores a newly created customer in the database. It validates the request data and creates a new customer. After creating the customer, it redirects to the customers page.
-- `delete`: Deletes customers based on the search query, filter type, and date range. It uses the `searchFunc` to get the customers to delete. After deleting the customers, it redirects to the customers page.
-- `edit`: Shows the form for editing an existing customer. It finds the customer by id and returns a view with the customer.
-- `update`: Updates an existing customer in the database. It validates the request data and updates the customer. After updating the customer, it redirects to the customers page.
+-   Advanced search functionality with multiple filter types
+-   Real-time AJAX table updates
+-   Bulk operations support
+-   PDF export with customizable layouts
 
-#### EntryController
+#### CustomerController (`app/Http/Controllers/CustomerController.php`)
 
-The `EntryController` handles the CRUD operations for entries. 
+Handles patient/customer management.
 
-**Methods:**
+**Key Methods:**
 
-- `index`: Displays a list of entries. It retrieves all entries from the database and returns a view with the entries and the view name.
-- `searchFunc`: This private function is used to filter entries based on the search query, filter type, and date range. It returns the filtered entries.
-- `search`: This function is used to handle AJAX search requests. It uses the `searchFunc` to get the filtered entries and constructs an HTML string for the body and footer of the table. If the request is not AJAX, it redirects to the home page.
-- `create`: Shows the form for creating a new entry. It retrieves all customers and items from the database and returns a view with them.
-- `store`: Stores a newly created entry in the database. It validates the request data and creates a new entry. After creating the entry, it redirects to the home page.
-- `delete`: Deletes entries based on the search query, filter type, and date range. It uses the `searchFunc` to get the entries to delete. After deleting the entries, it redirects to the home page.
-- `customerRecords`: Redirects to the home page with the name of a specific customer. It finds the customer by id and returns the customer's name.
-- `itemRecords`: Redirects to the home page with the name of a specific item. It finds the item by id and returns the item's name.
-- `export`: Exports the filtered entries to a PDF file. It uses the `searchFunc` to get the entries to export and generates a PDF file with the entries. It returns the PDF file for download.
+-   `index()`: Display customer table
+-   `create()`: Show customer creation form
+-   `store()`: Validate and save new customers
+-   `edit($id)`: Display customer edit form
+-   `update($id)`: Update customer information
+-   `delete()`: Delete customers with cascade handling
+-   `search()`: AJAX search functionality
 
-## Using the Application
+**Validation Rules:**
 
-### Main Table
-The main table displays a list of all entries. You can add a new entry by clicking on the 'Add Entry' button. This will redirect you to a form where you can fill out the details of the new entry.
+-   Name required and must be unique
 
-### Add Entry in Main Table
-To add a new entry, click on the 'Add Entry' button in the home page. Fill out the form with the customer's name, item, teeth, date, and discount. Click on the 'Save' button to add the entry to the main table.
+#### ItemController (`app/Http/Controllers/ItemController.php`)
 
-### Delete Entries from Main Table
-To delete an entry, click on the 'Delete' icon next to the entry in the main table. A confirmation dialog will appear. Click on 'Yes, Delete' to delete the entry. To delete all entries displayed in the main table, click on the 'Delete All' icon in the footer of the table. Note that if you have applied a filter, only the filtered entries will be deleted.
+Manages dental procedures and inventory items.
 
-### Customer Table
-The customer table displays a list of all customers. You can add a new customer by clicking on the 'Add Customer' button. This will redirect you to a form where you can fill out the details of the new customer.
+**Key Methods:**
 
-### Add Customer in Customer Table
-To add a new customer, click on the 'Add Customer' button in the customer page. Fill out the form with the customer's name and click on the 'Save' button to add the customer to the customer table.
+-   `index()`: Display items with pricing information
+-   `create()`: Show item creation form
+-   `store()`: Validate and save new items
+-   `edit($id)`: Display item edit form
+-   `update($id)`: Update item details
+-   `delete()`: Delete items with relationship checks
+-   `search()`: AJAX search with price/cost filtering
 
-### Edit Customer
-To edit a customer, click on the 'Edit' icon next to the customer in the customer table. Update the customer's name in the form and click on the 'Save' button to save the changes.
+**Validation Rules:**
 
-### Delete Customers
-To delete a customer, click on the 'Delete' icon next to the customer in the customer table. A confirmation dialog will appear. Click on 'Yes, Delete' to delete the customer. Note that all entries related to this customer in the main table will also be deleted. To delete all customers displayed in the customer table, click on the 'Delete All' icon in the footer of the table. Note that if you have applied a filter, only the filtered customers will be deleted.
+-   Name required and unique
+-   Price and cost must be positive integers
+-   Optional description field
 
-### Item Table
-The item table displays a list of all items. You can add a new item by clicking on the 'Add Item' button. This will redirect you to a form where you can fill out the details of the new item.
+### Views
 
-### Add Item in Item Table
-To add a new item, click on the 'Add Item' button in the item table. Fill out the form with the item's name, price, cost, and description. Click on the 'Save' button to add the item to the item table.
+The application uses Blade templating with a hierarchical layout structure.
 
-### Edit Item
-To edit an item, click on the 'Edit' icon next to the item in the item table. Update the item's name, price, cost, and description in the form and click on the 'Save' button to save the changes.
+#### Layout Structure
 
-### Delete Items
-To delete an item, click on the 'Delete' icon next to the item in the item table. A confirmation dialog will appear. Click on 'Yes, Delete' to delete the item. Note that all entries related to this item in the main table will also be deleted. To delete all items displayed in the item table, click on the 'Delete All' icon in the footer of the table. Note that if you have applied a filter, only the filtered items will be deleted.
+-   `layouts/app.blade.php`: Base HTML structure
+-   `layouts/app-with-header.blade.php`: Adds navigation header
+-   `layouts/table.blade.php`: Table view layout with search/filter
+-   `layouts/form.blade.php`: Form layout with success notifications
 
-### Export to PDF
-You can export the entries to a PDF by clicking on the 'Export to PDF' icon in the header of the main table on the home page. A dropdown will appear where you can select the columns you want to export. Note that only the filtered entries will be exported if you have applied a filter.
+#### Key View Files
+
+-   `pages/home.blade.php`: Dashboard with hero section and quick links
+-   `pages/entries.blade.php`: Main entries table
+-   `pages/customers.blade.php`: Customer management table
+-   `pages/items.blade.php`: Item catalog table
+-   `forms/add-entry.blade.php`: New entry form with visual teeth selection
+-   `forms/add-customer.blade.php`: New customer form
+-   `forms/add-item.blade.php`: New item form
+-   `forms/edit-entry.blade.php`: Entry editing form
+-   `forms/edit-customer.blade.php`: Customer editing form
+-   `forms/edit-item.blade.php`: Item editing form
+-   `pdf/entry-pdf.blade.php`: PDF export template
+
+### Components
+
+#### TeethVisual Component (`app/View/Components/TeethVisual.php`)
+
+A custom Blade component providing interactive tooth selection.
+
+**Features:**
+
+-   SVG-based visual teeth chart
+-   Click-to-select functionality
+-   Integration with list-based selection
+-   Quadrant-based organization (UR, UL, LR, LL)
+-   Real-time synchronization between visual and list selection
+
+**Template:** `resources/views/components/teeth-visual.blade.php`
+
+-   Interactive SVG with 32 tooth elements
+-   Hover effects and selection states
+-   Responsive design for different screen sizes
+
+## Features & Usage
+
+### Entry Management
+
+The core functionality of the application revolves around managing dental treatment entries.
+
+#### Creating New Entries
+
+1. **Access**: Click "Add Entry" from the home page or entries table page`
+2. **Customer Selection**: Choose existing customer or create new one inline
+3. **Item Selection**: Select procedure/item or create new item inline
+4. **Teeth Selection**: Use either:
+    - **Visual Mode**: Interactive SVG teeth chart with click-to-select
+    - **List Mode**: Dropdown with organized quadrants (UR, UL, LR, LL)
+5. **Treatment Details**:
+    - Date of treatment
+    - Discount amount/percentage (optional)
+    - Automatic price calculation
+
+#### Editing Entries
+
+-   Click edit icon next to any entry
+-   Modify customer, item, teeth, date, or discount
+-   Automatic recalculation of totals
+-   Option to update the entry using the procedure/item’s latest price (if changed) or keep the original price
+
+#### Deleting Entries
+
+-   **Single**: Click delete icon with confirmation dialog
+-   **Bulk**: Use "Delete All" for filtered results
+
+### Patient Management
+
+#### Customer Operations
+
+-   **Add New**: Simple form with name and automatic timestamp
+-   **Edit**: Update customer information with validation
+-   **View Records**: Click "Records" to see all treatments for a customer
+-   **Delete**: Remove customer (cascades to related entries)
+
+#### Customer Features
+
+-   Unique name validation
+-   Creation date tracking
+-   Quick access to treatment history
+
+### Item Management
+
+#### Item Operations
+
+-   **Add New**: Form with name, price, cost, and description
+-   **Edit**: Update all item details
+-   **Delete**: Remove items (checks for existing entries)
+-   **Pricing**: Separate cost and selling price tracking
+
+#### Item Features
+
+-   Unique name validation
+-   Creation date tracking
+-   Quick access to treatment history
+
+### Visual Teeth Selection
+
+The application's standout feature is the interactive teeth selection system.
+
+#### Visual Interface
+
+-   **SVG-based Chart**: Scalable, responsive teeth diagram
+-   **Quadrant Organization**:
+    -   **UR**: Upper Right (teeth 1-8)
+    -   **UL**: Upper Left (teeth 9-16)
+    -   **LR**: Lower Right (teeth 17-24)
+    -   **LL**: Lower Left (teeth 25-32)
+-   **Click Selection**: Click teeth to select/deselect
+-   **Visual Feedback**: Selected teeth highlighted in red
+-   **Hover Effects**: Interactive feedback on mouse over
+
+#### List Interface
+
+-   **Organized Dropdowns**: Grouped by quadrant
+-   **Multiple Selection**: Select multiple teeth simultaneously
+-   **Search Functionality**: Filter teeth by typing
+-   **Synchronization**: Real-time sync with visual selection
+
+#### Notation System
+
+-   **Format**: `Quadrant-Number` (e.g., UR-1, LL-3)
+-   **Storage**: Comma-separated list in database
+-   **Display**: Human-readable format in tables and PDFs
+
+### Search & Filtering
+
+#### Advanced Search Features
+
+-   **Real-time Search**: AJAX-powered instant results
+-   **Multiple Filters**:
+    -   Customer name
+    -   Item/procedure
+    -   Date ranges
+    -   etc.
+-   **Column-specific Search**: Filter by specific fields
+-   **Date Range Picker**: Intuitive date selection
+
+#### Filter Types
+
+-   **Text Search**: Customer names, item names
+-   **Numeric Filters**: Prices, costs, discounts
+-   **Date Filters**: Creation dates, treatment dates
+-   **Relationship Filters**: Customer-specific or item-specific entries
+
+### PDF Export
+
+#### Export Features
+
+-   **Custom Column Selection**: Choose which data to include
+-   **Filtered Results**: Export only filtered/searched data
+-   **Professional Formatting**: Clean, printable layout
+
+#### Export Options
+
+-   **Column Selection**:
+    -   ID, Date, Customer Name
+    -   Item/Procedure, Teeth
+    -   Amount, Unit Price, Discount
+    -   Total Price, Cost
+-   **Data Filtering**: Export respects current search/filter state
+
+## API Routes
+
+The application provides a comprehensive RESTful API structure:
+
+### Main Routes
+
+```php
+GET  /                           # Home dashboard
+GET  /entries                    # Entries index
+GET  /customers                  # Customers index
+GET  /items                      # Items index
+```
+
+### Search & Filter Routes
+
+```php
+GET  /entries/search             # Entry search (AJAX)
+GET  /customers/search           # Customer search (AJAX)
+GET  /items/search               # Item search (AJAX)
+```
+
+### CRUD Operations
+
+#### Create Routes
+
+```php
+GET  /entries/create             # New entry form
+GET  /customers/create           # New customer form
+GET  /items/create               # New item form
+
+POST /entries/store              # Store new entry
+POST /customers/store            # Store new customer
+POST /items/store                # Store new item
+```
+
+#### Edit & Update Routes
+
+```php
+GET   /entries/{id}/edit         # Edit entry form
+GET   /customers/{id}/edit       # Edit customer form
+GET   /items/{id}/edit           # Edit item form
+
+PATCH /entries/{id}/update       # Update entry
+PATCH /customers/{id}/update     # Update customer
+PATCH /items/{id}/update         # Update item
+```
+
+#### Delete Routes
+
+```php
+DELETE /entries/delete           # Delete entries
+DELETE /customers/delete         # Delete customers
+DELETE /items/delete             # Delete items
+```
+
+### Specialized Routes
+
+```php
+GET  /customers/{id}/records     # Customer treatment history
+GET  /items/{id}/records         # Item usage history
+POST /entries/export             # PDF export
+```
+
+## Development
+
+### Database Schema
+
+#### Migrations
+
+The application includes four main migrations:
+
+1. **Items Table** (`2024_03_03_160656_item.php`)
+
+    - Core inventory/procedure structure
+    - Unique name constraints
+
+2. **Customers Table** (`2024_03_03_160702_customer.php`)
+
+    - Patient information storage
+    - Unique name constraints
+
+3. **Entries Table** (`2024_03_03_163108_entries.php`)
+
+    - Treatment records
+    - Foreign key relationships
+
+### Seeders & Factories
+
+#### Database Seeders
+
+-   **CustomerItemEntrySeeder**: Creates sample data for testing
+-   **Realistic Data**: Uses Faker for authentic-looking records
+-   **Relationships**: Properly linked customers, items, and entries
+
+#### Model Factories
+
+-   **CustomerFactory**: Generates test customers
+-   **ItemFactory**: Creates dental procedures/items
+-   **EntryFactory**: Builds treatment records with proper relationships
+
+### Frontend Assets
+
+#### JavaScript Architecture
+
+-   **Modular Structure**: Separate JS files for each page/component
+-   **jQuery-based**: Familiar, reliable DOM manipulation
+-   **AJAX Integration**: Real-time search and filtering
+-   **Component Communication**: Synchronized teeth selection
+
+#### CSS Organization
+
+-   **Component-based**: Separate styles for components
+-   **Bootstrap Foundation**: Responsive grid and utilities
+-   **Custom Themes**: Dark/light mode support
+-   **Visual Feedback**: Hover states and transitions

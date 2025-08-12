@@ -78,8 +78,8 @@ class ItemController extends Controller
     {
         $data = request()->validate([
             'name' => 'required|unique:items',
-            'price' => 'required|numeric',
-            'cost' => 'required|numeric',
+            'price' => 'required|numeric|min:0',
+            'cost' => 'required|numeric|min:0',
             'description' => 'nullable'
         ]);
 
@@ -114,8 +114,8 @@ class ItemController extends Controller
     {
         $data = request()->validate([
             'name' => 'required|unique:items,name,' . $id,
-            'price' => 'required|numeric',
-            'cost' => 'required|numeric',
+            'price' => 'required|numeric|min:0',
+            'cost' => 'required|numeric|min:0',
             'description' => 'nullable'
         ]);
 

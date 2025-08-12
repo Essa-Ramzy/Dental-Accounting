@@ -95,9 +95,13 @@ class EntryController extends Controller
 
     public function create()
     {
+        if (url()->previous() != route('Entry.create')) {
+            session()->put('entry_previous_url', url()->previous());
+        }
         $customers = Customer::all();
         $items = Item::all();
-        return view('forms.add-entry', compact('customers', 'items'));
+        return view('forms.add-entry', compact('customers', 'items'))
+            ->with('previous_url', session('entry_previous_url'));
     }
 
     public function store()
@@ -109,6 +113,8 @@ class EntryController extends Controller
             'teeth' => 'required',
             'discount' => [
                 'nullable',
+                'numeric',
+                'min:0',
                 function ($attribute, $value, $fail) {
                     $item = Item::where('name', request('item'))->first();
                     $price = $item ? $item->price : 0;
@@ -158,9 +164,14 @@ class EntryController extends Controller
             $data['discount'] = 0;
 
         Entry::create($data);
+        $previous_url = session()->get('entry_previous_url', route('Entries'));
+        session()->forget('entry_previous_url');
 
-        return redirect()->back()
-            ->with('success', 'Entry created successfully.');
+        return $previous_url == route('Home')
+            ? redirect($previous_url)
+                ->with('createdEntryId', Entry::latest()->first()->id)
+            : redirect()->back()
+                ->with('success', 'Entry created successfully.');
     }
 
     public function delete()
@@ -188,6 +199,8 @@ class EntryController extends Controller
             'teeth' => 'required',
             'discount' => [
                 'nullable',
+                'numeric',
+                'min:0',
                 function ($attribute, $value, $fail) {
                     $total = (request('unit_price', 0)) * count(request('teeth', []));
                     if ($value > $total) {
@@ -205,7 +218,7 @@ class EntryController extends Controller
 
         $data['amount'] = count($data['teeth']);
         $data['price'] = ($data['unit_price'] ?? $item->price) * $data['amount'] - $data['discount'];
-        $data['cost'] = $data['cost'] ?? $item->cost * $data['amount'];
+        $data['cost'] = ($data['cost'] ?? $item->cost) * $data['amount'];
 
         $result = [];
         $sub = '';

@@ -16,7 +16,7 @@
         <div class="row">
             <div class="col-8 mx-auto">
                 <div class="d-flex justify-content-center align-items-center pt-3 position-relative">
-                    <a href="{{ route('Entries') }}" class="btn btn-outline-secondary position-absolute start-0">
+                    <a href="{{ $previous_url }}" class="btn btn-outline-secondary position-absolute start-0">
                         ← Back
                     </a>
                     <h1 class="mb-0">Add New Entry</h1>

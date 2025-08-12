@@ -15,7 +15,7 @@
         @csrf
         @method('PATCH')
         <input type="hidden" name="unit_price" id="price" value="{{ old('unit_price', $entry->unit_price) }}">
-        <input type="hidden" name="cost" id="cost" value="{{ old('cost', $entry->cost) }}">
+        <input type="hidden" name="cost" id="cost" value="{{ old('cost', $entry->unit_cost) }}">
         <div class="row">
             <div class="col-8 mx-auto">
                 <div class="d-flex justify-content-center align-items-center pt-3 position-relative">
