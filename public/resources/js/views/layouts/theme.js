@@ -49,8 +49,8 @@ $(() => {
             .filter(`[data-bs-theme-value="${mode}"]`)
             .attr("aria-pressed", "true")
             .addClass("active");
-        $("[data-bs-theme-value] svg:has([href='#check2']").addClass("d-none");
-        $("[data-bs-theme-value].active svg:has([href='#check2']").removeClass(
+        $("[data-bs-theme-value] svg:has([href='#check2'])").addClass("d-none");
+        $("[data-bs-theme-value].active svg:has([href='#check2'])").removeClass(
             "d-none"
         );
     };

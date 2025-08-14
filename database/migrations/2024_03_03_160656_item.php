@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->integer('price');
-            $table->integer('cost');
-            $table->string('description')->nullable();
+            $table->decimal('price', places: 2);
+            $table->decimal('cost', places: 2);
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }

@@ -1,0 +1,13 @@
+ul[aria-labelledby="bd-theme"] :nth-child(1),
+ul[aria-labelledby="bd-theme"] :nth-child(2) {
+    margin-bottom: 0.125rem;
+}
+
+ul[aria-labelledby="bd-theme"] :nth-child(2),
+ul[aria-labelledby="bd-theme"] :nth-child(3) {
+    margin-top: 0.125rem;
+}
+
+#bd-theme::after {
+    vertical-align: middle;
+}

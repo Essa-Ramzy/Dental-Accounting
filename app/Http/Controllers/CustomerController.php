@@ -18,13 +18,15 @@ class CustomerController extends Controller
     {
         if (request('search')) {
             if (request('filter') == 'all') {
-                $customers = Customer::where('id', 'like', '%' . request('search') . '%')
+                $customers = Customer::with('entries')
+                    ->where('id', 'like', '%' . request('search') . '%')
                     ->orWhere('name', 'like', '%' . request('search') . '%')->get();
             } else {
-                $customers = Customer::where(request('filter'), 'like', '%' . request('search') . '%')->get();
+                $customers = Customer::with('entries')
+                    ->where(request('filter'), 'like', '%' . request('search') . '%')->get();
             }
         } else {
-            $customers = Customer::all();
+            $customers = Customer::with('entries')->get();
         }
         if (request('from_date')) {
             $customers = $customers->where('updated_at', '>=', request('from_date'));
@@ -44,14 +46,16 @@ class CustomerController extends Controller
                     $customer = $customer->toArray();
                     return [
                         'id' => $customer['id'],
-                        'date' => Carbon::parse($customer['updated_at'])->format('d-m-Y'),
+                        'date' => Carbon::parse($customer['updated_at'])->format('M d, Y'),
                         'name' => $customer['name'],
+                        'entries_count' => count($customer['entries']),
                         'edit_link' => route('Customer.edit', $customer['id']),
                         'record_link' => route('Customer.records', $customer['id'])
                     ];
                 }),
                 'footer' => [
                     'count' => $customers->count(),
+                    'create_link' => route('Customer.create')
                 ],
             ]);
         } else {

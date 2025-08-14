@@ -47,45 +47,78 @@ $(() => {
             },
             success: function (data) {
                 $(".table-responsive tbody").html(
-                    Object.values(data.body)
-                        .map((customer) => {
-                            return `
-                            <tr>
-                                <th scope="row">${customer.id}</th>
-                                <td>${customer.date}</td>
-                                <td>${customer.name}</td>
-                                <td>
-                                    <a href="${customer.record_link}" type="button"
-                                    class="btn btn-sm btn-info col-8 offset-2">View</a>
-                                </td>
-                                <td>
-                                    <div class="d-flex justify-content-end gap-2">
-                                        <a href="${customer.edit_link}" class="text-decoration-none">
-                                            <svg id="edit" width="20" height="20" xmlns="http://www.w3.org/2000/svg"
-                                                class="icon-link-hover">
-                                                <use href="#pencil-square" fill="none" stroke="var(--bs-body-color)"
-                                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></use>
-                                            </svg>
+                    (rows = Object.values(data.body)).length
+                        ? rows
+                            .map((customer) => {
+                                return `
+                                <tr class="align-middle">
+                                    <th scope="row" class="text-center text-muted">${customer.id}</th>
+                                    <td class="text-muted">
+                                        ${customer.date}
+                                    </td>
+                                    <td>
+                                        <div class="fw-semibold">${customer.name}</div>
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="${customer.record_link}"
+                                            class="btn btn-sm btn-outline-primary">
+                                            <span class="badge bg-primary rounded-pill me-1">${customer.entries_count}</span>
+                                            View Records
                                         </a>
-                                        <a class="text-decoration-none" data-bs-toggle="modal" href="#deleteModal" id="${customer.id}">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
-                                                <use href="#trash-fill" fill="var(--bs-body-color)"></use>
-                                            </svg>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>`;
-                        })
-                        .join("")
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="btn-group" role="group" aria-label="Customer actions">
+                                            <a href="${customer.edit_link}"
+                                                class="btn btn-sm btn-outline-primary border-secondary border-end-0"
+                                                aria-label="Edit ${customer.name}">
+                                                <svg width="20" height="20" aria-hidden="true">
+                                                    <use href="#pencil-square" fill="none" stroke="currentColor" stroke-width="2"
+                                                        stroke-linecap="round" stroke-linejoin="round" />
+                                                </svg>
+                                            </a>
+                                            <a href="#deleteModal" data-bs-toggle="modal" id="${customer.id}"
+                                                class="btn btn-sm btn-outline-danger border-secondary border-start-0"
+                                                aria-label="Delete ${customer.name}">
+                                                <svg width="24" height="24" aria-hidden="true">
+                                                    <use href="#trash-fill" fill="currentColor" />
+                                                </svg>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>`;
+                            })
+                            .join("")
+                        : `<tr>
+                            <td colspan="5" class="text-center py-5 text-muted">
+                                <svg width="48" height="48" class="mb-3 text-muted" aria-hidden="true">
+                                    <use href="#people-circle" fill="currentColor" />
+                                </svg>
+                                <div class="h5">No customers found</div>
+                                <p class="mb-3">Get started by adding your first customer.</p>
+                                <a href="${data.footer.create_link}" class="btn btn-primary">
+                                    Add Customer
+                                </a>
+                            </td>
+                        </tr>`
                 );
                 $(".table-responsive tfoot").html(`
                         <tr>
-                            <th scope="row" colspan="4" class="text-md-center">Number of Customers: ${data.footer.count}</th>
-                            <td>
-                                <div class="text-end">
-                                    <a class="text-decoration-none" data-bs-toggle="modal" href="#deleteModal">
+                            <th scope="row" colspan="4" class="text-center fw-semibold">
+                                Total Customers: ${data.footer.count}
+                            </th>
+                            <td class="text-center">
+                                <div class="btn-group" role="group" aria-label="Customer actions">
+                                    <a href="${data.footer.create_link}"
+                                        class="btn btn-sm btn-outline-success border-secondary border-end-0" aria-label="Add new customer">
+                                        <svg width="16" height="16" aria-hidden="true">
+                                            <use href="#plus-circle" fill="none" stroke="currentColor" stroke-width="2"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                    </a>
+                                    <a class="btn btn-sm btn-outline-danger border-secondary border-start-0" data-bs-toggle="modal"
+                                        href="#deleteModal">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
-                                            <use href="#trash-fill" fill="var(--bs-body-color)"></use>
+                                            <use href="#trash-fill" fill="currentColor"></use>
                                         </svg>
                                     </a>
                                 </div>

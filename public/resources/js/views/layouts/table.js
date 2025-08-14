@@ -1,15 +1,21 @@
 $(() => {
-    sessionStorage.removeItem("customer");
-    sessionStorage.removeItem("item");
-    sessionStorage.removeItem("teeth");
-    sessionStorage.removeItem("date");
-    sessionStorage.removeItem("discount");
-    sessionStorage.removeItem("discount_mode");
-
-    $(document).on("click", ".dropdown-item", (e) => {
-        $("#dropdown_btn").text(e.currentTarget.textContent);
-        $("#search").trigger("change");
+    $(window).on("pageshow", () => {
+        sessionStorage.removeItem("customer");
+        sessionStorage.removeItem("item");
+        sessionStorage.removeItem("teeth");
+        sessionStorage.removeItem("date");
+        sessionStorage.removeItem("discount");
+        sessionStorage.removeItem("discount_mode");
     });
+
+    $(document).on(
+        "click",
+        "#dropdown_btn + .dropdown-menu .dropdown-item",
+        (e) => {
+            $("#dropdown_btn").text(e.currentTarget.textContent);
+            $("#search").trigger("change");
+        }
+    );
 
     $(document).on("input", "#search", () => {
         $("#search").trigger("change");
@@ -64,7 +70,7 @@ $(() => {
     });
 
     range.on("cancel.daterangepicker", () => {
-        range.val("Date Range");
+        range.val("Select Date Range");
         $("#from_date").val("");
         $("#to_date").val("");
         $("#search").trigger("change");

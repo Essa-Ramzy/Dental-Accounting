@@ -17,6 +17,14 @@
                 d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z">
             </path>
         </symbol>
+        <symbol id="grid-plus" viewBox="0 0 16 16">
+            <path
+                d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z">
+            </path>
+            <circle cx="13" cy="3" r="3" fill="currentColor" />
+            <line x1="13" y1="1.5" x2="13" y2="4.5" stroke="white" stroke-linecap="round" />
+            <line x1="11.5" y1="3" x2="14.5" y2="3" stroke="white" stroke-linecap="round" />
+        </symbol>
         <symbol id="tags" viewBox="0 0 16 16">
             <path
                 d="M3 2v4.586l7 7L14.586 9l-7-7zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586z">
@@ -25,11 +33,31 @@
                 d="M5.5 5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1m0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3M1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1z">
             </path>
         </symbol>
+        <symbol id="tags-plus" viewBox="0 0 16 16">
+            <path
+                d="M3 2v4.586l7 7L14.586 9l-7-7zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586z">
+            </path>
+            <path
+                d="M5.5 5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1m0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3M1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1z">
+            </path>
+            <circle cx="13" cy="3" r="3" fill="currentColor" />
+            <line x1="13" y1="1.5" x2="13" y2="4.5" stroke="white" stroke-linecap="round" />
+            <line x1="11.5" y1="3" x2="14.5" y2="3" stroke="white" stroke-linecap="round" />
+        </symbol>
         <symbol id="people-circle" viewBox="0 0 16 16">
             <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"></path>
             <path fill-rule="evenodd"
                 d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z">
             </path>
+        </symbol>
+        <symbol id="people-circle-plus" viewBox="0 0 16 16">
+            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"></path>
+            <path fill-rule="evenodd"
+                d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z">
+            </path>
+            <circle cx="13" cy="3" r="3" fill="currentColor" />
+            <line x1="13" y1="1.5" x2="13" y2="4.5" stroke="white" stroke-linecap="round" />
+            <line x1="11.5" y1="3" x2="14.5" y2="3" stroke="white" stroke-linecap="round" />
         </symbol>
         <symbol id="sun-fill" viewBox="0 0 16 16">
             <path
@@ -74,174 +102,199 @@
             <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
             <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
         </symbol>
-        <symbol id="file-text" viewBox="0 0 24 24">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-            <polyline points="14,2 14,8 20,8"></polyline>
-            <line x1="16" y1="13" x2="8" y2="13"></line>
-            <line x1="16" y1="17" x2="8" y2="17"></line>
-            <polyline points="10,9 9,9 8,9"></polyline>
-        </symbol>
-        <symbol id="file-plus" viewBox="0 0 24 24">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-            <polyline points="14,2 14,8 20,8"></polyline>
-            <line x1="12" y1="18" x2="12" y2="12"></line>
-            <line x1="9" y1="15" x2="15" y2="15"></line>
-        </symbol>
-        <symbol id="tag" viewBox="0 0 24 24">
-            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
-            <line x1="7" y1="7" x2="7.01" y2="7"></line>
-        </symbol>
-        <symbol id="tag-plus" viewBox="0 0 24 24">
-            <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
-            <line x1="7" y1="7" x2="7.01" y2="7"></line>
-            <line x1="12" y1="8" x2="12" y2="16"></line>
-            <line x1="8" y1="12" x2="16" y2="12"></line>
-        </symbol>
-        <symbol id="user" viewBox="0 0 24 24">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-            <circle cx="12" cy="7" r="4"></circle>
-        </symbol>
-        <symbol id="user-plus" viewBox="0 0 24 24">
-            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-            <circle cx="9" cy="7" r="4"></circle>
-            <line x1="19" y1="8" x2="19" y2="14"></line>
-            <line x1="22" y1="11" x2="16" y2="11"></line>
-        </symbol>
         <symbol id="plus-circle" viewBox="0 0 24 24">
             <circle cx="12" cy="12" r="10"></circle>
             <line x1="12" y1="8" x2="12" y2="16"></line>
             <line x1="8" y1="12" x2="16" y2="12"></line>
         </symbol>
+        <symbol id="funnel" viewBox="0 0 16 16">
+            <path
+                d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z">
+            </path>
+        </symbol>
+        <symbol id="x-circle" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16">
+            </path>
+            <path
+                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708">
+            </path>
+        </symbol>
+        <symbol id="check-all" viewBox="0 0 16 16">
+            <path
+                d="M8.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L2.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093L8.95 4.992zm-.92 5.14.92.92a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 1 0-1.091-1.028L9.477 9.417l-.485-.486z">
+            </path>
+        </symbol>
+        <symbol id="arrow-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+                d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8">
+            </path>
+        </symbol>
+        <symbol id="check-circle-fill" viewBox="0 0 16 16">
+            <path
+                d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z">
+            </path>
+        </symbol>
+        <symbol id="grid-3x3-gap-fill" viewBox="0 0 16 16">
+            <path
+                d="M1 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1zM1 7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1zM1 12a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1zm5 0a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1z">
+            </path>
+        </symbol>
+        <symbol id="eye" viewBox="0 0 16 16">
+            <path
+                d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z">
+            </path>
+            <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"></path>
+        </symbol>
+        <symbol id="list-ul" viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+                d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m-3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2m0 4a1 1 0 1 0 0-2 1 1 0 0 0 0 2">
+            </path>
+        </symbol>
+        <symbol id="receipt-cutoff" viewBox="0 0 16 16">
+            <path
+                d="M3 4.5a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5M11.5 4a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1zm0 2a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1zm0 2a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1zm0 2a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1zm0 2a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1z">
+            </path>
+            <path
+                d="M2.354.646a.5.5 0 0 0-.801.13l-.5 1A.5.5 0 0 0 1 2v13H.5a.5.5 0 0 0 0 1h15a.5.5 0 0 0 0-1H15V2a.5.5 0 0 0-.053-.224l-.5-1a.5.5 0 0 0-.8-.13L13 1.293l-.646-.647a.5.5 0 0 0-.708 0L11 1.293l-.646-.647a.5.5 0 0 0-.708 0L9 1.293 8.354.646a.5.5 0 0 0-.708 0L7 1.293 6.354.646a.5.5 0 0 0-.708 0L5 1.293 4.354.646a.5.5 0 0 0-.708 0L3 1.293zm-.217 1.198.51.51a.5.5 0 0 0 .707 0L4 1.707l.646.647a.5.5 0 0 0 .708 0L6 1.707l.646.647a.5.5 0 0 0 .708 0L8 1.707l.646.647a.5.5 0 0 0 .708 0L10 1.707l.646.647a.5.5 0 0 0 .708 0L12 1.707l.646.647a.5.5 0 0 0 .708 0l.509-.51.137.274V15H2V2.118z">
+            </path>
+        </symbol>
+        <symbol id="download" viewBox="0 0 16 16">
+            <path
+                d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5">
+            </path>
+            <path
+                d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z">
+            </path>
+        </symbol>
+        <symbol id="journal-medical" viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+                d="M8 4a.5.5 0 0 1 .5.5v.634l.549-.317a.5.5 0 1 1 .5.866L9 6l.549.317a.5.5 0 1 1-.5.866L8.5 6.866V7.5a.5.5 0 0 1-1 0v-.634l-.549.317a.5.5 0 1 1-.5-.866L7 6l-.549-.317a.5.5 0 0 1 .5-.866l.549.317V4.5A.5.5 0 0 1 8 4M5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5">
+            </path>
+            <path
+                d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2">
+            </path>
+            <path
+                d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z">
+            </path>
+        </symbol>
     </svg>
     <!-- Header (navigation bar) for the web application -->
-    <header class="px-3 py-2 text-bg-dark {{ Illuminate\Support\Facades\Route::is('Home') ? '' : 'border-bottom' }}">
-        <nav class="container">
-            <!-- Application logo and navigation links -->
-            <div class="nav d-flex flex-wrap align-items-center justify-content-center">
-                <!-- Application logo -->
-                <a href="{{ route('Home') }}"
-                    class="nav-link d-flex align-items-center my-2 my-lg-0 me-sm-auto me-0 text-white text-decoration-none">
-                    <svg xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" class="bi"
-                        width="40" height="32" role="img" aria-label="Bootstrap">
-                        <title>Home</title>
-                        <use href="#bootstrap" fill="#FFFFFF"></use>
-                    </svg>
-                </a>
-                <!-- Navigation links -->
-                <ul class="nav col-12 col-sm-auto my-2 justify-content-center my-md-0 text-small">
-                    <li>
-                        <a href="{{ route('Home') }}"
-                            class="nav-link {{ Illuminate\Support\Facades\Route::is('Home') ? 'text-secondary' : 'text-white' }}">
-                            <svg xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"
-                                class="bi d-block mx-auto mb-1" width="24" height="24">
-                                <use href="#home"
-                                    fill="#{{ Illuminate\Support\Facades\Route::is('Home') ? '6C757D' : 'FFFFFF' }}">
-                                </use>
-                            </svg>
-                            Home
-                        </a>
-                    </li>
-                    <!-- Entries link -->
-                    <li>
-                        <a href="{{ route('Entries') }}"
-                            class="nav-link {{ Illuminate\Support\Facades\Route::is('Entries') ? 'text-secondary' : 'text-white' }}">
-                            <svg xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"
-                                class="bi d-block mx-auto mb-1" width="24" height="24">
-                                <use href="#grid"
-                                    fill="#{{ Illuminate\Support\Facades\Route::is('Entries') ? '6C757D' : 'FFFFFF' }}">
-                                </use>
-                            </svg>
-                            Entries
-                        </a>
-                    </li>
-                    <!-- Items link -->
-                    <li>
-                        <a href="{{ route('Items') }}"
-                            class="nav-link {{ Illuminate\Support\Facades\Route::is('Items') ? 'text-secondary' : 'text-white' }}">
-                            <svg xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"
-                                class="bi d-block mx-auto mb-1" width="24" height="24">
-                                <use href="#tags"
-                                    fill="#{{ Illuminate\Support\Facades\Route::is('Items') ? '6C757D' : 'FFFFFF' }}">
-                                </use>
-                            </svg>
-                            Items
-                        </a>
-                    </li>
-                    <!-- Customers link -->
-                    <li>
-                        <a href="{{ route('Customers') }}"
-                            class="nav-link {{ Illuminate\Support\Facades\Route::is('Customers') ? 'text-secondary' : 'text-white' }}">
-                            <svg xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg"
-                                class="bi d-block mx-auto mb-1" width="24" height="24">
-                                <use href="#people-circle"
-                                    fill="#{{ Illuminate\Support\Facades\Route::is('Customers') ? '6C757D' : 'FFFFFF' }}">
-                                </use>
-                            </svg>
-                            Customers
-                        </a>
-                    </li>
-                    <!-- Theme switcher -->
-                    <li class="dropdown">
-                        <button class="btn btn-link nav-link px-3 py-2 d-flex flex-column align-items-center text-white"
-                            id="bd-theme" type="button" data-bs-toggle="dropdown" aria-expanded="false"
-                            aria-label="Toggle theme (dark)">
-                            <svg class="bi mb-1 theme-icon-active" width="24" height="24" fill="currentColor"
+    <header
+        class="navbar navbar-expand-lg navbar-dark bg-dark {{ Illuminate\Support\Facades\Route::is('Home') ? '' : 'border-bottom' }}">
+        <div class="container-fluid">
+            <!-- Brand/Logo -->
+            <a class="navbar-brand d-flex align-items-center" href="{{ route('Home') }}"
+                aria-label="Dental Clinic Accounting - Home">
+                <svg class="me-2 align-middle" width="30" height="24" role="img" aria-hidden="true">
+                    <use href="#bootstrap" fill="currentColor" />
+                </svg>
+                <span class="fw-bold align-middle">Dental Clinic</span>
+            </a>
+
+            <!-- Mobile menu toggle -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navigation menu -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link{{ Illuminate\Support\Facades\Route::is('Home') ? ' active' : '' }}"
+                            href="{{ route('Home') }}" aria-label="Dashboard">
+                            <svg class="me-1 align-middle" width="16" height="16" role="img"
                                 aria-hidden="true">
-                                <use href="#moon-stars-fill" id="bd-theme-icon"></use>
+                                <use href="#home" fill="currentColor" />
                             </svg>
-                            <span class="d-inline-flex align-items-center dropdown-toggle" id="bd-theme-text">
-                                Toggle theme
-                            </span>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end p-1" aria-labelledby="bd-theme-text"
-                            data-bs-popper="static">
-                            <li>
-                                <button type="button" class="dropdown-item d-flex align-items-center rounded mb-1"
-                                    data-bs-theme-value="light" aria-pressed="false">
-                                    <svg class="bi me-2 opacity-50" width="16" height="16"
-                                        fill="var(--bs-body-color)" aria-hidden="true">
-                                        <use href="#sun-fill"></use>
-                                    </svg>
-                                    Light
-                                    <svg class="bi ms-auto d-none" width="16" height="16"
-                                        fill="var(--bs-body-color)" aria-hidden="true">
-                                        <use href="#check2"></use>
-                                    </svg>
-                                </button>
-                            </li>
-                            <li>
-                                <button type="button" class="dropdown-item d-flex align-items-center rounded my-1 active"
-                                    data-bs-theme-value="dark" aria-pressed="true">
-                                    <svg class="bi me-2 opacity-50" width="16" height="16"
-                                        fill="var(--bs-body-color)" aria-hidden="true">
-                                        <use href="#moon-stars-fill"></use>
-                                    </svg>
-                                    Dark
-                                    <svg class="bi ms-auto d-none" width="16" height="16"
-                                        fill="var(--bs-body-color)" aria-hidden="true">
-                                        <use href="#check2"></use>
-                                    </svg>
-                                </button>
-                            </li>
-                            <li>
-                                <button type="button" class="dropdown-item d-flex align-items-center mt-1 rounded"
-                                    data-bs-theme-value="auto" aria-pressed="false">
-                                    <svg class="bi me-2 opacity-50" width="16" height="16"
-                                        fill="var(--bs-body-color)" aria-hidden="true">
-                                        <use href="#circle-half"></use>
-                                    </svg>
-                                    Auto
-                                    <svg class="bi ms-auto d-none" width="16" height="16"
-                                        fill="var(--bs-body-color)" aria-hidden="true">
-                                        <use href="#check2"></use>
-                                    </svg>
-                                </button>
-                            </li>
-                        </ul>
+                            <span class="align-middle">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link{{ Illuminate\Support\Facades\Route::is('Entries') ? ' active' : '' }}"
+                            href="{{ route('Entries') }}" aria-label="View Entries">
+                            <svg class="me-1 align-middle" width="16" height="16" role="img"
+                                aria-hidden="true">
+                                <use href="#grid" fill="currentColor" />
+                            </svg>
+                            <span class="align-middle">Entries</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link{{ Illuminate\Support\Facades\Route::is('Items') ? ' active' : '' }}"
+                            href="{{ route('Items') }}" aria-label="View Items">
+                            <svg class="me-1 align-middle" width="16" height="16" role="img"
+                                aria-hidden="true">
+                                <use href="#tags" fill="currentColor" />
+                            </svg>
+                            <span class="align-middle">Items</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link{{ Illuminate\Support\Facades\Route::is('Customers') ? ' active' : '' }}"
+                            href="{{ route('Customers') }}" aria-label="View Customers">
+                            <svg class="me-1 align-middle" width="16" height="16" role="img"
+                                aria-hidden="true">
+                                <use href="#people-circle" fill="currentColor" />
+                            </svg>
+                            <span class="align-middle">Customers</span>
+                        </a>
                     </li>
                 </ul>
+
+                <!-- Theme toggle dropdown -->
+                <div class="dropdown">
+                    <button class="btn btn-outline-light dropdown-toggle" type="button" id="bd-theme"
+                        data-bs-toggle="dropdown" aria-expanded="false" aria-label="Toggle theme">
+                        <svg class="me-1 mb-1" width="16" height="16" role="img" aria-hidden="true">
+                            <use id="bd-theme-icon" href="#circle-half" fill="currentColor" />
+                        </svg>
+                        <span id="bd-theme-text">Auto</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-start dropdown-menu-lg-end p-1" aria-labelledby="bd-theme">
+                        <li>
+                            <button type="button" class="dropdown-item rounded d-flex align-items-center"
+                                data-bs-theme-value="light" aria-pressed="false">
+                                <svg class="me-2 mb-0" width="16" height="16" role="img" aria-hidden="true">
+                                    <use href="#sun-fill" fill="currentColor" />
+                                </svg>
+                                Light
+                                <svg class="ms-auto d-none mb-0" width="16" height="16" role="img"
+                                    aria-hidden="true">
+                                    <use href="#check2" fill="currentColor" />
+                                </svg>
+                            </button>
+                        </li>
+                        <li>
+                            <button type="button" class="dropdown-item rounded d-flex align-items-center"
+                                data-bs-theme-value="dark" aria-pressed="false">
+                                <svg class="me-2 mb-0" width="16" height="16" role="img" aria-hidden="true">
+                                    <use href="#moon-stars-fill" fill="currentColor" />
+                                </svg>
+                                Dark
+                                <svg class="ms-auto d-none mb-0" width="16" height="16" role="img"
+                                    aria-hidden="true">
+                                    <use href="#check2" fill="currentColor" />
+                                </svg>
+                            </button>
+                        </li>
+                        <li>
+                            <button type="button" class="dropdown-item rounded d-flex align-items-center active"
+                                data-bs-theme-value="auto" aria-pressed="true">
+                                <svg class="me-2 mb-0" width="16" height="16" role="img" aria-hidden="true">
+                                    <use href="#circle-half" fill="currentColor" />
+                                </svg>
+                                Auto
+                                <svg class="ms-auto d-none mb-0" width="16" height="16" role="img"
+                                    aria-hidden="true">
+                                    <use href="#check2" fill="currentColor" />
+                                </svg>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </nav>
+        </div>
     </header>
     @yield('layout')
 @endsection

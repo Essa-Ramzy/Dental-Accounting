@@ -18,16 +18,18 @@ class ItemController extends Controller
     {
         if (request('search')) {
             if (request('filter') == 'all') {
-                $items = Item::where('id', 'like', '%' . request('search') . '%')
+                $items = Item::with("entries")
+                    ->where('id', 'like', '%' . request('search') . '%')
                     ->orWhere('name', 'like', '%' . request('search') . '%')
                     ->orWhere('price', 'like', '%' . request('search') . '%')
                     ->orWhere('cost', 'like', '%' . request('search') . '%')
                     ->orWhere('description', 'like', '%' . request('search') . '%')->get();
             } else {
-                $items = Item::where(request('filter'), 'like', '%' . request('search') . '%')->get();
+                $items = Item::with("entries")
+                    ->where(request('filter'), 'like', '%' . request('search') . '%')->get();
             }
         } else {
-            $items = Item::all();
+            $items = Item::with("entries")->get();
         }
         if (request('from_date')) {
             $items = $items->where('updated_at', '>=', request('from_date'));
@@ -47,17 +49,19 @@ class ItemController extends Controller
                     $item = $item->toArray();
                     return [
                         'id' => $item['id'],
-                        'date' => Carbon::parse($item['updated_at'])->format('d-m-Y'),
+                        'date' => Carbon::parse($item['updated_at'])->format('M d, Y'),
                         'name' => $item['name'],
                         'price' => $item['price'],
                         'cost' => $item['cost'],
                         'description' => $item['description'],
+                        'entries_count' => count($item['entries']),
                         'edit_link' => route('Item.edit', $item['id']),
                         'record_link' => route('Item.records', $item['id'])
                     ];
                 }),
                 'footer' => [
                     'count' => $items->count(),
+                    'create_link' => route('Item.create')
                 ],
             ]);
         } else {

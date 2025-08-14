@@ -66,7 +66,7 @@ class EntryController extends Controller
                         $entry = $entry->toArray();
                         return [
                             'id' => $entry['id'],
-                            'date' => Carbon::parse($entry['date'])->format('d-m-Y'),
+                            'date' => Carbon::parse($entry['date'])->format('M d, Y'),
                             'customer_name' => $entry['customer']['name'],
                             'item_name' => $entry['item']['name'],
                             'teeth' => $entry['teeth'],
@@ -81,7 +81,8 @@ class EntryController extends Controller
                 'footer' => [
                     'count' => $entries->count(),
                     'total_price' => $entries->sum('price'),
-                    'total_cost' => $entries->sum('cost')
+                    'total_cost' => $entries->sum('cost'),
+                    'create_link' => route('Entry.create')
                 ],
                 'teeth_list' => $entries->mapWithKeys(function ($entry) {
                     return [
@@ -167,11 +168,11 @@ class EntryController extends Controller
         $previous_url = session()->get('entry_previous_url', route('Entries'));
         session()->forget('entry_previous_url');
 
-        return $previous_url == route('Home')
-            ? redirect($previous_url)
-                ->with('createdEntryId', Entry::latest()->first()->id)
-            : redirect()->back()
-                ->with('success', 'Entry created successfully.');
+        return ($previous_url == route('Entries') or $previous_url == route('Home'))
+            ? redirect()->back()
+                ->with('success', 'Entry created successfully.')
+            : redirect($previous_url)
+                ->with('createdEntryId', Entry::latest()->first()->id);
     }
 
     public function delete()

@@ -14,10 +14,9 @@ class CustomerItemEntrySeeder extends Seeder
     $items = Item::factory()->count(10)->create();
     foreach ($customers as $customer) {
       foreach ($items->random(3) as $item) {
-        Entry::factory()->create([
-          'customer_id' => $customer->id,
-          'item_id' => $item->id,
-        ]);
+        Entry::factory()
+          ->withItem($item)
+          ->create(['customer_id' => $customer->id]);
       }
     }
   }

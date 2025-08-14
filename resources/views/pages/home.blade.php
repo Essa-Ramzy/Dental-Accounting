@@ -1,5 +1,6 @@
 @extends('layouts.app-with-header')
 @section('head')
+    @parent
     <link rel="stylesheet" href="{{ asset('resources/css/views/layouts/home.css') }}">
 @endsection
 @section('layout')
@@ -7,37 +8,36 @@
     <div class="position-relative overflow-hidden min-vh-90">
         <!-- Background Image -->
         <div class="position-absolute top-0 start-0 w-100 h-100" id="hero-bg"
-            style="background-image: url('{{ asset('resources/img/hero-bg.png') }}');">
+            style="background-image: url('{{ asset('resources/img/hero-bg.png') }}');" role="img"
+            aria-label="Dental clinic background">
         </div>
-        <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-50">
+        <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark opacity-50" aria-hidden="true">
         </div>
         <!-- Content -->
         <div class="container position-absolute top-50 start-50 translate-middle h-100 d-flex align-items-center"
             id="hero-content">
             <div class="row align-items-center justify-content-center w-100">
-                <div class="col-lg-8 text-center text-white">
-                    <h1 class="display-3 fw-bold mb-4 text-shadow">Dental Clinic Accounting</h1>
-                    <p class="lead mb-5 fs-4 text-white-75">
+                <div class="col-lg-10 col-xl-8 text-center text-white">
+                    <h1 class="display-4 display-md-3 fw-bold mb-4 text-shadow">Dental Clinic Accounting</h1>
+                    <p class="lead mb-5 fs-5 fs-md-4 text-white-75">
                         Streamline your dental practice management with our comprehensive accounting solution.
                         Track patient records, manage treatments, and monitor financial performance all in one place.
                     </p>
-                    <div class="d-flex flex-wrap gap-3 justify-content-center mb-5">
-                        <span class="badge bg-success bg-shadow text-white px-4 py-3 fs-6 rounded-pill">
-                            <svg width="16" height="16" class="me-2">
-                                <use href="#user" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round"></use>
+                    <div class="d-flex flex-wrap gap-2 gap-md-3 justify-content-center mb-5">
+                        <span class="badge bg-success bg-shadow text-white px-3 px-md-4 py-2 py-md-3 fs-6 rounded-pill">
+                            <svg width="18" height="18" class="me-2 mb-1" aria-hidden="true">
+                                <use href="#people-circle" fill="currentColor"></use>
                             </svg>
                             Patient Management
                         </span>
-                        <span class="badge bg-info bg-shadow text-white px-4 py-3 fs-6 rounded-pill">
-                            <svg width="16" height="16" class="me-2">
-                                <use href="#file-text" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round"></use>
+                        <span class="badge bg-info bg-shadow text-white px-3 px-md-4 py-2 py-md-3 fs-6 rounded-pill">
+                            <svg width="18" height="18" class="me-2 mb-1" aria-hidden="true">
+                                <use href="#grid" fill="currentColor"></use>
                             </svg>
                             Treatment Tracking
                         </span>
-                        <span class="badge bg-warning bg-shadow text-dark px-4 py-3 fs-6 rounded-pill">
-                            <svg width="16" height="16" class="me-2">
+                        <span class="badge bg-warning bg-shadow text-dark px-3 px-md-4 py-2 py-md-3 fs-6 rounded-pill">
+                            <svg width="18" height="18" class="me-2 mb-1" aria-hidden="true">
                                 <use href="#tags" fill="currentColor"></use>
                             </svg>
                             Financial Reports
@@ -47,12 +47,12 @@
             </div>
         </div>
     </div>
-    <main class="container py-5">
 
+    <main class="container py-5">
         <!-- View Data Section -->
         <div class="text-center mb-5">
             <h2 class="h3 fw-bold text-body-emphasis mb-2">
-                <svg width="24" height="24" class="me-2 text-primary">
+                <svg width="24" height="24" class="me-2 text-primary" aria-hidden="true">
                     <use href="#book-open" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round"></use>
                 </svg>
@@ -66,12 +66,12 @@
             <!-- Entries -->
             <div class="col-12 col-md-6 col-xl-4">
                 <a href="{{ route('Entries') }}"
-                    class="card h-100 text-decoration-none shadow border-0 rounded-4 overflow-hidden position-relative card-hover">
+                    class="card h-100 text-decoration-none shadow-sm border-0 rounded-4 overflow-hidden position-relative card-hover"
+                    aria-label="View all patient entries and treatments">
                     <div class="card-body d-flex flex-column align-items-center justify-content-center text-center p-4">
                         <div class="bg-primary bg-opacity-10 rounded-circle p-3 mb-3">
-                            <svg width="48" height="48" class="text-primary">
-                                <use href="#file-text" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round"></use>
+                            <svg width="48" height="48" class="text-primary" aria-hidden="true">
+                                <use href="#grid" fill="currentColor"></use>
                             </svg>
                         </div>
                         <h3 class="card-title h5 fw-bold text-body-emphasis mb-2">Entries</h3>
@@ -86,12 +86,12 @@
             <!-- Items -->
             <div class="col-12 col-md-6 col-xl-4">
                 <a href="{{ route('Items') }}"
-                    class="card h-100 text-decoration-none shadow border-0 rounded-4 overflow-hidden position-relative card-hover">
+                    class="card h-100 text-decoration-none shadow-sm border-0 rounded-4 overflow-hidden position-relative card-hover"
+                    aria-label="Manage treatment items and services">
                     <div class="card-body d-flex flex-column align-items-center justify-content-center text-center p-4">
                         <div class="bg-success bg-opacity-10 rounded-circle p-3 mb-3">
-                            <svg width="48" height="48" class="text-success">
-                                <use href="#tag" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round"></use>
+                            <svg width="48" height="48" class="text-success" aria-hidden="true">
+                                <use href="#tags" fill="currentColor"></use>
                             </svg>
                         </div>
                         <h3 class="card-title h5 fw-bold text-body-emphasis mb-2">Items</h3>
@@ -106,12 +106,12 @@
             <!-- Customers -->
             <div class="col-12 col-md-6 col-xl-4">
                 <a href="{{ route('Customers') }}"
-                    class="card h-100 text-decoration-none shadow border-0 rounded-4 overflow-hidden position-relative card-hover">
+                    class="card h-100 text-decoration-none shadow-sm border-0 rounded-4 overflow-hidden position-relative card-hover"
+                    aria-label="Browse patient database and records">
                     <div class="card-body d-flex flex-column align-items-center justify-content-center text-center p-4">
                         <div class="bg-info bg-opacity-10 rounded-circle p-3 mb-3">
-                            <svg width="48" height="48" class="text-info">
-                                <use href="#user" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round"></use>
+                            <svg width="48" height="48" class="text-info" aria-hidden="true">
+                                <use href="#people-circle" fill="currentColor"></use>
                             </svg>
                         </div>
                         <h3 class="card-title h5 fw-bold text-body-emphasis mb-2">Customers</h3>
@@ -127,7 +127,7 @@
         <!-- Add New Section -->
         <div class="text-center my-5">
             <h2 class="h3 fw-bold text-body-emphasis mb-2">
-                <svg width="24" height="24" class="me-2 text-success">
+                <svg width="24" height="24" class="me-2 text-success" aria-hidden="true">
                     <use href="#plus-circle" fill="none" stroke="currentColor" stroke-width="2"
                         stroke-linecap="round" stroke-linejoin="round"></use>
                 </svg>
@@ -141,12 +141,12 @@
             <!-- Add Entry -->
             <div class="col-12 col-md-6 col-xl-4">
                 <a href="{{ route('Entry.create') }}"
-                    class="card h-100 text-decoration-none shadow border-0 rounded-4 overflow-hidden position-relative card-hover">
+                    class="card h-100 text-decoration-none shadow-sm border-0 rounded-4 overflow-hidden position-relative card-hover"
+                    aria-label="Record new patient treatment">
                     <div class="card-body d-flex flex-column align-items-center justify-content-center text-center p-4">
                         <div class="bg-primary bg-opacity-10 rounded-circle p-3 mb-3">
-                            <svg width="48" height="48" class="text-primary">
-                                <use href="#file-plus" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round"></use>
+                            <svg width="48" height="48" class="text-primary" aria-hidden="true">
+                                <use href="#grid-plus" fill="currentColor"></use>
                             </svg>
                         </div>
                         <h3 class="card-title h5 fw-bold text-body-emphasis mb-2">Add Entry</h3>
@@ -161,12 +161,12 @@
             <!-- Add Item -->
             <div class="col-12 col-md-6 col-xl-4">
                 <a href="{{ route('Item.create') }}"
-                    class="card h-100 text-decoration-none shadow border-0 rounded-4 overflow-hidden position-relative card-hover">
+                    class="card h-100 text-decoration-none shadow-sm border-0 rounded-4 overflow-hidden position-relative card-hover"
+                    aria-label="Create new treatment or service">
                     <div class="card-body d-flex flex-column align-items-center justify-content-center text-center p-4">
                         <div class="bg-success bg-opacity-10 rounded-circle p-3 mb-3">
-                            <svg width="48" height="48" class="text-success">
-                                <use href="#tag-plus" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round"></use>
+                            <svg width="48" height="48" class="text-success" aria-hidden="true">
+                                <use href="#tags-plus" fill="currentColor"></use>
                             </svg>
                         </div>
                         <h3 class="card-title h5 fw-bold text-body-emphasis mb-2">Add Item</h3>
@@ -181,12 +181,12 @@
             <!-- Add Customer -->
             <div class="col-12 col-md-6 col-xl-4">
                 <a href="{{ route('Customer.create') }}"
-                    class="card h-100 text-decoration-none shadow border-0 rounded-4 overflow-hidden position-relative card-hover">
+                    class="card h-100 text-decoration-none shadow-sm border-0 rounded-4 overflow-hidden position-relative card-hover"
+                    aria-label="Register new patient profile">
                     <div class="card-body d-flex flex-column align-items-center justify-content-center text-center p-4">
                         <div class="bg-info bg-opacity-10 rounded-circle p-3 mb-3">
-                            <svg width="48" height="48" class="text-info">
-                                <use href="#user-plus" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round"></use>
+                            <svg width="48" height="48" class="text-info" aria-hidden="true">
+                                <use href="#people-circle-plus" fill="currentColor"></use>
                             </svg>
                         </div>
                         <h3 class="card-title h5 fw-bold text-body-emphasis mb-2">Add Customer</h3>

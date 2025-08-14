@@ -7,8 +7,11 @@ $(() => {
         currency_mode =
             $(".discount-mode-btn.active").data("mode") === "currency";
         if (unitPrice === null) {
-            unitPrice = parseInt(
-                $("#receipt-unit-price").text().replace("E£ ", "")
+            unitPrice = parseFloat(
+                $("#receipt-unit-price")
+                    .text()
+                    .replace("£ ", "")
+                    .replace(/,/g, "")
             );
         }
         if (amount === null) {
@@ -18,22 +21,36 @@ $(() => {
             discount = parseFloat(
                 $("#receipt-discount")
                     .text()
-                    .replace(/^(E£|%)\s*/, "") || 0
+                    .replace(/^(£|%)\s*/, "")
+                    .replace(/,/g, "") || 0
             );
-            discount = discount.toFixed(Number.isInteger(discount) ? 0 : 2);
         }
         if (currency_mode) {
             total = unitPrice * amount - discount;
         } else {
             total = (unitPrice * amount * (100 - discount)) / 100;
         }
-        $("#receipt-unit-price").text(`E£ ${unitPrice}`);
+        $("#receipt-unit-price").text(
+            `£ ${Number(unitPrice).toLocaleString("en-US", {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 2,
+            })}`
+        );
         $("#receipt-amount").text(amount);
         $("#receipt-discount").text(
-            `${currency_mode ? "E£" : "%"} ${discount}`
+            `${currency_mode ? "£" : "%"} ${Number(discount).toLocaleString(
+                "en-US",
+                {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 2,
+                }
+            )}`
         );
         $("#receipt-total").text(
-            `E£ ${total.toFixed(Number.isInteger(total) ? 0 : 2)}`
+            `£ ${total.toLocaleString("en-US", {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 2,
+            })}`
         );
     };
 
@@ -52,7 +69,9 @@ $(() => {
 
     $(document).on("change", "#item", (e) => {
         const select = $(e.currentTarget);
-        updateReceipt({ unitPrice: select.find(":selected").data("price") });
+        updateReceipt({
+            unitPrice: select.find(":selected").data("price"),
+        });
         if (!select.val()) {
             sessionStorage.removeItem("item");
             select.selectpicker("val", "undefined");
@@ -90,9 +109,14 @@ $(() => {
     });
 
     $(document).on("change", "#discount", (e) => {
-        discountVal = parseFloat($(e.currentTarget).val());
-        discount = discountVal.toFixed(Number.isInteger(discountVal) ? 0 : 2);
-        sessionStorage.setItem("discount", discount);
+        discount = parseFloat($(e.currentTarget).val()).toFixed(2);
+        sessionStorage.setItem(
+            "discount",
+            Number(discount).toLocaleString({
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 2,
+            })
+        );
         updateReceipt({ discount });
     });
 
@@ -122,17 +146,22 @@ $(() => {
             } else {
                 Value = 0;
             }
-            Value = parseFloat(Value.toFixed(2));
         }
-        Value = Value.toFixed(Number.isInteger(Value) ? 0 : 2);
 
         discount
-            .val(isFinite(Value) && Value != 0 ? Value : "")
+            .val(
+                isFinite(Value) && Value != 0
+                    ? Number(Value).toLocaleString({
+                          minimumFractionDigits: 0,
+                          maximumFractionDigits: 2,
+                      })
+                    : ""
+            )
             .trigger("focus");
-        updateReceipt({ discount: Value });
+        updateReceipt({ discount: Value.toFixed(2) });
     });
 
-    $("#name.selectpicker").selectpicker({
+    $("#name").selectpicker({
         noneResultsText: `<a href="${document
             .querySelector('meta[name="customer-create-url"]')
             .getAttribute(
@@ -140,7 +169,7 @@ $(() => {
             )}" class="d-block text-decoration-none w-auto dropdown-item active" style="margin: -0.1875rem -0.5rem; padding: 0.25rem 1rem;">Create New Customer</a>`,
     });
 
-    $("#item.selectpicker").selectpicker({
+    $("#item").selectpicker({
         noneResultsText: `<a href="${document
             .querySelector('meta[name="item-create-url"]')
             .getAttribute(
@@ -148,29 +177,68 @@ $(() => {
             )}" class="d-block text-decoration-none w-auto dropdown-item active" style="margin: -0.1875rem -0.5rem; padding: 0.25rem 1rem;">Create New Item</a>`,
     });
 
-    $("#teeth.selectpicker").selectpicker({
+    (($) => {
+        // 1. Store a reference to the original function
+        var originalCreateDropdown =
+            $.fn.selectpicker.Constructor.prototype.createDropdown;
+
+        // 2. The class you want to use instead of the default
+        var newButtonClass = "btn-outline-secondary";
+
+        // 3. The class you want to replace
+        var classToReplace = "btn-light";
+
+        // 4. Replace the original function with your own
+        $.fn.selectpicker.Constructor.prototype.createDropdown = function () {
+            // 5. Call the original function to get the dropdown HTML
+            var $dropdown = originalCreateDropdown.apply(this, arguments);
+
+            // 6. Find the action buttons and change their classes
+            $dropdown
+                .find(".bs-select-all, .bs-deselect-all")
+                .removeClass(classToReplace)
+                .addClass(newButtonClass);
+
+            // 7. Return the modified dropdown
+            return $dropdown;
+        };
+    })(jQuery);
+
+    $("#teeth").selectpicker("destroy").selectpicker({
         noneResultsText:
             '<span class="bg-body d-block" style="margin: -0.1875rem; padding: 0.25rem 0.6875rem;">No results matched</span>',
+        actionsBox: true,
+        selectAllText:
+            "<svg width='14' height='14' class='me-2 mb-1' aria-hidden='true'><use href='#check-all' fill='currentColor' /></svg>Select All",
+        deselectAllText:
+            "<svg width='14' height='14' class='me-2 mb-1' aria-hidden='true'><use href='#x-circle' fill='currentColor' /></svg>Clear All",
     });
 
-    // Tab switching logic
-    const tabs = $("#teethTab .nav-link");
-    const panes = $("#teethTabContent .tab-pane");
+    $("#select-all-teeth").on("click", () => {
+        $("#Spots [data-key]").each((_, el) => {
+            el.setAttribute("selected", "selected");
+        });
+        $("#teeth").selectpicker(
+            "val",
+            ["UR", "UL", "LR", "LL"]
+                .map((prefix) => {
+                    return [1, 2, 3, 4, 5, 6, 7, 8].map(
+                        (num) => `${prefix}-${num}`
+                    );
+                })
+                .flat()
+        );
+        sessionStorage.setItem("teeth", $("#teeth").val().join(","));
+        updateReceipt({ amount: $("#teeth").val().length });
+    });
 
-    tabs.on("click", (e) => {
-        e.preventDefault();
-
-        tabs.removeClass("active");
-        panes.removeClass("show active");
-
-        $(e.currentTarget).addClass("active");
-
-        const target = $(e.currentTarget).data("target");
-        const pane = $(target);
-
-        if (pane.length) {
-            pane.addClass("show active");
-        }
+    $("#clear-all-teeth").on("click", () => {
+        $("#Spots [data-key]").each((_, el) => {
+            el.removeAttribute("selected");
+        });
+        $("#teeth").selectpicker("val", "");
+        sessionStorage.removeItem("teeth");
+        updateReceipt({ amount: 0 });
     });
 
     // Toggle selection color on SVG teeth and sync with dropdown
@@ -193,7 +261,15 @@ $(() => {
             selected = selected.filter((v) => v !== val);
         }
         select.val(selected);
-        select.selectpicker();
+        select.selectpicker({
+            noneResultsText:
+                '<span class="bg-body d-block" style="margin: -0.1875rem; padding: 0.25rem 0.6875rem;">No results matched</span>',
+            actionsBox: true,
+            selectAllText:
+                "<svg width='14' height='14' class='me-2 mb-1' aria-hidden='true'><use href='#check-all' fill='currentColor' /></svg>Select All",
+            deselectAllText:
+                "<svg width='14' height='14' class='me-2 mb-1' aria-hidden='true'><use href='#x-circle' fill='currentColor' /></svg>Clear All",
+        });
         sessionStorage.setItem("teeth", selected);
         updateReceipt({ amount: selected.length });
     });
@@ -279,10 +355,9 @@ $(() => {
         }
     });
 
-    discount = parseFloat($("#discount").val() || 0);
     updateReceipt({
         unitPrice: $("#item").find(":selected").data("price") || 0,
         amount: $("#teeth").val().length || 0,
-        discount: discount.toFixed(Number.isInteger(discount) ? 0 : 2),
+        discount: parseFloat($("#discount").val() || 0),
     });
 });

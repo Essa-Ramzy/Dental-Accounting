@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Clinic Accounting</title>
     <link rel="stylesheet" href="{{ asset('resources/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('resources/css/views/layouts/theme.css') }}">
     <script src="{{ asset('resources/js/jquery.min.js') }}"></script>
     <script src="{{ asset('resources/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('resources/js/views/layouts/theme.js') }}"></script>

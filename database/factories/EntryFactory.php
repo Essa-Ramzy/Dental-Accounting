@@ -13,15 +13,19 @@ class EntryFactory extends Factory
   public function definition()
   {
     $quadrants = ['UR', 'UL', 'LL', 'LR'];
+    $amount = 0;
     $teeth = collect($quadrants)
-      ->random(rand(1, 3))
-      ->map(function ($q) {
-        $numbers = collect(range(1, 8))->random(rand(1, 2))->implode('');
+      ->random(rand(1, 4))
+      ->map(function ($q) use (&$amount) {
+        $numbers = collect(range(1, 8))->random(rand(1, 8))->implode('');
+        $amount += strlen($numbers);
         return "$q-$numbers";
-      })->implode(', ');
-    $unit_price = $this->faker->numberBetween(100, 500);
-    $amount = $this->faker->numberBetween(1, 10);
-    $discount = $this->faker->randomFloat(2, 0, 100);
+      })
+      ->implode(', ');
+    $unit_price = $this->faker->randomFloat(2, 200, 800);
+    $discount = $this->faker->randomFloat(2, 0, $unit_price * $amount);
+    $cost = $this->faker->randomFloat(2, $unit_price * 0.5, $unit_price * 0.8) * $amount;
+
     return [
       'customer_id' => Customer::factory(),
       'item_id' => Item::factory(),
@@ -31,7 +35,18 @@ class EntryFactory extends Factory
       'unit_price' => $unit_price,
       'discount' => $discount,
       'price' => $unit_price * $amount - $discount,
-      'cost' => $this->faker->numberBetween(400, 800),
+      'cost' => $cost
     ];
+  }
+
+  public function withItem(Item $item)
+  {
+    return $this->afterMaking(function ($entry) use ($item) {
+      $entry->item_id = $item->id;
+      $entry->unit_price = $item->price;
+      $entry->cost = $item->cost * $entry->amount;
+      $entry->discount = $this->faker->randomFloat(2, 0, $item->price * $entry->amount);
+      $entry->price = $item->price * $entry->amount - $entry->discount;
+    });
   }
 }
