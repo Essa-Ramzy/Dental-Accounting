@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
+use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
 
 class ItemController extends Controller
@@ -93,13 +94,16 @@ class ItemController extends Controller
 
         Item::create($data);
         $previous_url = session()->get('item_previous_url', route('Items'));
-        session()->forget('item_previous_url');
-
-        return ($previous_url == route('Items') or $previous_url == route('Home'))
-            ? redirect()->back()
-                ->with('success', 'Item created successfully.')
-            : redirect($previous_url)
+        if ($previous_url == route('Items') or $previous_url == Str::finish(route('Home'), '/')) {
+            $redirect = redirect()->back()
+                ->with('success', 'Item created successfully.');
+        } else {
+            session()->forget('item_previous_url');
+            $redirect = redirect($previous_url)
                 ->with('createdItemId', Item::latest()->first()->id);
+        }
+
+        return $redirect;
     }
 
     public function delete()

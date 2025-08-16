@@ -1,79 +1,16 @@
 @extends('layouts.app')
 <!-- This is the PDF layout for the entries table -->
 @section('app_content')
-    <style>
-        @media print {
-            .container-fluid {
-                max-width: 100% !important;
-            }
-
-            .table {
-                font-size: 12px;
-            }
-
-            .table th {
-                background-color: #f8f9fa !important;
-            }
-
-            body {
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            }
-
-            .page-break {
-                page-break-after: always;
-            }
-        }
-
-        .pdf-header {
-            border-bottom: 3px solid #0d6efd;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-        }
-
-        .pdf-table {
-            border: 1px solid #dee2e6;
-        }
-
-        .pdf-table th {
-            background-color: #f8f9fa;
-            border-bottom: 2px solid #dee2e6;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .pdf-table td {
-            font-size: 0.85rem;
-            border-bottom: 1px solid #e9ecef;
-        }
-
-        .pdf-footer {
-            border-top: 2px solid #0d6efd;
-            background-color: #f8f9fa;
-            font-weight: 600;
-        }
-
-        .teeth-display {
-            max-width: 200px;
-            word-wrap: break-word;
-            font-size: 0.8rem;
-        }
-
-        .currency {
-            text-align: right;
-            font-family: 'Courier New', monospace;
-        }
-    </style>
-
     <main class="container-fluid">
         <!-- PDF Header -->
         <div class="pdf-header mb-4">
             <div class="row align-items-center">
-                <div class="col-md-8">
+                <div class="col-md-10">
                     <h1 class="h3 mb-1 text-primary fw-bold">Dental Clinic Entries Report</h1>
                     <p class="text-muted mb-0">Generated on {{ date('F j, Y \a\t g:i A') }}</p>
                 </div>
-                <div class="col-md-4 text-md-end">
-                    <div class="border rounded p-3 bg-light">
+                <div class="col-md-2 text-md-end">
+                    <div class="border rounded px-3 py-2 my-2">
                         <div class="small text-muted">Total Entries</div>
                         <div class="h4 mb-0 text-primary">{{ $entries->count() }}</div>
                     </div>
@@ -83,7 +20,7 @@
 
         <!-- Data Table -->
         <div class="table-responsive">
-            <table class="table table-sm pdf-table mb-0">
+            <table class="table table-sm mb-0" style="font-size: 0.875rem;">
                 <thead>
                     <tr>
                         <!-- Set the chosen columns to be displayed -->
@@ -100,7 +37,7 @@
                             <th scope="col">Treatment</th>
                         @endif
                         @if (isset($columns['teeth']))
-                            <th scope="col">Teeth</th>
+                            <th scope="col" class="text-center">Teeth</th>
                         @endif
                         @if (isset($columns['amount']))
                             <th scope="col" class="text-center">Qty</th>
@@ -112,7 +49,7 @@
                             <th scope="col" class="text-end">Discount</th>
                         @endif
                         @if (isset($columns['price']))
-                            <th scope="col" class="text-end">Total Price</th>
+                            <th scope="col" class="text-end">Total</th>
                         @endif
                         @if (isset($columns['cost']))
                             <th scope="col" class="text-end">Cost</th>
@@ -121,72 +58,83 @@
                 </thead>
                 <tbody>
                     <!-- Loop through the entries and display the data -->
-                    @foreach ($entries as $entry)
-                        <tr>
+                    @forelse ($entries as $entry)
+                        <tr class="align-middle">
                             <!-- Set the chosen columns to be displayed -->
                             @if (isset($columns['id']))
-                                <th scope="row" class="text-center">{{ $entry->id }}</th>
+                                <th scope="row" class="text-center text-muted">{{ $entry->id }}</th>
                             @endif
                             @if (isset($columns['date']))
-                                <td>{{ $entry->date->format('d/m/Y') }}</td>
+                                <td class="text-muted">{{ $entry->date->format('M d, Y') }}</td>
                             @endif
                             @if (isset($columns['name']))
                                 <td class="fw-semibold">{{ $entry->customer->name }}</td>
                             @endif
                             @if (isset($columns['item']))
-                                <td>{{ $entry->item->name }}</td>
+                                <td class="fw-medium">{{ $entry->item->name }}</td>
                             @endif
                             @if (isset($columns['teeth']))
-                                <td class="teeth-display">
-                                    <span class="badge bg-light text-dark border">{{ $entry->teeth }}</span>
+                                <td class="text-center">
+                                    <span class="badge bg-light-subtle text-body border">{{ $entry->teeth }}</span>
                                 </td>
                             @endif
                             @if (isset($columns['amount']))
-                                <td class="text-center">{{ $entry->amount }}</td>
+                                <td class="text-center">
+                                    <span class="badge bg-primary rounded-pill">{{ $entry->amount }}</span>
+                                </td>
                             @endif
                             @if (isset($columns['unit_price']))
-                                <td class="currency">£
-                                    {{ number_format($entry->unit_price, strlen(rtrim(substr(strrchr($entry->unit_price, '.'), 1), '0'))) }}
+                                <td class="text-end fw-semibold text-nowrap" style="font-family: 'Courier New', monospace;">
+                                    £{{ number_format($entry->unit_price, strlen(rtrim(substr(strrchr($entry->unit_price, '.'), 1), '0'))) }}
                                 </td>
                             @endif
                             @if (isset($columns['discount']))
-                                <td class="currency">
-                                    £
-                                    {{ number_format($entry->discount, strlen(rtrim(substr(strrchr($entry->discount, '.'), 1), '0'))) }}
+                                <td class="text-end {{ $entry->discount > 0 ? 'text-danger' : 'text-muted' }} text-nowrap"
+                                    style="font-family: 'Courier New', monospace;">
+                                    {{ $entry->discount > 0 ? '-£' . number_format($entry->discount, strlen(rtrim(substr(strrchr($entry->discount, '.'), 1), '0'))) : '£0' }}
                                 </td>
                             @endif
                             @if (isset($columns['price']))
-                                <td class="currency fw-semibold">
-                                    £
-                                    {{ number_format($entry->price, strlen(rtrim(substr(strrchr($entry->price, '.'), 1), '0'))) }}
+                                <td class="text-end fw-bold text-success text-nowrap"
+                                    style="font-family: 'Courier New', monospace;">
+                                    £{{ number_format($entry->price, strlen(rtrim(substr(strrchr($entry->price, '.'), 1), '0'))) }}
                                 </td>
                             @endif
                             @if (isset($columns['cost']))
-                                <td class="currency">£
-                                    {{ number_format($entry->cost, strlen(rtrim(substr(strrchr($entry->cost, '.'), 1), '0'))) }}
+                                <td class="text-end text-muted text-nowrap" style="font-family: 'Courier New', monospace;">
+                                    £{{ number_format($entry->cost, strlen(rtrim(substr(strrchr($entry->cost, '.'), 1), '0'))) }}
                                 </td>
                             @endif
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="12" class="text-center py-5 text-muted">
+                                <svg width="48" height="48" class="mb-3 text-muted" aria-hidden="true">
+                                    <use href="#journal-medical" fill="currentColor" />
+                                </svg>
+                                <div class="h5">No entries found</div>
+                                <p class="mb-3">Start by adding your first treatment entry.</p>
+                            </td>
+                        </tr>
+                    @endforelse
                 </tbody>
-                <tfoot class="pdf-footer">
+                <tfoot>
                     <tr>
                         <!-- Set the rows count and the total of the price and cost columns -->
                         @if ($count)
-                            <th scope="row" colspan="{{ $count }}" class="text-center py-3">
-                                <strong>Total Entries: {{ $entries->count() }}</strong>
-                            </th>
+                            <th scope="row" colspan="{{ $count }}" class="text-center fw-semibold">Total Entries:
+                                {{ $entries->count() }}</th>
                         @endif
                         @if (isset($columns['price']))
-                            <td class="currency py-3">
-                                <strong>£
-                                    {{ number_format($entries->sum('price'), strlen(rtrim(substr(strrchr($entries->sum('price'), '.'), 1), '0'))) }}</strong>
+                            <td class="text-end fw-bold text-success text-nowrap"
+                                style="font-family: 'Courier New', monospace;">
+                                £{{ number_format($entries->sum('price'), strlen(rtrim(substr(strrchr($entries->sum('price'), '.'), 1), '0'))) }}
                             </td>
                         @endif
                         @if (isset($columns['cost']))
-                            <td class="currency py-3">
-                                <strong>£
-                                    {{ number_format($entries->sum('cost'), strlen(rtrim(substr(strrchr($entries->sum('cost'), '.'), 1), '0'))) }}</strong>
+                            <td class="text-end fw-semibold text-muted text-nowrap"
+                                style="font-family: 'Courier New', monospace;">
+                                £{{ number_format($entries->sum('cost'), strlen(rtrim(substr(strrchr($entries->sum('cost'), '.'), 1), '0'))) }}
                             </td>
                         @endif
                     </tr>

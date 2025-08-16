@@ -36,10 +36,18 @@
                         {{ number_format($item->cost, strlen(rtrim(substr(strrchr($item->cost, '.'), 1), '0'))) }}</span>
                 </td>
                 <td>
-                    <span class="text-truncate d-inline-block" style="max-width: 20rem;" title="{{ $item->description }}"
-                        data-bs-toggle="tooltip">
-                        {{ $item->description == 'N/A' ? 'No description' : $item->description }}
-                    </span>
+                    @if ($item->description != 'N/A')
+                        <span role="button" data-bs-toggle="modal" data-bs-target="#descriptionModal"
+                            data-item-name="{{ $item->name }}" data-description="{{ $item->description }}"
+                            class="badge bg-light-subtle text-body border">
+                            {{ Str::limit($item->description, 50) }}
+                            <svg width="12" height="12" class="ms-1 opacity-75" aria-hidden="true">
+                                <use href="#eye" fill="currentColor" />
+                            </svg>
+                        </span>
+                    @else
+                        <span class="text-muted fst-italic">No description</span>
+                    @endif
                 </td>
                 <td class="text-center">
                     <a href="{{ route('Item.records', ['id' => $item->id]) }}" class="btn btn-sm btn-outline-primary">
@@ -56,13 +64,14 @@
                                 <use href="#pencil-square" fill="none" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
-                            <a href="#deleteModal" data-bs-toggle="modal" id="{{ $item->id }}"
-                                class="btn btn-sm btn-outline-danger border-secondary border-start-0"
-                                aria-label="Delete {{ $item->name }}">
-                                <svg width="24" height="24" aria-hidden="true">
-                                    <use href="#trash-fill" fill="currentColor" />
-                                </svg>
-                            </a>
+                        </a>
+                        <a href="#deleteModal" data-bs-toggle="modal" id="{{ $item->id }}"
+                            class="btn btn-sm btn-outline-danger border-secondary border-start-0"
+                            aria-label="Delete {{ $item->name }}">
+                            <svg width="24" height="24" aria-hidden="true">
+                                <use href="#trash-fill" fill="currentColor" />
+                            </svg>
+                        </a>
                     </div>
                 </td>
             </tr>
@@ -119,6 +128,40 @@
     <li><button class="dropdown-item" type="button">Cost</button></li>
 @endsection
 @section('modal')
+    <!-- Single description modal -->
+    <div class="modal fade" id="descriptionModal" tabindex="-1" aria-labelledby="descriptionModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title" id="descriptionModalLabel">
+                        <svg width="24" height="24" class="me-1 mb-1" aria-hidden="true">
+                            <use href="#file-text" fill="currentColor" />
+                        </svg>
+                        <span id="modalItemName">Item</span> - Description
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body py-0">
+                    <div class="card p-0">
+                        <div class="card-body">
+                            <p class="mb-0" style="white-space: pre-line;" id="modalDescriptionText"></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-outline-primary" id="copyDescriptionBtn">
+                        <svg width="16" height="16" class="me-2 mb-1" aria-hidden="true">
+                            <use href="#clipboard2-plus" fill="currentColor" />
+                        </svg>
+                        Copy Description
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- This is the modal for deleting an item -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">

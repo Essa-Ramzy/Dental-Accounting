@@ -64,7 +64,8 @@
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label fw-semibold">Original Total</label>
                                         <div class="bg-secondary-subtle rounded p-2 border border-secondary-subtle">
-                                            <strong>£ {{ number_format($entry->price, strlen(rtrim(substr(strrchr($entry->price, '.'), 1), '0'))) }}</strong>
+                                            <strong>£
+                                                {{ number_format($entry->price, strlen(rtrim(substr(strrchr($entry->price, '.'), 1), '0'))) }}</strong>
                                         </div>
                                     </div>
                                 </div>
@@ -153,7 +154,8 @@
                                             </div>
                                         @endif
                                         <div class="form-text">Current discount:
-                                            £ {{ number_format($entry->discount, strlen(rtrim(substr(strrchr($entry->discount, '.'), 1), '0'))) }}
+                                            £
+                                            {{ number_format($entry->discount, strlen(rtrim(substr(strrchr($entry->discount, '.'), 1), '0'))) }}
                                         </div>
                                     </div>
                                 </div>
@@ -311,7 +313,8 @@
                                     <div class="mt-4 pt-3 border-top">
                                         <div class="d-flex justify-content-between align-items-center text-muted small">
                                             <span>Original Total:</span>
-                                            <span>£ {{ number_format($entry->price, strlen(rtrim(substr(strrchr($entry->price, '.'), 1), '0'))) }}</span>
+                                            <span>£
+                                                {{ number_format($entry->price, strlen(rtrim(substr(strrchr($entry->price, '.'), 1), '0'))) }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -327,7 +330,7 @@
                             <a href="{{ route('Entries') }}" class="btn btn-outline-secondary">Cancel</a>
                             <button type="submit" class="btn btn-warning px-5">
                                 <svg width="16" height="16" class="me-2 mb-1" aria-hidden="true">
-                                    <use xlink:href="#check2" fill="none" stroke="currentColor" stroke-width="2"
+                                    <use xlink:href="#check-lg" fill="none" stroke="currentColor" stroke-width="2"
                                         stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
                                 Update Entry

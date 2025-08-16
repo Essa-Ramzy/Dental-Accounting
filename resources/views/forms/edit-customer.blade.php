@@ -74,7 +74,7 @@
                     <a href="{{ route('Customers') }}" class="btn btn-outline-secondary">Cancel</a>
                     <button type="submit" class="btn btn-warning px-4">
                         <svg width="16" height="16" class="me-2 mb-1" aria-hidden="true">
-                            <use href="#check2" fill="currentColor" />
+                            <use href="#check-lg" fill="currentColor" />
                         </svg>
                         Update Customer
                     </button>

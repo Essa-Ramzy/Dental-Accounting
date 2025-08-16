@@ -183,7 +183,7 @@ $(() => {
             $.fn.selectpicker.Constructor.prototype.createDropdown;
 
         // 2. The class you want to use instead of the default
-        var newButtonClass = "btn-outline-secondary";
+        var newButtonClass = "btn-outline-info";
 
         // 3. The class you want to replace
         var classToReplace = "btn-light";

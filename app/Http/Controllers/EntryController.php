@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Item;
 use App\Models\Entry;
 use App\Models\Customer;
-use App\Models\Item;
-use Spatie\LaravelPdf\Facades\Pdf;
+use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
+use Spatie\LaravelPdf\Facades\Pdf;
 
 class EntryController extends Controller
 {
@@ -166,13 +167,16 @@ class EntryController extends Controller
 
         Entry::create($data);
         $previous_url = session()->get('entry_previous_url', route('Entries'));
-        session()->forget('entry_previous_url');
-
-        return ($previous_url == route('Entries') or $previous_url == route('Home'))
-            ? redirect()->back()
-                ->with('success', 'Entry created successfully.')
-            : redirect($previous_url)
+        if ($previous_url == route('Entries') or $previous_url == Str::finish(route('Home'), '/')) {
+            $redirect = redirect()->back()
+                ->with('success', 'Entry created successfully.');
+        } else {
+            session()->forget('entry_previous_url');
+            $redirect = redirect($previous_url)
                 ->with('createdEntryId', Entry::latest()->first()->id);
+        }
+
+        return $redirect;
     }
 
     public function delete()

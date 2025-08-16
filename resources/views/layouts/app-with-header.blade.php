@@ -75,9 +75,9 @@
         <symbol id="circle-half" viewBox="0 0 16 16">
             <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"></path>
         </symbol>
-        <symbol id="check2" viewBox="0 0 16 16">
+        <symbol id="check-lg" viewBox="0 0 16 16">
             <path
-                d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z">
+                d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425z">
             </path>
         </symbol>
         <symbol id="file-pdf" viewBox="0 0 24 24">
@@ -177,6 +177,34 @@
                 d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z">
             </path>
         </symbol>
+        <symbol id="clipboard2-plus" viewBox="0 0 16 16">
+            <path
+                d="M9.5 0a.5.5 0 0 1 .5.5.5.5 0 0 0 .5.5.5.5 0 0 1 .5.5V2a.5.5 0 0 1-.5.5h-5A.5.5 0 0 1 5 2v-.5a.5.5 0 0 1 .5-.5.5.5 0 0 0 .5-.5.5.5 0 0 1 .5-.5z">
+            </path>
+            <path
+                d="M3 2.5a.5.5 0 0 1 .5-.5H4a.5.5 0 0 0 0-1h-.5A1.5 1.5 0 0 0 2 2.5v12A1.5 1.5 0 0 0 3.5 16h9a1.5 1.5 0 0 0 1.5-1.5v-12A1.5 1.5 0 0 0 12.5 1H12a.5.5 0 0 0 0 1h.5a.5.5 0 0 1 .5.5v12a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5z">
+            </path>
+            <path d="M8.5 6.5a.5.5 0 0 0-1 0V8H6a.5.5 0 0 0 0 1h1.5v1.5a.5.5 0 0 0 1 0V9H10a.5.5 0 0 0 0-1H8.5z"></path>
+        </symbol>
+        <symbol id="clipboard2-check" viewBox="0 0 16 16">
+            <path
+                d="M9.5 0a.5.5 0 0 1 .5.5.5.5 0 0 0 .5.5.5.5 0 0 1 .5.5V2a.5.5 0 0 1-.5.5h-5A.5.5 0 0 1 5 2v-.5a.5.5 0 0 1 .5-.5.5.5 0 0 0 .5-.5.5.5 0 0 1 .5-.5z">
+            </path>
+            <path
+                d="M3 2.5a.5.5 0 0 1 .5-.5H4a.5.5 0 0 0 0-1h-.5A1.5 1.5 0 0 0 2 2.5v12A1.5 1.5 0 0 0 3.5 16h9a1.5 1.5 0 0 0 1.5-1.5v-12A1.5 1.5 0 0 0 12.5 1H12a.5.5 0 0 0 0 1h.5a.5.5 0 0 1 .5.5v12a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5z">
+            </path>
+            <path
+                d="M10.854 7.854a.5.5 0 0 0-.708-.708L7.5 9.793 6.354 8.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z">
+            </path>
+        </symbol>
+        <symbol id="file-text" viewBox="0 0 16 16">
+            <path
+                d="M5 4a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5M5 8a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1zm0 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1z">
+            </path>
+            <path
+                d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1">
+            </path>
+        </symbol>
     </svg>
     <!-- Header (navigation bar) for the web application -->
     <header
@@ -261,7 +289,7 @@
                                 Light
                                 <svg class="ms-auto d-none mb-0" width="16" height="16" role="img"
                                     aria-hidden="true">
-                                    <use href="#check2" fill="currentColor" />
+                                    <use href="#check-lg" fill="currentColor" />
                                 </svg>
                             </button>
                         </li>
@@ -274,7 +302,7 @@
                                 Dark
                                 <svg class="ms-auto d-none mb-0" width="16" height="16" role="img"
                                     aria-hidden="true">
-                                    <use href="#check2" fill="currentColor" />
+                                    <use href="#check-lg" fill="currentColor" />
                                 </svg>
                             </button>
                         </li>
@@ -287,7 +315,7 @@
                                 Auto
                                 <svg class="ms-auto d-none mb-0" width="16" height="16" role="img"
                                     aria-hidden="true">
-                                    <use href="#check2" fill="currentColor" />
+                                    <use href="#check-lg" fill="currentColor" />
                                 </svg>
                             </button>
                         </li>

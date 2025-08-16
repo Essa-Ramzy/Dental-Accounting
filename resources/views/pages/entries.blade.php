@@ -110,16 +110,16 @@
                 <td class="text-muted">
                     {{ $entry->date->format('M d, Y') }}
                 </td>
-                <td>
-                    <div class="fw-semibold">{{ $entry->customer->name }}</div>
+                <td class="fw-semibold">
+                    {{ $entry->customer->name }}
                 </td>
-                <td>
-                    <div class="fw-medium">{{ $entry->item->name }}</div>
+                <td class="fw-medium">
+                    {{ $entry->item->name }}
                 </td>
                 <td class="text-center">
-                    <span role="button" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-html="true"
+                    <span role="button" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-html="true"
                         data-bs-content-target="toothTooltip{{ $entry->id }}"
-                        class="badge bg-light-subtle text-body border position-relative">
+                        class="badge bg-light-subtle text-body border">
                         {{ $entry->teeth }}
                         <svg width="12" height="12" class="ms-1 opacity-75" aria-hidden="true">
                             <use href="#eye" fill="currentColor" />
@@ -137,25 +137,17 @@
                 <td class="text-center">
                     <span class="badge bg-primary rounded-pill">{{ $entry->amount }}</span>
                 </td>
-                <td class="text-end">
-                    <span class="fw-semibold text-nowrap">£
-                        {{ number_format($entry->unit_price, strlen(rtrim(substr(strrchr($entry->unit_price, '.'), 1), '0'))) }}</span>
+                <td class="text-end fw-semibold text-nowrap">£
+                    {{ number_format($entry->unit_price, strlen(rtrim(substr(strrchr($entry->unit_price, '.'), 1), '0'))) }}
                 </td>
-                <td class="text-end">
-                    @if ($entry->discount > 0)
-                        <span class="text-danger text-nowrap">-£
-                            {{ number_format($entry->discount, strlen(rtrim(substr(strrchr($entry->discount, '.'), 1), '0'))) }}</span>
-                    @else
-                        <span class="text-muted text-nowrap">£ 0</span>
-                    @endif
+                <td class="text-end {{ $entry->discount > 0 ? 'text-danger' : 'text-muted' }} text-nowrap">
+                    {{ $entry->discount > 0 ? '-£ ' . number_format($entry->discount, strlen(rtrim(substr(strrchr($entry->discount, '.'), 1), '0'))) : '£ 0' }}
                 </td>
-                <td class="text-end">
-                    <span class="fw-bold text-success text-nowrap">£
-                        {{ number_format($entry->price, strlen(rtrim(substr(strrchr($entry->price, '.'), 1), '0'))) }}</span>
+                <td class="text-end fw-bold text-success text-nowrap">£
+                    {{ number_format($entry->price, strlen(rtrim(substr(strrchr($entry->price, '.'), 1), '0'))) }}
                 </td>
-                <td class="text-end">
-                    <span class="text-muted text-nowrap">£
-                        {{ number_format($entry->cost, strlen(rtrim(substr(strrchr($entry->cost, '.'), 1), '0'))) }}</span>
+                <td class="text-end text-muted text-nowrap">£
+                    {{ number_format($entry->cost, strlen(rtrim(substr(strrchr($entry->cost, '.'), 1), '0'))) }}
                 </td>
                 <td class="text-end">
                     <div class="btn-group" role="group" aria-label="Entry actions">

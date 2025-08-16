@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
 
 class CustomerController extends Controller
@@ -80,13 +81,16 @@ class CustomerController extends Controller
 
         Customer::create($data);
         $previous_url = session()->get('customer_previous_url', route('Customers'));
-        session()->forget('customer_previous_url');
-
-        return ($previous_url == route('Customers') or $previous_url == route('Home'))
-            ? redirect()->back()
-                ->with('success', 'Customer created successfully.')
-            : redirect($previous_url)
+        if ($previous_url == route('Customers') or $previous_url == Str::finish(route('Home'), '/')) {
+            $redirect = redirect()->back()
+                ->with('success', 'Customer created successfully.');
+        } else {
+            session()->forget('customer_previous_url');
+            $redirect = redirect($previous_url)
                 ->with('createdCustomerId', Customer::latest()->first()->id);
+        }
+
+        return $redirect;
     }
 
     public function delete()

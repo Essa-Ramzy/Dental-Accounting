@@ -409,13 +409,13 @@
     <div class="row mt-3 text-center">
         <div class="col-6 mb-2">
             <div class="d-flex align-items-center justify-content-center">
-                <div class="me-2 rounded" style="width: 16px; height: 16px; background-color: var(--bs-light);"></div>
+                <div class="me-2 rounded" style="width: 1rem; height: 1rem; background-color: #fff;"></div>
                 <small class="text-muted">Unselected</small>
             </div>
         </div>
         <div class="col-6 mb-2">
             <div class="d-flex align-items-center justify-content-center">
-                <div class="me-2 rounded" style="width: 16px; height: 16px; background-color: #f00;">
+                <div class="me-2 rounded" style="width: 1rem; height: 1rem; background-color: #f00;">
                 </div>
                 <small class="text-muted">Selected</small>
             </div>

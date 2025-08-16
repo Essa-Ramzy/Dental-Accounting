@@ -58,14 +58,15 @@
                         <div class="form-group p-0 w-100 d-flex align-items-end p-0 position-relative">
                             <input class="form-control" type="search" placeholder="Search" aria-label="Search"
                                 id="search" value="{{ Session::get('customer') ?? (Session::get('item') ?? '') }}">
-                            <div class="dropdown position-absolute end-0 top-50 translate-middle-y d-flex">
+                            <div class="dropdown position-absolute end-0 top-50 translate-middle-y d-flex"
+                                style="z-index: 1050;">
                                 <button id="dropdown_btn"
                                     class="btn btn-outline-secondary dropdown-toggle rounded-0 rounded-end border-0 border-start rounded-end-1"
                                     style="margin-right: calc(1 * var(--bs-border-width))" type="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">
                                     Search by
                                 </button>
-                                <ul class="dropdown-menu dropdown-menu-end">
+                                <ul class="dropdown-menu dropdown-menu-end" style="z-index: 1051;">
                                     @yield('dropdown')
                                 </ul>
                             </div>

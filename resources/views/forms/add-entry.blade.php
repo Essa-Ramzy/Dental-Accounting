@@ -172,7 +172,7 @@
                                         <div class="d-flex justify-content-center mb-3">
                                             <div class="btn-group btn-group-sm" role="group"
                                                 aria-label="Selection tools">
-                                                <button type="button" class="btn btn-outline-secondary"
+                                                <button type="button" class="btn btn-outline-info"
                                                     id="select-all-teeth" title="Select All Teeth">
                                                     <svg width="14" height="14" class="me-1 mb-1"
                                                         aria-hidden="true">
@@ -180,7 +180,7 @@
                                                     </svg>
                                                     Select All
                                                 </button>
-                                                <button type="button" class="btn btn-outline-secondary"
+                                                <button type="button" class="btn btn-outline-info"
                                                     id="clear-all-teeth" title="Clear All Selections">
                                                     <svg width="14" height="14" class="me-1 mb-1"
                                                         aria-hidden="true">

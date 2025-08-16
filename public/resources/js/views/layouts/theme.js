@@ -9,7 +9,7 @@ const setTheme = (mode) => {
     } else if (mode === "dark") {
         html.setAttribute("data-bs-theme", "dark");
     } else if (mode === "light") {
-        html.setAttribute("data-bs-theme", "light");
+        html.removeAttribute("data-bs-theme");
     } else {
         console.warn("Invalid theme mode:", mode);
     }
@@ -49,10 +49,12 @@ $(() => {
             .filter(`[data-bs-theme-value="${mode}"]`)
             .attr("aria-pressed", "true")
             .addClass("active");
-        $("[data-bs-theme-value] svg:has([href='#check2'])").addClass("d-none");
-        $("[data-bs-theme-value].active svg:has([href='#check2'])").removeClass(
+        $("[data-bs-theme-value] svg:has([href='#check-lg'])").addClass(
             "d-none"
         );
+        $(
+            "[data-bs-theme-value].active svg:has([href='#check-lg'])"
+        ).removeClass("d-none");
     };
     change_selected(localStorage.getItem("theme") || "auto");
     theme_buttons.on("click", (e) => {
