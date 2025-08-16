@@ -25,7 +25,7 @@
                     <a href="{{ route('Entries') }}" class="btn btn-outline-secondary me-3"
                         aria-label="Go back to entries">
                         <svg width="16" height="16" class="me-2 mb-1" aria-hidden="true">
-                            <use xlink:href="#arrow-left" fill="currentColor" />
+                            <use href="#arrow-left" fill="currentColor" />
                         </svg>
                         Back
                     </a>
@@ -224,7 +224,7 @@
                                         <div class="d-flex justify-content-center mb-3">
                                             <div class="btn-group btn-group-sm" role="group"
                                                 aria-label="Selection tools">
-                                                <button type="button" class="btn btn-outline-secondary"
+                                                <button type="button" class="btn btn-outline-primary"
                                                     id="select-all-teeth" title="Select All Teeth">
                                                     <svg width="14" height="14" class="me-1 mb-1"
                                                         aria-hidden="true">
@@ -232,7 +232,7 @@
                                                     </svg>
                                                     Select All
                                                 </button>
-                                                <button type="button" class="btn btn-outline-secondary"
+                                                <button type="button" class="btn btn-outline-primary"
                                                     id="clear-all-teeth" title="Clear All Selections">
                                                     <svg width="14" height="14" class="me-1 mb-1"
                                                         aria-hidden="true">
@@ -285,7 +285,7 @@
                                 <div class="card-header bg-success text-white">
                                     <h2 class="h6 mb-0">
                                         <svg width="18" height="18" class="me-2 mb-1" aria-hidden="true">
-                                            <use xlink:href="#receipt-cutoff" fill="currentColor" />
+                                            <use href="#receipt-cutoff" fill="currentColor" />
                                         </svg>
                                         Updated Summary
                                     </h2>
@@ -330,7 +330,7 @@
                             <a href="{{ route('Entries') }}" class="btn btn-outline-secondary">Cancel</a>
                             <button type="submit" class="btn btn-warning px-5">
                                 <svg width="16" height="16" class="me-2 mb-1" aria-hidden="true">
-                                    <use xlink:href="#check-lg" fill="none" stroke="currentColor" stroke-width="2"
+                                    <use href="#check-lg" fill="none" stroke="currentColor" stroke-width="2"
                                         stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
                                 Update Entry

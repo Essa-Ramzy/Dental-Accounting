@@ -95,7 +95,11 @@ class CustomerController extends Controller
 
     public function delete()
     {
-        $this->searchFunc()->each->delete();
+        if (request('filter') == 'single') {
+            Customer::find(request('search'))->delete();
+        } else {
+            $this->searchFunc()->each->delete();
+        }
         return redirect(route('Customers'));
     }
 

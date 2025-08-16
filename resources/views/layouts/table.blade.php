@@ -18,7 +18,7 @@
                     <div class="col-md-10 col-12">
                         <a type="button" class="btn btn-primary w-100 w-md-auto" href="{{ route($view . '.create') }}">
                             <svg class="me-2 mb-1" width="16" height="16" fill="currentColor">
-                                <use xlink:href="#plus-circle" fill="none" stroke="currentColor" stroke-width="2"
+                                <use href="#plus-circle" fill="none" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                             Add {{ $view }}
@@ -57,7 +57,8 @@
                         <label for="search" class="form-label fw-semibold">Search</label>
                         <div class="form-group p-0 w-100 d-flex align-items-end p-0 position-relative">
                             <input class="form-control" type="search" placeholder="Search" aria-label="Search"
-                                id="search" value="{{ Session::get('customer') ?? (Session::get('item') ?? '') }}">
+                                style="padding-right: calc(20 * 0.375rem)" id="search"
+                                value="{{ Session::get('customer') ?? (Session::get('item') ?? '') }}">
                             <div class="dropdown position-absolute end-0 top-50 translate-middle-y d-flex"
                                 style="z-index: 1050;">
                                 <button id="dropdown_btn"

@@ -8,7 +8,7 @@ $(() => {
                 .replace(" ", "_");
             if (e.currentTarget.id) {
                 search = e.currentTarget.id;
-                filter = "id";
+                filter = "single";
             }
             let from_date = $("#from_date").val();
             let to_date = $("#to_date").val();
@@ -64,7 +64,7 @@ $(() => {
             },
             success: function (data) {
                 $(".table-responsive tbody").html(
-                    (rows = Object.values(data.body))
+                    (rows = Object.values(data.body)).length
                         ? rows
                             .map((entry) => {
                                 return `
@@ -127,13 +127,13 @@ $(() => {
                                         ${
                                             entry.discount > 0
                                                 ? '<span class="text-danger text-nowrap">-£ ' +
-                                                Number(
-                                                    entry.discount
-                                                ).toLocaleString("en-US", {
-                                                    minimumFractionDigits: 0,
-                                                    maximumFractionDigits: 2,
-                                                }) +
-                                                "</span>"
+                                                    Number(
+                                                        entry.discount
+                                                    ).toLocaleString("en-US", {
+                                                        minimumFractionDigits: 0,
+                                                        maximumFractionDigits: 2,
+                                                    }) +
+                                                    "</span>"
                                                 : '<span class="text-muted text-nowrap">£ 0</span>'
                                         }
                                     </td>

@@ -8,7 +8,7 @@ $(() => {
                 .replace(" ", "_");
             if (e.currentTarget.id) {
                 search = e.currentTarget.id;
-                filter = "id";
+                filter = "single";
             }
             let from_date = $("#from_date").val();
             let to_date = $("#to_date").val();

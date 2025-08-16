@@ -12,7 +12,7 @@
             <th scope="col">Item Name</th>
             <th scope="col" class="text-end">Price</th>
             <th scope="col" class="text-end">Cost</th>
-            <th scope="col">Description</th>
+            <th scope="col" class="text-center">Description</th>
             <th scope="col" class="text-center">Records</th>
             <th scope="col" class="text-center" style="width: 120px;">Actions</th>
         </tr>
@@ -35,7 +35,7 @@
                     <span class="text-muted">£
                         {{ number_format($item->cost, strlen(rtrim(substr(strrchr($item->cost, '.'), 1), '0'))) }}</span>
                 </td>
-                <td>
+                <td class="text-center">
                     @if ($item->description != 'N/A')
                         <span role="button" data-bs-toggle="modal" data-bs-target="#descriptionModal"
                             data-item-name="{{ $item->name }}" data-description="{{ $item->description }}"

@@ -60,13 +60,13 @@
                                 <label class="form-check-label" for="item">Treatment</label>
                             </div>
                             <div class="form-check form-switch mb-1">
-                                <input name="teeth" class="form-check-input" type="checkbox" role="switch" id="teeth"
-                                    value="Teeth" checked>
+                                <input name="teeth" class="form-check-input" type="checkbox" role="switch"
+                                    id="teeth" value="Teeth" checked>
                                 <label class="form-check-label" for="teeth">Teeth</label>
                             </div>
                             <div class="form-check form-switch mb-1">
-                                <input name="amount" class="form-check-input" type="checkbox" role="switch" id="amount"
-                                    value="Amount" checked>
+                                <input name="amount" class="form-check-input" type="checkbox" role="switch"
+                                    id="amount" value="Amount" checked>
                                 <label class="form-check-label" for="amount">Quantity</label>
                             </div>
                             <div class="form-check form-switch mb-1">

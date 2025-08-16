@@ -13,6 +13,13 @@ $(() => {
         "#dropdown_btn + .dropdown-menu .dropdown-item",
         (e) => {
             $("#dropdown_btn").text(e.currentTarget.textContent);
+            $("#search").css(
+                "padding-right",
+                "calc(" +
+                    $("#dropdown_btn").outerWidth() / 6 +
+                    1.5 +
+                    " * 0.375rem)"
+            );
             $("#search").trigger("change");
         }
     );

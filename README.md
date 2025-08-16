@@ -17,6 +17,7 @@ A comprehensive web application designed for dental clinics to manage accounting
 -   **PDF Export**: Generate detailed reports with customizable column selection
 -   **Responsive Design**: Modern Bootstrap-based UI with dark/light theme support
 -   **Real-time Calculations**: Automatic price calculations with discount support
+-   **Soft Delete Protection**: Safe deletion with recovery options for all entities
 
 ## Table of Contents
 
@@ -56,10 +57,11 @@ A comprehensive web application designed for dental clinics to manage accounting
 
 -   **Backend**: Laravel 12.x
 -   **Frontend**: Bootstrap 5, jQuery, HTML5, CSS3
--   **Database**: MySQL
+-   **Database**: MySQL with soft delete support
 -   **PDF Generation**: Spatie Laravel PDF with Puppeteer
 -   **Interactive Components**: SVG-based tooth visualization
 -   **PHP Version**: 8.2+
+-   **Data Protection**: Eloquent ORM with soft delete functionality
 
 ## Getting Started
 
@@ -102,7 +104,7 @@ Before setting up the application, ensure you have the following installed:
 3. **Install PHP Dependencies**
 
     ```bash
-    cd dental-accounting
+    cd Dental-Accounting
     composer install
     ```
 
@@ -201,6 +203,7 @@ Represents clinic patients/customers.
 -   `name`: Customer's full name (unique)
 -   `created_at`: Record creation timestamp
 -   `updated_at`: Last modification timestamp
+-   `deleted_at`: Soft delete timestamp (nullable)
 
 **Relationships:**
 
@@ -209,6 +212,7 @@ Represents clinic patients/customers.
 **Key Features:**
 
 -   Unique name constraint to prevent duplicates
+-   Soft delete functionality for data recovery
 -   Factory and seeder support for testing
 
 #### Item Model (`app/Models/Item.php`)
@@ -219,11 +223,12 @@ Represents dental procedures, treatments, or products.
 
 -   `id`: Primary key (auto-increment)
 -   `name`: Item/procedure name (unique)
--   `price`: Selling price (integer, stored in pounds)
--   `cost`: Item cost (integer, stored in pounds)
+-   `price`: Selling price (decimal, stored with 2 decimal places)
+-   `cost`: Item cost (decimal, stored with 2 decimal places)
 -   `description`: Optional detailed description or notes
 -   `created_at`: Record creation timestamp
 -   `updated_at`: Last modification timestamp
+-   `deleted_at`: Soft delete timestamp (nullable)
 
 **Relationships:**
 
@@ -231,9 +236,10 @@ Represents dental procedures, treatments, or products.
 
 **Key Features:**
 
--   Price and cost stored as integers to avoid floating-point issues
+-   Price and cost stored as decimals with 2 decimal places for precision
 -   Optional description field for detailed procedure notes
 -   Unique name constraint
+-   Soft delete functionality for data recovery
 
 #### Entry Model (`app/Models/Entry.php`)
 
@@ -247,12 +253,13 @@ Represents individual treatment records linking customers to items.
 -   `date`: Treatment date
 -   `teeth`: Comma-separated list of affected teeth (e.g., "UR-125, UL-2, LL-45")
 -   `amount`: Number of teeth/units treated
--   `unit_price`: Price per unit/tooth
--   `discount`: Discount in pounds/percentage (decimal, 2 places)
--   `price`: Total calculated price after discount
--   `cost`: Total cost for the treatment
+-   `unit_price`: Price per unit/tooth (decimal, 2 decimal places)
+-   `discount`: Discount in pounds (decimal, 2 decimal places)
+-   `price`: Total calculated price after discount (decimal, 2 decimal places)
+-   `cost`: Total cost for the treatment (decimal, 2 decimal places)
 -   `created_at`: Record creation timestamp
 -   `updated_at`: Last modification timestamp
+-   `deleted_at`: Soft delete timestamp (nullable)
 
 **Relationships:**
 
@@ -269,6 +276,8 @@ Represents individual treatment records linking customers to items.
 -   Automatic price calculation based on amount, unit_price, and discount
 -   Flexible teeth notation system supporting dental quadrants (UR, UL, LR, LL)
 -   Financial tracking with separate cost and price fields
+-   Soft delete functionality for data recovery
+-   Cascade relationships for data integrity
 
 ### Controllers
 
@@ -285,16 +294,17 @@ Manages dental treatment entries with comprehensive CRUD operations.
 -   `store()`: Validate and save new entries with automatic calculations
 -   `edit($id)`: Display edit form pre-populated with entry data
 -   `update($id)`: Update existing entries with validation
--   `delete()`: Bulk delete entries based on search criteria
--   `search()`: AJAX endpoint for real-time filtering and search
+-   `delete()`: Soft delete entries (preserves data for potential recovery)
+-   `search()`: AJAX endpoint for real-time filtering and search (excludes soft deleted)
 -   `customerRecords($id)`: Filter entries by specific customer
 -   `itemRecords($id)`: Filter entries by specific item
 -   `export()`: Generate PDF reports with custom column selection
 
 **Validation Rules:**
 
--   Discount must be a positive integer
--   Optional description field
+-   Discount must be a positive decimal number
+-   Date must be a valid date
+-   Customer and item must exist in the database
 
 **Special Features:**
 
@@ -314,12 +324,13 @@ Handles patient/customer management.
 -   `store()`: Validate and save new customers
 -   `edit($id)`: Display customer edit form
 -   `update($id)`: Update customer information
--   `delete()`: Delete customers with cascade handling
--   `search()`: AJAX search functionality
+-   `delete()`: Soft delete customers (preserves historical data)
+-   `search()`: AJAX search functionality (excludes soft deleted)
 
 **Validation Rules:**
 
 -   Name required and must be unique
+-   Soft deleted records maintain uniqueness constraints
 
 #### ItemController (`app/Http/Controllers/ItemController.php`)
 
@@ -332,14 +343,15 @@ Manages dental procedures and inventory items.
 -   `store()`: Validate and save new items
 -   `edit($id)`: Display item edit form
 -   `update($id)`: Update item details
--   `delete()`: Delete items with relationship checks
--   `search()`: AJAX search with price/cost filtering
+-   `delete()`: Soft delete items (maintains data integrity)
+-   `search()`: AJAX search with price/cost filtering (excludes soft deleted)
 
 **Validation Rules:**
 
 -   Name required and unique
--   Price and cost must be positive integers
--   Optional description field
+-   Price and cost must be positive decimal numbers
+-   Description is optional
+-   Soft deleted records maintain uniqueness constraints
 
 ### Views
 
@@ -414,8 +426,9 @@ The core functionality of the application revolves around managing dental treatm
 
 #### Deleting Entries
 
--   **Single**: Click delete icon with confirmation dialog
--   **Bulk**: Use "Delete All" for filtered results
+-   **Single**: Click delete icon with confirmation dialog (soft delete - recoverable)
+-   **Bulk**: Use "Delete All" for filtered results (soft delete - recoverable)
+-   **Data Safety**: All deletions are soft deletes, preserving data integrity
 
 ### Patient Management
 
@@ -424,13 +437,15 @@ The core functionality of the application revolves around managing dental treatm
 -   **Add New**: Simple form with name and automatic timestamp
 -   **Edit**: Update customer information with validation
 -   **View Records**: Click "Records" to see all treatments for a customer
--   **Delete**: Remove customer (cascades to related entries)
+-   **Delete**: Soft delete customer (can be recovered if needed)
+-   **Data Safety**: Deleted customers are hidden but preserved for recovery
 
 #### Customer Features
 
 -   Unique name validation
 -   Creation date tracking
 -   Quick access to treatment history
+-   Soft delete protection with recovery options
 
 ### Item Management
 
@@ -438,14 +453,17 @@ The core functionality of the application revolves around managing dental treatm
 
 -   **Add New**: Form with name, price, cost, and description
 -   **Edit**: Update all item details
--   **Delete**: Remove items (checks for existing entries)
--   **Pricing**: Separate cost and selling price tracking
+-   **Delete**: Soft delete items (preserves historical data)
+-   **Pricing**: Separate cost and selling price tracking with decimal precision
+-   **Data Safety**: Deleted items are hidden but preserved for recovery
 
 #### Item Features
 
 -   Unique name validation
+-   Decimal precision for financial accuracy
 -   Creation date tracking
--   Quick access to treatment history
+-   Quick access to usage history
+-   Soft delete protection maintaining data integrity
 
 ### Visual Teeth Selection
 
@@ -586,18 +604,23 @@ The application includes four main migrations:
 
 1. **Items Table** (`2024_03_03_160656_item.php`)
 
-    - Core inventory/procedure structure
-    - Unique name constraints
+    - Core inventory/procedure structure with pricing
+    - Unique name constraints and soft delete support
 
 2. **Customers Table** (`2024_03_03_160702_customer.php`)
 
     - Patient information storage
-    - Unique name constraints
+    - Unique name constraints and soft delete support
 
 3. **Entries Table** (`2024_03_03_163108_entries.php`)
 
-    - Treatment records
-    - Foreign key relationships
+    - Treatment records with financial details
+    - Foreign key relationships to customers and items
+    - Soft delete support
+
+4. **Sessions Table** (`2024_03_31_143438_sessions.php`)
+    - User session management
+    - Web authentication support
 
 ### Seeders & Factories
 
