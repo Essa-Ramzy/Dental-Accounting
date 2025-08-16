@@ -13,6 +13,11 @@ class Item extends Model
     protected $primaryKey = 'id';
     protected $fillable = ['name', 'price', 'cost', 'description'];
 
+    protected static function booted()
+    {
+        static::deleting(fn($item) => $item->entries()->delete());
+    }
+
     public function entries()
     {
         return $this->hasMany(Entry::class);

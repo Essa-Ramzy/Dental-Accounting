@@ -16,8 +16,7 @@ $(() => {
             $("#search").css(
                 "padding-right",
                 "calc(" +
-                    $("#dropdown_btn").outerWidth() / 6 +
-                    1.5 +
+                    ($("#dropdown_btn").outerWidth() / 6 + 1.5) +
                     " * 0.375rem)"
             );
             $("#search").trigger("change");
@@ -35,7 +34,7 @@ $(() => {
         );
         $("#from_date").val(start.format("YYYY-MM-DD"));
         $("#to_date").val(end.format("YYYY-MM-DD"));
-        $("#search").trigger("change");
+        $("#search").trigger("change", { date_changed: true });
     };
 
     range.daterangepicker(

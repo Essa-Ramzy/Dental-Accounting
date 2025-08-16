@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
+use Illuminate\Validation\Rule;
 
 class ItemController extends Controller
 {
@@ -82,15 +83,11 @@ class ItemController extends Controller
     public function store()
     {
         $data = request()->validate([
-            'name' => 'required|unique:items',
+            'name' => 'required|unique:items,name,NULL,id,deleted_at,NULL',
             'price' => 'required|numeric|min:0',
             'cost' => 'required|numeric|min:0',
             'description' => 'nullable'
         ]);
-
-        if (empty($data['description'])) {
-            $data['description'] = "N/A";
-        }
 
         Item::create($data);
         $previous_url = session()->get('item_previous_url', route('Items'));
@@ -125,15 +122,11 @@ class ItemController extends Controller
     public function update($id)
     {
         $data = request()->validate([
-            'name' => 'required|unique:items,name,' . $id,
+            'name' => 'required|unique:items,name,' . $id . ',id,deleted_at,NULL',
             'price' => 'required|numeric|min:0',
             'cost' => 'required|numeric|min:0',
             'description' => 'nullable'
         ]);
-
-        if (empty($data['description'])) {
-            $data['description'] = "N/A";
-        }
 
         Item::find($id)->update($data);
 

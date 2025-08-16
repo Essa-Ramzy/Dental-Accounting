@@ -53,8 +53,9 @@
                                         class="input-group-text position-absolute top-50 start-0 translate-middle-y border-0 rounded-end-0 border-end"
                                         style="margin-left: calc(1 * var(--bs-border-width));">£</span>
                                     <input id="price" type="number" step="0.01" min="0"
-                                        class="form-control ps-5{{ $errors->has('price') ? ' is-invalid' : '' }}"
-                                        name="price" value="{{ old('price') }}" required placeholder="0.00">
+                                        class="form-control{{ $errors->has('price') ? ' is-invalid' : '' }}"
+                                        style="padding-left: calc(3.75 * 0.75rem);" name="price"
+                                        value="{{ old('price') }}" required placeholder="0.00">
                                 </div>
                                 @if ($errors->has('price'))
                                     <div class="invalid-feedback">
@@ -72,8 +73,9 @@
                                         class="input-group-text position-absolute top-50 start-0 translate-middle-y border-0 rounded-end-0 border-end"
                                         style="margin-left: calc(1 * var(--bs-border-width));">£</span>
                                     <input id="cost" type="number" step="0.01" min="0"
-                                        class="form-control ps-5{{ $errors->has('cost') ? ' is-invalid' : '' }}"
-                                        name="cost" value="{{ old('cost') }}" required placeholder="0.00">
+                                        class="form-control{{ $errors->has('cost') ? ' is-invalid' : '' }}"
+                                        style="padding-left: calc(3.75 * 0.75rem);" name="cost"
+                                        value="{{ old('cost') }}" required placeholder="0.00">
                                 </div>
                                 @if ($errors->has('cost'))
                                     <div class="invalid-feedback">

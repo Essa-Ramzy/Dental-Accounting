@@ -1,11 +1,20 @@
 $(() => {
+    const filter_map = {
+        all: "all",
+        id: "id",
+        "patient name": "name",
+        treatment: "item",
+        quantity: "amount",
+        "unit price": "unit_price",
+        discount: "discount",
+        "total price": "price",
+        cost: "cost",
+    };
+
     let handleDeleteModalClick = () => {
         $('a[href="#deleteModal"]').on("click", (e) => {
             let search = $("#search").val().toLowerCase();
-            let filter = $("#dropdown_btn")
-                .text()
-                .toLowerCase()
-                .replace(" ", "_");
+            let filter = $("#dropdown_btn").text().toLowerCase();
             if (e.currentTarget.id) {
                 search = e.currentTarget.id;
                 filter = "single";
@@ -14,10 +23,10 @@ $(() => {
             let to_date = $("#to_date").val();
 
             $('input[aria-label="delete_filter"]').val(
-                !filter.includes("search_by") ? filter : ""
+                !filter.includes("search by") ? filter_map[filter] : ""
             );
             $('input[aria-label="delete_search"]').val(
-                !filter.includes("search_by") && search ? search : ""
+                !filter.includes("search by") && search ? search : ""
             );
             $('input[aria-label="delete_from_date"]').val(
                 from_date ? from_date + " 00:00:00" : ""
@@ -46,87 +55,92 @@ $(() => {
     initTeethPopovers();
     handleDeleteModalClick();
 
-    $("#search").on("change", () => {
+    $("#search").on("change", (_, data) => {
         let search = $("#search").val().toLowerCase();
-        let filter = $("#dropdown_btn").text().toLowerCase().replace(" ", "_");
+        let filter = $("#dropdown_btn").text().toLowerCase();
         let from_date = $("#from_date").val();
         let to_date = $("#to_date").val();
-        $.ajax({
-            url: document
-                .querySelector('meta[name="search-url"]')
-                .getAttribute("content"),
-            type: "GET",
-            data: {
-                search: !filter.includes("search_by") && search ? search : "",
-                filter: !filter.includes("search_by") ? filter : "",
-                from_date: from_date ? from_date + " 00:00:00" : "",
-                to_date: to_date ? to_date + " 23:59:59" : "",
-            },
-            success: function (data) {
-                $(".table-responsive tbody").html(
-                    (rows = Object.values(data.body)).length
-                        ? rows
-                            .map((entry) => {
-                                return `
-                                <tr class="align-middle">
-                                    <th scope="row" class="text-center text-muted">${
-                                        entry.id
-                                    }</th>
-                                    <td class="text-muted">
-                                        ${entry.date}
-                                    </td>
-                                    <td>
-                                        <div class="fw-semibold">${
-                                            entry.customer_name
-                                        }</div>
-                                    </td>
-                                    <td>
-                                        <div class="fw-medium">${
-                                            entry.item_name
-                                        }</div>
-                                    </td>
-                                    <td class="text-center">
-                                        <span role="button" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-html="true"
-                                            data-bs-content-target="toothTooltip${
-                                                entry.id
-                                            }"
-                                            class="badge bg-light-subtle text-body border position-relative">
-                                            ${entry.teeth}
-                                            <svg width="12" height="12" class="ms-1 opacity-75" aria-hidden="true">
-                                                <use href="#eye" fill="currentColor" />
-                                            </svg>
-                                        </span>
-                                        <div id="toothTooltip${
+        if (data?.date_changed || !filter.includes("search by")) {
+        console.log(data);
+            $.ajax({
+                url: document
+                    .querySelector('meta[name="search-url"]')
+                    .getAttribute("content"),
+                type: "GET",
+                data: {
+                    search:
+                        !filter.includes("search by") && search ? search : "",
+                    filter: !filter.includes("search by")
+                        ? filter_map[filter]
+                        : "",
+                    from_date: from_date ? from_date + " 00:00:00" : "",
+                    to_date: to_date ? to_date + " 23:59:59" : "",
+                },
+                success: function (data) {
+                    $(".table-responsive tbody").html(
+                        (rows = Object.values(data.body)).length
+                            ? rows
+                                .map((entry) => {
+                                    return `
+                                    <tr class="align-middle">
+                                        <th scope="row" class="text-center text-muted">${
                                             entry.id
-                                        }" class="d-none">
-                                            <div class="text-center p-2">
-                                                <div class="fw-semibold mb-2">Treated Teeth</div>
-                                                <div class="tooth-chart mx-auto">
-                                                    <x-teeth-visual :selectedTeeth="${
-                                                        entry.teeth_list
-                                                    }" />
+                                        }</th>
+                                        <td class="text-muted">
+                                            ${entry.date}
+                                        </td>
+                                        <td>
+                                            <div class="fw-semibold">${
+                                                entry.customer_name
+                                            }</div>
+                                        </td>
+                                        <td>
+                                            <div class="fw-medium">${
+                                                entry.item_name
+                                            }</div>
+                                        </td>
+                                        <td class="text-center">
+                                            <span role="button" data-bs-toggle="popover" data-bs-trigger="hover focus" data-bs-html="true"
+                                                data-bs-content-target="toothTooltip${
+                                                    entry.id
+                                                }"
+                                                class="badge bg-light-subtle text-body border position-relative">
+                                                ${entry.teeth}
+                                                <svg width="12" height="12" class="ms-1 opacity-75" aria-hidden="true">
+                                                    <use href="#eye" fill="currentColor" />
+                                                </svg>
+                                            </span>
+                                            <div id="toothTooltip${
+                                                entry.id
+                                            }" class="d-none">
+                                                <div class="text-center p-2">
+                                                    <div class="fw-semibold mb-2">Treated Teeth</div>
+                                                    <div class="tooth-chart mx-auto">
+                                                        <x-teeth-visual :selectedTeeth="${
+                                                            entry.teeth_list
+                                                        }" />
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td class="text-center">
-                                        <span class="badge bg-primary rounded-pill">${
-                                            entry.amount
-                                        }</span>
-                                    </td>
-                                    <td class="text-end">
-                                        <span class="fw-semibold text-nowrap">£
-                                            ${Number(
-                                                entry.unit_price
-                                            ).toLocaleString("en-US", {
-                                                minimumFractionDigits: 0,
-                                                maximumFractionDigits: 2,
-                                            })}</span>
-                                    </td>
-                                    <td class="text-end">
-                                        ${
-                                            entry.discount > 0
-                                                ? '<span class="text-danger text-nowrap">-£ ' +
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="badge bg-primary rounded-pill">${
+                                                entry.amount
+                                            }</span>
+                                        </td>
+                                        <td class="text-end">
+                                            <span class="fw-semibold text-nowrap">£
+                                                ${Number(
+                                                    entry.unit_price
+                                                ).toLocaleString("en-US", {
+                                                    minimumFractionDigits: 0,
+                                                    maximumFractionDigits: 2,
+                                                })}</span>
+                                        </td>
+                                        <td class="text-end">
+                                            ${
+                                                entry.discount > 0
+                                                    ? '<span class="text-danger text-nowrap">-£ ' +
                                                     Number(
                                                         entry.discount
                                                     ).toLocaleString("en-US", {
@@ -134,57 +148,57 @@ $(() => {
                                                         maximumFractionDigits: 2,
                                                     }) +
                                                     "</span>"
-                                                : '<span class="text-muted text-nowrap">£ 0</span>'
-                                        }
-                                    </td>
-                                    <td class="text-end">
-                                        <span class="fw-bold text-success text-nowrap">£
-                                            ${Number(
-                                                entry.price
-                                            ).toLocaleString("en-US", {
-                                                minimumFractionDigits: 0,
-                                                maximumFractionDigits: 2,
-                                            })}</span>
-                                    </td>
-                                    <td class="text-end">
-                                        <span class="text-muted text-nowrap">£
-                                            ${Number(entry.cost).toLocaleString(
-                                                "en-US",
-                                                {
+                                                    : '<span class="text-muted text-nowrap">£ 0</span>'
+                                            }
+                                        </td>
+                                        <td class="text-end">
+                                            <span class="fw-bold text-success text-nowrap">£
+                                                ${Number(
+                                                    entry.price
+                                                ).toLocaleString("en-US", {
                                                     minimumFractionDigits: 0,
                                                     maximumFractionDigits: 2,
-                                                }
-                                            )}</span>
-                                    </td>
-                                    <td class="text-end">
-                                        <div class="btn-group" role="group" aria-label="Entry actions">
-                                            <a href="${entry.edit_link}"
-                                                class="btn btn-sm btn-outline-primary border-secondary border-end-0"
-                                                aria-label="Edit entry for ${
-                                                    entry.customer_name
-                                                }">
-                                                <svg width="20" height="20" aria-hidden="true">
-                                                    <use href="#pencil-square" fill="none" stroke="currentColor" stroke-width="2"
-                                                        stroke-linecap="round" stroke-linejoin="round" />
-                                                </svg>
-                                            </a>
-                                            <a href="#deleteModal" data-bs-toggle="modal" id="${
-                                                entry.id
-                                            }"
-                                                class="btn btn-sm btn-outline-danger border-secondary border-start-0"
-                                                aria-label="Delete entry for ${
-                                                    entry.customer_name
-                                                }">
-                                                <svg width="24" height="24" aria-hidden="true">
-                                                    <use href="#trash-fill" fill="currentColor" />
-                                                </svg>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>`;
-                            })
-                            .join("")
-                        : `<tr>
+                                                })}</span>
+                                        </td>
+                                        <td class="text-end">
+                                            <span class="text-muted text-nowrap">£
+                                                ${Number(entry.cost).toLocaleString(
+                                                    "en-US",
+                                                    {
+                                                        minimumFractionDigits: 0,
+                                                        maximumFractionDigits: 2,
+                                                    }
+                                                )}</span>
+                                        </td>
+                                        <td class="text-end">
+                                            <div class="btn-group" role="group" aria-label="Entry actions">
+                                                <a href="${entry.edit_link}"
+                                                    class="btn btn-sm btn-outline-primary border-secondary border-end-0"
+                                                    aria-label="Edit entry for ${
+                                                        entry.customer_name
+                                                    }">
+                                                    <svg width="20" height="20" aria-hidden="true">
+                                                        <use href="#pencil-square" fill="none" stroke="currentColor" stroke-width="2"
+                                                            stroke-linecap="round" stroke-linejoin="round" />
+                                                    </svg>
+                                                </a>
+                                                <a href="#deleteModal" data-bs-toggle="modal" id="${
+                                                    entry.id
+                                                }"
+                                                    class="btn btn-sm btn-outline-danger border-secondary border-start-0"
+                                                    aria-label="Delete entry for ${
+                                                        entry.customer_name
+                                                    }">
+                                                    <svg width="24" height="24" aria-hidden="true">
+                                                        <use href="#trash-fill" fill="currentColor" />
+                                                    </svg>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>`;
+                                })
+                                .join("")
+                            : `<tr>
                             <td colspan="12" class="text-center py-5 text-muted">
                                 <svg width="48" height="48" class="mb-3 text-muted" aria-hidden="true">
                                     <use href="#journal-medical" fill="currentColor" />
@@ -200,8 +214,8 @@ $(() => {
                                 </a>
                             </td>
                         </tr>`
-                );
-                $(".table-responsive tfoot").html(`
+                    );
+                    $(".table-responsive tfoot").html(`
                         <tr>
                             <th scope="row" colspan="8" class="text-center fw-semibold">
                                 Total Entries: ${data.footer.count}
@@ -243,10 +257,11 @@ $(() => {
                                 </div>
                             </td>
                         </tr>`);
-                handleDeleteModalClick();
-                initTeethPopovers();
-            },
-        });
+                    handleDeleteModalClick();
+                    initTeethPopovers();
+                },
+            });
+        }
     });
 
     $("#customer_search")?.click();

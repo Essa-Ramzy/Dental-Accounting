@@ -2,10 +2,7 @@ $(() => {
     let handleDeleteModalClick = () => {
         $('a[href="#deleteModal"]').on("click", (e) => {
             let search = $("#search").val().toLowerCase();
-            let filter = $("#dropdown_btn")
-                .text()
-                .toLowerCase()
-                .replace(" ", "_");
+            let filter = $("#dropdown_btn").text().toLowerCase();
             if (e.currentTarget.id) {
                 search = e.currentTarget.id;
                 filter = "single";
@@ -14,10 +11,10 @@ $(() => {
             let to_date = $("#to_date").val();
 
             $('input[aria-label="delete_filter"]').val(
-                !filter.includes("search_by") ? filter : ""
+                !filter.includes("search by") ? filter : ""
             );
             $('input[aria-label="delete_search"]').val(
-                !filter.includes("search_by") && search ? search : ""
+                !filter.includes("search by") && search ? search : ""
             );
             $('input[aria-label="delete_from_date"]').val(
                 from_date ? from_date + " 00:00:00" : ""
@@ -29,28 +26,30 @@ $(() => {
     };
     handleDeleteModalClick();
 
-    $("#search").on("change", () => {
+    $("#search").on("change", (_, data) => {
         let search = $("#search").val().toLowerCase();
-        let filter = $("#dropdown_btn").text().toLowerCase().replace(" ", "_");
+        let filter = $("#dropdown_btn").text().toLowerCase();
         let from_date = $("#from_date").val();
         let to_date = $("#to_date").val();
-        $.ajax({
-            url: document
-                .querySelector('meta[name="search-url"]')
-                .getAttribute("content"),
-            type: "GET",
-            data: {
-                search: !filter.includes("search_by") && search ? search : "",
-                filter: !filter.includes("search_by") ? filter : "",
-                from_date: from_date ? from_date + " 00:00:00" : "",
-                to_date: to_date ? to_date + " 23:59:59" : "",
-            },
-            success: function (data) {
-                $(".table-responsive tbody").html(
-                    (rows = Object.values(data.body)).length
-                        ? rows
-                            .map((customer) => {
-                                return `
+        if (data?.date_changed || !filter.includes("search by")) {
+            $.ajax({
+                url: document
+                    .querySelector('meta[name="search-url"]')
+                    .getAttribute("content"),
+                type: "GET",
+                data: {
+                    search:
+                        !filter.includes("search by") && search ? search : "",
+                    filter: !filter.includes("search by") ? filter : "",
+                    from_date: from_date ? from_date + " 00:00:00" : "",
+                    to_date: to_date ? to_date + " 23:59:59" : "",
+                },
+                success: function (data) {
+                    $(".table-responsive tbody").html(
+                        (rows = Object.values(data.body)).length
+                            ? rows
+                                .map((customer) => {
+                                    return `
                                 <tr class="align-middle">
                                     <th scope="row" class="text-center text-muted">${customer.id}</th>
                                     <td class="text-muted">
@@ -86,9 +85,9 @@ $(() => {
                                         </div>
                                     </td>
                                 </tr>`;
-                            })
-                            .join("")
-                        : `<tr>
+                                })
+                                .join("")
+                            : `<tr>
                             <td colspan="5" class="text-center py-5 text-muted">
                                 <svg width="48" height="48" class="mb-3 text-muted" aria-hidden="true">
                                     <use href="#people-circle" fill="currentColor" />
@@ -100,8 +99,8 @@ $(() => {
                                 </a>
                             </td>
                         </tr>`
-                );
-                $(".table-responsive tfoot").html(`
+                    );
+                    $(".table-responsive tfoot").html(`
                         <tr>
                             <th scope="row" colspan="4" class="text-center fw-semibold">
                                 Total Customers: ${data.footer.count}
@@ -124,8 +123,9 @@ $(() => {
                                 </div>
                             </td>
                         </tr>`);
-                handleDeleteModalClick();
-            },
-        });
+                    handleDeleteModalClick();
+                },
+            });
+        }
     });
 });

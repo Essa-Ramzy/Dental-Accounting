@@ -13,6 +13,11 @@ class Customer extends Model
     protected $primaryKey = 'id';
     protected $fillable = ['name'];
 
+    protected static function booted()
+    {
+        static::deleting(fn($customer) => $customer->entries()->delete());
+    }
+
     public function entries()
     {
         return $this->hasMany(Entry::class);

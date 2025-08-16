@@ -12,12 +12,13 @@ return new class extends Migration {
     {
         Schema::create('items', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('name');
             $table->decimal('price', places: 2);
             $table->decimal('cost', places: 2);
             $table->text('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
+            $table->unique(['name', 'deleted_at']);
         });
     }
 

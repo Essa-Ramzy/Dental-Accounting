@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
+use Illuminate\Validation\Rule;
 
 class CustomerController extends Controller
 {
@@ -76,7 +77,7 @@ class CustomerController extends Controller
     public function store()
     {
         $data = request()->validate([
-            'name' => 'required|unique:customers'
+            'name' => 'required|unique:customers,name,NULL,id,deleted_at,NULL'
         ]);
 
         Customer::create($data);
@@ -112,7 +113,7 @@ class CustomerController extends Controller
     public function update($id)
     {
         $data = request()->validate([
-            'name' => 'required|unique:customers,name,' . $id
+            'name' => 'required|unique:customers,name,' . $id . ',id,deleted_at,NULL'
         ]);
 
         Customer::whereId($id)->update($data);

@@ -36,7 +36,7 @@
                         {{ number_format($item->cost, strlen(rtrim(substr(strrchr($item->cost, '.'), 1), '0'))) }}</span>
                 </td>
                 <td class="text-center">
-                    @if ($item->description != 'N/A')
+                    @if ($item->description)
                         <span role="button" data-bs-toggle="modal" data-bs-target="#descriptionModal"
                             data-item-name="{{ $item->name }}" data-description="{{ $item->description }}"
                             class="badge bg-light-subtle text-body border">
