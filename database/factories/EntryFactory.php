@@ -42,7 +42,6 @@ class EntryFactory extends Factory
   public function withItem(Item $item)
   {
     return $this->afterMaking(function ($entry) use ($item) {
-      $entry->item_id = $item->id;
       $entry->unit_price = $item->price;
       $entry->cost = $item->cost * $entry->amount;
       $entry->discount = $this->faker->randomFloat(2, 0, $item->price * $entry->amount);

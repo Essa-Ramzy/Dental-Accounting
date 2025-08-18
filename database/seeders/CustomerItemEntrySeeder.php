@@ -10,13 +10,16 @@ class CustomerItemEntrySeeder extends Seeder
 {
   public function run()
   {
-    $customers = Customer::factory()->count(10)->create();
-    $items = Item::factory()->count(10)->create();
+    $customers = Customer::factory()->count(100)->create();
+    $items = Item::factory()->count(100)->create();
     foreach ($customers as $customer) {
-      foreach ($items->random(3) as $item) {
+      foreach ($items->random(30) as $item) {
         Entry::factory()
           ->withItem($item)
-          ->create(['customer_id' => $customer->id]);
+          ->create([
+            'customer_id' => $customer->id,
+            'item_id' => $item->id
+          ]);
       }
     }
   }

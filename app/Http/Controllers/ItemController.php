@@ -4,71 +4,72 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use Illuminate\Support\Str;
-use Illuminate\Support\Carbon;
-use Illuminate\Validation\Rule;
 
 class ItemController extends Controller
 {
     public function index()
     {
-        $items = Item::all();
-        $view = "Item";
-        return view('pages.items', compact('items', 'view'));
+        $items = Item::withCount("entries");
+        $all = $items->get();
+        $footer = [
+            'count' => $all->count(),
+        ];
+        $items = $items->paginate(50);
+        if (request()->ajax()) {
+            $body = view('pages.partials.items-body', compact('items'))->render();
+            $footer = view('pages.partials.items-footer', compact('items', 'footer'))->render();
+            $links = $items->appends(request()->except('page'))->links()->toHtml();
+            return response()->json(compact('body', 'footer', 'links'));
+        } else {
+            $view = "Item";
+            return view('pages.items', compact('items', 'view', 'footer'));
+        }
     }
 
     private function searchFunc()
     {
+        $query = Item::withCount("entries");
+
         if (request('search')) {
             if (request('filter') == 'all') {
-                $items = Item::with("entries")
-                    ->where('id', 'like', '%' . request('search') . '%')
-                    ->orWhere('name', 'like', '%' . request('search') . '%')
-                    ->orWhere('price', 'like', '%' . request('search') . '%')
-                    ->orWhere('cost', 'like', '%' . request('search') . '%')
-                    ->orWhere('description', 'like', '%' . request('search') . '%')->get();
+                $query->where(
+                    fn($q) =>
+                    $q->where('id', 'like', '%' . request('search') . '%')
+                        ->orWhere('name', 'like', '%' . request('search') . '%')
+                        ->orWhere('price', 'like', '%' . request('search') . '%')
+                        ->orWhere('cost', 'like', '%' . request('search') . '%')
+                        ->orWhere('description', 'like', '%' . request('search') . '%')
+                );
             } else {
-                $items = Item::with("entries")
-                    ->where(request('filter'), 'like', '%' . request('search') . '%')->get();
+                $query->where(request('filter'), 'like', '%' . request('search') . '%');
             }
-        } else {
-            $items = Item::with("entries")->get();
         }
+
         if (request('from_date')) {
-            $items = $items->where('updated_at', '>=', request('from_date'));
+            $query->where('updated_at', '>=', request('from_date'));
         }
         if (request('to_date')) {
-            $items = $items->where('updated_at', '<=', request('to_date'));
+            $query->where('updated_at', '<=', request('to_date'));
         }
-        return $items;
+
+        return $query;
     }
 
     public function search()
     {
         if (request()->ajax()) {
             $items = $this->searchFunc();
-            return response()->json([
-                'body' => $items->map(function ($item) {
-                    $item = $item->toArray();
-                    return [
-                        'id' => $item['id'],
-                        'date' => Carbon::parse($item['updated_at'])->format('M d, Y'),
-                        'name' => $item['name'],
-                        'price' => $item['price'],
-                        'cost' => $item['cost'],
-                        'description' => $item['description'],
-                        'entries_count' => count($item['entries']),
-                        'edit_link' => route('Item.edit', $item['id']),
-                        'record_link' => route('Item.records', $item['id'])
-                    ];
-                }),
-                'footer' => [
-                    'count' => $items->count(),
-                    'create_link' => route('Item.create')
-                ],
-            ]);
-        } else {
-            return redirect(route('Items'));
+            $all = $items->get();
+            $footer = [
+                'count' => $all->count(),
+            ];
+            $items = $items->paginate(50);
+            $body = view('pages.partials.items-body', compact('items'))->render();
+            $footer = view('pages.partials.items-footer', compact('items', 'footer'))->render();
+            $links = $items->appends(request()->except('page'))->links()->toHtml();
+            return response()->json(compact('body', 'footer', 'links'));
         }
+        return redirect(route('Items'));
     }
 
     public function create()
@@ -92,7 +93,7 @@ class ItemController extends Controller
         Item::create($data);
         $previous_url = session()->get('item_previous_url', route('Items'));
         if ($previous_url == route('Items') or $previous_url == Str::finish(route('Home'), '/')) {
-            $redirect = redirect()->back()
+            $redirect = redirect(route('Item.create'))
                 ->with('success', 'Item created successfully.');
         } else {
             session()->forget('item_previous_url');
@@ -106,16 +107,16 @@ class ItemController extends Controller
     public function delete()
     {
         if (request('filter') == 'single') {
-            Item::find(request('search'))->delete();
+            Item::findOrFail(request('search'))->delete();
         } else {
-            $this->searchFunc()->each->delete();
+            $this->searchFunc()->get()->each->delete();
         }
         return redirect(route('Items'));
     }
 
     public function edit($id)
     {
-        $item = Item::find($id);
+        $item = Item::findOrFail($id);
         return view('forms.edit-item', compact('item'));
     }
 
@@ -128,8 +129,14 @@ class ItemController extends Controller
             'description' => 'nullable'
         ]);
 
-        Item::find($id)->update($data);
+        Item::findOrFail($id)->update($data);
 
         return redirect(route('Items'));
+    }
+
+    public function records($id)
+    {
+        $item = Item::findOrFail($id)->name;
+        return redirect(route('Entries'))->with(compact('item'));
     }
 }

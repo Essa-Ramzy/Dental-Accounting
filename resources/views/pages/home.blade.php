@@ -3,6 +3,45 @@
     @parent
     <link rel="stylesheet" href="{{ asset('resources/css/views/layouts/home.css') }}">
 @endsection
+@section('svg-icons')
+    <symbol id="grid-plus" viewBox="0 0 16 16">
+        <path
+            d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z">
+        </path>
+        <circle cx="13" cy="3" r="3" fill="currentColor" />
+        <line x1="13" y1="1.5" x2="13" y2="4.5" stroke="white" stroke-linecap="round" />
+        <line x1="11.5" y1="3" x2="14.5" y2="3" stroke="white" stroke-linecap="round" />
+    </symbol>
+    <symbol id="tags-plus" viewBox="0 0 16 16">
+        <path
+            d="M3 2v4.586l7 7L14.586 9l-7-7zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586z">
+        </path>
+        <path
+            d="M5.5 5a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1m0 1a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3M1 7.086a1 1 0 0 0 .293.707L8.75 15.25l-.043.043a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 0 7.586V3a1 1 0 0 1 1-1z">
+        </path>
+        <circle cx="13" cy="3" r="3" fill="currentColor" />
+        <line x1="13" y1="1.5" x2="13" y2="4.5" stroke="white" stroke-linecap="round" />
+        <line x1="11.5" y1="3" x2="14.5" y2="3" stroke="white" stroke-linecap="round" />
+    </symbol>
+    <symbol id="people-circle-plus" viewBox="0 0 16 16">
+        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"></path>
+        <path fill-rule="evenodd"
+            d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z">
+        </path>
+        <circle cx="13" cy="3" r="3" fill="currentColor" />
+        <line x1="13" y1="1.5" x2="13" y2="4.5" stroke="white" stroke-linecap="round" />
+        <line x1="11.5" y1="3" x2="14.5" y2="3" stroke="white" stroke-linecap="round" />
+    </symbol>
+    <symbol id="book-open" viewBox="0 0 24 24">
+        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+    </symbol>
+    <symbol id="plus-circle" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="16"></line>
+        <line x1="8" y1="12" x2="16" y2="12"></line>
+    </symbol>
+@endsection
 @section('layout')
     <!-- Hero Cover Section -->
     <div class="position-relative overflow-hidden min-vh-90">

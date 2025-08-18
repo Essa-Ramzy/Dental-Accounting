@@ -1,4 +1,12 @@
 @extends('layouts.form')
+@section('svg-icons')
+    @parent
+    <symbol id="plus-circle" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="16"></line>
+        <line x1="8" y1="12" x2="16" y2="12"></line>
+    </symbol>
+@endsection
 @section('content')
     <!-- This is the layout for adding a customer -->
     <form action="{{ route('Customer.store') }}" method="post" enctype="multipart/form-data" class="needs-validation"

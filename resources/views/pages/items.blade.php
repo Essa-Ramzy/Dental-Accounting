@@ -3,13 +3,49 @@
     @parent
     <script src="{{ asset('resources/js/views/pages/items.js') }}"></script>
 @endsection
+@section('svg-icons')
+    @parent
+    <symbol id="eye" viewBox="0 0 16 16">
+        <path
+            d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z">
+        </path>
+        <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"></path>
+    </symbol>
+    <symbol id="file-text" viewBox="0 0 16 16">
+        <path
+            d="M5 4a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5M5 8a.5.5 0 0 0 0 1h6a.5.5 0 0 0 0-1zm0 2a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1z">
+        </path>
+        <path
+            d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zm10-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1">
+        </path>
+    </symbol>
+    <symbol id="clipboard2-plus" viewBox="0 0 16 16">
+        <path
+            d="M9.5 0a.5.5 0 0 1 .5.5.5.5 0 0 0 .5.5.5.5 0 0 1 .5.5V2a.5.5 0 0 1-.5.5h-5A.5.5 0 0 1 5 2v-.5a.5.5 0 0 1 .5-.5.5.5 0 0 0 .5-.5.5.5 0 0 1 .5-.5z">
+        </path>
+        <path
+            d="M3 2.5a.5.5 0 0 1 .5-.5H4a.5.5 0 0 0 0-1h-.5A1.5 1.5 0 0 0 2 2.5v12A1.5 1.5 0 0 0 3.5 16h9a1.5 1.5 0 0 0 1.5-1.5v-12A1.5 1.5 0 0 0 12.5 1H12a.5.5 0 0 0 0 1h.5a.5.5 0 0 1 .5.5v12a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5z">
+        </path>
+        <path d="M8.5 6.5a.5.5 0 0 0-1 0V8H6a.5.5 0 0 0 0 1h1.5v1.5a.5.5 0 0 0 1 0V9H10a.5.5 0 0 0 0-1H8.5z"></path>
+    </symbol>
+    <symbol id="clipboard2-check" viewBox="0 0 16 16">
+        <path
+            d="M9.5 0a.5.5 0 0 1 .5.5.5.5 0 0 0 .5.5.5.5 0 0 1 .5.5V2a.5.5 0 0 1-.5.5h-5A.5.5 0 0 1 5 2v-.5a.5.5 0 0 1 .5-.5.5.5 0 0 0 .5-.5.5.5 0 0 1 .5-.5z">
+        </path>
+        <path
+            d="M3 2.5a.5.5 0 0 1 .5-.5H4a.5.5 0 0 0 0-1h-.5A1.5 1.5 0 0 0 2 2.5v12A1.5 1.5 0 0 0 3.5 16h9a1.5 1.5 0 0 0 1.5-1.5v-12A1.5 1.5 0 0 0 12.5 1H12a.5.5 0 0 0 0 1h.5a.5.5 0 0 1 .5.5v12a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5z">
+        </path>
+        <path d="M10.854 7.854a.5.5 0 0 0-.708-.708L7.5 9.793 6.354 8.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z">
+        </path>
+    </symbol>
+@endsection
 @section('content')
     <!-- This is the layout for the items table -->
     <thead>
         <tr>
             <th scope="col" class="text-center">#</th>
-            <th scope="col">Date Added</th>
-            <th scope="col">Item Name</th>
+            <th scope="col">Date</th>
+            <th scope="col" class="">Item Name</th>
             <th scope="col" class="text-end">Price</th>
             <th scope="col" class="text-end">Cost</th>
             <th scope="col" class="text-center">Description</th>
@@ -18,105 +54,10 @@
         </tr>
     </thead>
     <tbody>
-        @forelse ($items as $item)
-            <tr class="align-middle">
-                <th scope="row" class="text-center text-muted">{{ $item->id }}</th>
-                <td class="text-muted">
-                    {{ $item->updated_at->format('M d, Y') }}
-                </td>
-                <td>
-                    <div class="fw-semibold">{{ $item->name }}</div>
-                </td>
-                <td class="text-end">
-                    <span class="fw-semibold text-success">£
-                        {{ number_format($item->price, strlen(rtrim(substr(strrchr($item->price, '.'), 1), '0'))) }}</span>
-                </td>
-                <td class="text-end">
-                    <span class="text-muted">£
-                        {{ number_format($item->cost, strlen(rtrim(substr(strrchr($item->cost, '.'), 1), '0'))) }}</span>
-                </td>
-                <td class="text-center">
-                    @if ($item->description)
-                        <span role="button" data-bs-toggle="modal" data-bs-target="#descriptionModal"
-                            data-item-name="{{ $item->name }}" data-description="{{ $item->description }}"
-                            class="badge bg-light-subtle text-body border">
-                            {{ Str::limit($item->description, 50) }}
-                            <svg width="12" height="12" class="ms-1 opacity-75" aria-hidden="true">
-                                <use href="#eye" fill="currentColor" />
-                            </svg>
-                        </span>
-                    @else
-                        <span class="text-muted fst-italic">No description</span>
-                    @endif
-                </td>
-                <td class="text-center">
-                    <a href="{{ route('Item.records', ['id' => $item->id]) }}" class="btn btn-sm btn-outline-primary">
-                        <span class="badge bg-primary rounded-pill">{{ $item->entries->count() }}</span>
-                        View Records
-                    </a>
-                </td>
-                <td class="text-center">
-                    <div class="btn-group" role="group" aria-label="Item actions">
-                        <a href="{{ route('Item.edit', ['id' => $item->id]) }}"
-                            class="btn btn-sm btn-outline-primary border-secondary border-end-0"
-                            aria-label="Edit {{ $item->name }}">
-                            <svg width="20" height="20" aria-hidden="true">
-                                <use href="#pencil-square" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </a>
-                        <a href="#deleteModal" data-bs-toggle="modal" id="{{ $item->id }}"
-                            class="btn btn-sm btn-outline-danger border-secondary border-start-0"
-                            aria-label="Delete {{ $item->name }}">
-                            <svg width="24" height="24" aria-hidden="true">
-                                <use href="#trash-fill" fill="currentColor" />
-                            </svg>
-                        </a>
-                    </div>
-                </td>
-            </tr>
-        @empty
-            <tr>
-                <td colspan="8" class="text-center py-5 text-muted">
-                    <svg width="48" height="48" class="mb-3 text-muted" aria-hidden="true">
-                        <use href="#tags" fill="currentColor" />
-                    </svg>
-                    <div class="h5">No items found</div>
-                    <p class="mb-3">Get started by adding your first treatment item.</p>
-                    <a href="{{ route('Item.create') }}" class="btn btn-primary">
-                        <svg width="16" height="16" class="me-1 mb-1" aria-hidden="true">
-                            <use href="#plus-circle" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                        Add Item
-                    </a>
-                </td>
-            </tr>
-        @endforelse
+        @include('pages.partials.items-body', ['items' => $items])
     </tbody>
     <tfoot>
-        <tr>
-            <th scope="row" colspan="7" class="text-center fw-semibold">
-                Total Items: {{ $items->count() }}
-            </th>
-            <td class="text-center">
-                <div class="btn-group" role="group" aria-label="Item actions">
-                    <a href="{{ route('Item.create') }}"
-                        class="btn btn-sm btn-outline-success border-secondary border-end-0" aria-label="Add new item">
-                        <svg width="20" height="20" aria-hidden="true">
-                            <use href="#plus-circle" fill="none" stroke="currentColor" stroke-width="2"
-                                stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                    </a>
-                    <a class="btn btn-sm btn-outline-danger border-secondary border-start-0" data-bs-toggle="modal"
-                        href="#deleteModal">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
-                            <use href="#trash-fill" fill="currentColor"></use>
-                        </svg>
-                    </a>
-                </div>
-            </td>
-        </tr>
+        @include('pages.partials.items-footer', ['items' => $items, 'footer' => $footer])
     </tfoot>
 @endsection
 @section('dropdown')
@@ -129,8 +70,7 @@
 @endsection
 @section('modal')
     <!-- Single description modal -->
-    <div class="modal fade" id="descriptionModal" tabindex="-1" aria-labelledby="descriptionModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="descriptionModal" tabindex="-1" aria-labelledby="descriptionModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header border-0">

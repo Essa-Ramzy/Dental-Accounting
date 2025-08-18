@@ -4,65 +4,69 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use Illuminate\Support\Str;
-use Illuminate\Support\Carbon;
-use Illuminate\Validation\Rule;
 
 class CustomerController extends Controller
 {
     public function index()
     {
-        $customers = Customer::all();
-        $view = "Customer";
-        return view('pages.customers', compact('customers', 'view'));
+        $customers = Customer::withCount('entries');
+        $all = $customers->get();
+        $footer = [
+            'count' => $all->count(),
+        ];
+        $customers = $customers->paginate(50);
+        if (request()->ajax()) {
+            $body = view('pages.partials.customers-body', compact('customers'))->render();
+            $footer = view('pages.partials.customers-footer', compact('customers', 'footer'))->render();
+            $links = $customers->appends(request()->except('page'))->links()->toHtml();
+            return response()->json(compact('body', 'footer', 'links'));
+        } else {
+            $view = "Customer";
+            return view('pages.customers', compact('customers', 'view', 'footer'));
+        }
     }
 
     private function searchFunc()
     {
+        $query = Customer::withCount('entries');
+
         if (request('search')) {
             if (request('filter') == 'all') {
-                $customers = Customer::with('entries')
-                    ->where('id', 'like', '%' . request('search') . '%')
-                    ->orWhere('name', 'like', '%' . request('search') . '%')->get();
+                $query->where(
+                    fn($q) =>
+                    $q->where('id', 'like', '%' . request('search') . '%')
+                        ->orWhere('name', 'like', '%' . request('search') . '%')
+                );
             } else {
-                $customers = Customer::with('entries')
-                    ->where(request('filter'), 'like', '%' . request('search') . '%')->get();
+                $query->where(request('filter'), 'like', '%' . request('search') . '%');
             }
-        } else {
-            $customers = Customer::with('entries')->get();
         }
+
         if (request('from_date')) {
-            $customers = $customers->where('updated_at', '>=', request('from_date'));
+            $query->where('updated_at', '>=', request('from_date'));
         }
         if (request('to_date')) {
-            $customers = $customers->where('updated_at', '<=', request('to_date'));
+            $query->where('updated_at', '<=', request('to_date'));
         }
-        return $customers;
+
+        return $query;
     }
 
     public function search()
     {
         if (request()->ajax()) {
             $customers = $this->searchFunc();
-            return response()->json([
-                'body' => $customers->map(function ($customer) {
-                    $customer = $customer->toArray();
-                    return [
-                        'id' => $customer['id'],
-                        'date' => Carbon::parse($customer['updated_at'])->format('M d, Y'),
-                        'name' => $customer['name'],
-                        'entries_count' => count($customer['entries']),
-                        'edit_link' => route('Customer.edit', $customer['id']),
-                        'record_link' => route('Customer.records', $customer['id'])
-                    ];
-                }),
-                'footer' => [
-                    'count' => $customers->count(),
-                    'create_link' => route('Customer.create')
-                ],
-            ]);
-        } else {
-            return redirect(route('Customers'));
+            $all = $customers->get();
+            $footer = [
+                'count' => $all->count(),
+            ];
+            $customers = $customers->paginate(50);
+            $body = view('pages.partials.customers-body', compact('customers'))->render();
+            $footer = view('pages.partials.customers-footer', compact('customers', 'footer'))->render();
+            $links = $customers->appends(request()->except('page'))->links()->toHtml();
+            return response()->json(compact('body', 'footer', 'links'));
         }
+        return redirect(route('Customers'));
     }
 
     public function create()
@@ -83,7 +87,7 @@ class CustomerController extends Controller
         Customer::create($data);
         $previous_url = session()->get('customer_previous_url', route('Customers'));
         if ($previous_url == route('Customers') or $previous_url == Str::finish(route('Home'), '/')) {
-            $redirect = redirect()->back()
+            $redirect = redirect(route('Customer.create'))
                 ->with('success', 'Customer created successfully.');
         } else {
             session()->forget('customer_previous_url');
@@ -97,16 +101,16 @@ class CustomerController extends Controller
     public function delete()
     {
         if (request('filter') == 'single') {
-            Customer::find(request('search'))->delete();
+            Customer::findOrFail(request('search'))->delete();
         } else {
-            $this->searchFunc()->each->delete();
+            $this->searchFunc()->get()->each->delete();
         }
         return redirect(route('Customers'));
     }
 
     public function edit($id)
     {
-        $customer = Customer::find($id);
+        $customer = Customer::findOrFail($id);
         return view('forms.edit-customer', compact('customer'));
     }
 
@@ -119,5 +123,11 @@ class CustomerController extends Controller
         Customer::whereId($id)->update($data);
 
         return redirect(route('Customers'));
+    }
+
+    public function records($id)
+    {
+        $customer = Customer::findOrFail($id)->name;
+        return redirect(route('Entries'))->with(compact('customer'));
     }
 }

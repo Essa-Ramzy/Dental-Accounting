@@ -3,7 +3,7 @@
 @section('app_content')
     <main class="container-fluid">
         <!-- PDF Header -->
-        <div class="pdf-header mb-4">
+        <div class="pdf-header mb-2">
             <div class="row align-items-center">
                 <div class="col-md-10">
                     <h1 class="h3 mb-1 text-primary fw-bold">Dental Clinic Entries Report</h1>
@@ -20,7 +20,7 @@
 
         <!-- Data Table -->
         <div class="table-responsive">
-            <table class="table table-sm mb-0" style="font-size: 0.875rem;">
+            <table class="table table-sm mb-0 text-nowrap">
                 <thead>
                     <tr>
                         <!-- Set the chosen columns to be displayed -->
@@ -31,7 +31,7 @@
                             <th scope="col">Date</th>
                         @endif
                         @if (isset($columns['name']))
-                            <th scope="col">Patient Name</th>
+                            <th scope="col" class="">Patient Name</th>
                         @endif
                         @if (isset($columns['item']))
                             <th scope="col">Treatment</th>
@@ -84,24 +84,23 @@
                                 </td>
                             @endif
                             @if (isset($columns['unit_price']))
-                                <td class="text-end fw-semibold text-nowrap" style="font-family: 'Courier New', monospace;">
+                                <td class="text-end fw-semibold" style="font-family: 'Courier New', monospace;">
                                     £{{ number_format($entry->unit_price, strlen(rtrim(substr(strrchr($entry->unit_price, '.'), 1), '0'))) }}
                                 </td>
                             @endif
                             @if (isset($columns['discount']))
-                                <td class="text-end {{ $entry->discount > 0 ? 'text-danger' : 'text-muted' }} text-nowrap"
+                                <td class="text-end {{ $entry->discount > 0 ? 'text-danger' : 'text-muted' }}"
                                     style="font-family: 'Courier New', monospace;">
                                     {{ $entry->discount > 0 ? '-£' . number_format($entry->discount, strlen(rtrim(substr(strrchr($entry->discount, '.'), 1), '0'))) : '£0' }}
                                 </td>
                             @endif
                             @if (isset($columns['price']))
-                                <td class="text-end fw-bold text-success text-nowrap"
-                                    style="font-family: 'Courier New', monospace;">
+                                <td class="text-end fw-bold text-success" style="font-family: 'Courier New', monospace;">
                                     £{{ number_format($entry->price, strlen(rtrim(substr(strrchr($entry->price, '.'), 1), '0'))) }}
                                 </td>
                             @endif
                             @if (isset($columns['cost']))
-                                <td class="text-end text-muted text-nowrap" style="font-family: 'Courier New', monospace;">
+                                <td class="text-end text-muted" style="font-family: 'Courier New', monospace;">
                                     £{{ number_format($entry->cost, strlen(rtrim(substr(strrchr($entry->cost, '.'), 1), '0'))) }}
                                 </td>
                             @endif
@@ -126,14 +125,12 @@
                                 {{ $entries->count() }}</th>
                         @endif
                         @if (isset($columns['price']))
-                            <td class="text-end fw-bold text-success text-nowrap"
-                                style="font-family: 'Courier New', monospace;">
+                            <td class="text-end fw-bold text-success" style="font-family: 'Courier New', monospace;">
                                 £{{ number_format($entries->sum('price'), strlen(rtrim(substr(strrchr($entries->sum('price'), '.'), 1), '0'))) }}
                             </td>
                         @endif
                         @if (isset($columns['cost']))
-                            <td class="text-end fw-semibold text-muted text-nowrap"
-                                style="font-family: 'Courier New', monospace;">
+                            <td class="text-end fw-semibold text-muted" style="font-family: 'Courier New', monospace;">
                                 £{{ number_format($entries->sum('cost'), strlen(rtrim(substr(strrchr($entries->sum('cost'), '.'), 1), '0'))) }}
                             </td>
                         @endif

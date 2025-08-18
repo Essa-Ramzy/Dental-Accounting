@@ -16,14 +16,27 @@ class Entry extends Model
 
     public function getTeethListAttribute()
     {
+        if (empty($this->teeth)) {
+            return collect();
+        }
+
         return collect(explode(', ', $this->teeth))
-            ->map(fn($t) => explode('-', trim($t)))
-            ->flatMap(fn($pair) => collect(str_split($pair[1]))
-                ->map(fn($n) => "$pair[0]-$n"));
+            ->flatMap(function ($pair) {
+                if (strpos($pair, '-') === false) {
+                    return collect();
+                }
+                [$quadrant, $numbers] = explode('-', $pair, 2);
+                return collect(str_split($numbers))
+                    ->map(fn($n) => "$quadrant-$n");
+            })
+            ->filter();
     }
 
     public function getUnitCostAttribute()
     {
+        if ($this->amount == 0) {
+            return 0;
+        }
         return $this->cost / $this->amount;
     }
 

@@ -48,7 +48,7 @@ Route::patch('/entries/{id}/update', 'App\Http\Controllers\EntryController@updat
 Route::patch('/items/{id}/update', 'App\Http\Controllers\ItemController@update')->name('Item.update');
 Route::patch('/customers/{id}/update', 'App\Http\Controllers\CustomerController@update')->name('Customer.update');
 // Routes to show the records of the customers and items in entries
-Route::get('/customers/{id}/records', 'App\Http\Controllers\EntryController@customerRecords')->name('Customer.records');
-Route::get('/items/{id}/records', 'App\Http\Controllers\EntryController@itemRecords')->name('Item.records');
+Route::get('/customers/{id}/records', 'App\Http\Controllers\CustomerController@records')->name('Customer.records');
+Route::get('/items/{id}/records', 'App\Http\Controllers\ItemController@records')->name('Item.records');
 // Export route to export the entries to pdf
 Route::post('/entries/export', 'App\Http\Controllers\EntryController@export')->name('Entry.export');
