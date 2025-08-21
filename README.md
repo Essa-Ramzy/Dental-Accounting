@@ -1,23 +1,36 @@
 # Dental Clinic Accounting Web Application
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue)
+![Version](https://img.shields.io/badge/version-2.0-blue)
 ![Laravel](https://img.shields.io/badge/Laravel-12.x-FF2D20?logo=laravel)
 ![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?logo=php)
 ![License](https://img.shields.io/badge/license-MIT-green)
+![Tests](https://img.shields.io/badge/tests-227%20passing-green)
+![Coverage](https://img.shields.io/badge/coverage-580%20assertions-green)
 
 A comprehensive web application designed for dental clinics to manage accounting records, track patient treatments, and generate detailed reports with visual tooth selection interface.
+
+## Recent Updates (v2.0)
+
+-   **Enhanced UI/UX**: Redesigned filter panel with modern Bootstrap 5 styling
+-   **Success Notifications**: Added visual feedback for restore operations and other actions
+-   **Improved Accessibility**: Better ARIA labels, keyboard navigation, and screen reader support
+-   **Modern Icons**: Updated SVG icon set with calendar and search icons
+-   **Responsive Design**: Enhanced mobile experience with better responsive layouts
+-   **Visual Polish**: Added shadows, rounded corners, and improved color schemes
+-   **User Experience**: Cleaner interface with better visual hierarchy and spacing
 
 ## Key Features
 
 -   **Interactive Tooth Selection**: Visual SVG-based tooth chart for precise treatment recording
--   **Patient Management**: Complete CRUD operations for customer records
+-   **Patient Management**: Complete CRUD operations with soft delete protection and restore functionality
 -   **Treatment Tracking**: Detailed entry system with pricing, discounts, and cost tracking
 -   **Inventory Management**: Item catalog with pricing and cost management
--   **Advanced Filtering**: Search and filter entries by date, customer, item, and more
+-   **Advanced Filtering**: Enhanced search and filter interface with date ranges and category selection
 -   **PDF Export**: Generate detailed reports with customizable column selection
--   **Responsive Design**: Modern Bootstrap-based UI with dark/light theme support
+-   **Modern Responsive Design**: Bootstrap 5-based UI with enhanced visual feedback
 -   **Real-time Calculations**: Automatic price calculations with discount support
--   **Soft Delete Protection**: Safe deletion with recovery options for all entities
+-   **Comprehensive Testing**: 227 passing tests with 580 assertions ensuring reliability
+-   **Success Feedback**: Visual notifications for all user actions including restore operations
 
 ## Table of Contents
 
@@ -44,6 +57,7 @@ A comprehensive web application designed for dental clinics to manage accounting
     -   [PDF Export](#pdf-export)
 -   [API Routes](#api-routes)
 -   [Development](#development)
+-   [Testing & Quality Assurance](#testing--quality-assurance)
 
 ## Demo
 
@@ -55,13 +69,14 @@ A comprehensive web application designed for dental clinics to manage accounting
 
 ## Technology Stack
 
--   **Backend**: Laravel 12.x
--   **Frontend**: Bootstrap 5, jQuery, HTML5, CSS3
--   **Database**: MySQL with soft delete support
+-   **Backend**: Laravel 12.x with comprehensive testing suite (227 tests)
+-   **Frontend**: Bootstrap 5, jQuery, HTML5, CSS3 with modern UI components
+-   **Database**: MySQL with soft delete support and data integrity
 -   **PDF Generation**: Spatie Laravel PDF with Puppeteer
--   **Interactive Components**: SVG-based tooth visualization
--   **PHP Version**: 8.2+
--   **Data Protection**: Eloquent ORM with soft delete functionality
+-   **Interactive Components**: SVG-based tooth visualization with enhanced icons
+-   **PHP Version**: 8.2+ with full type safety
+-   **Data Protection**: Eloquent ORM with soft delete functionality and restore capabilities
+-   **User Experience**: Enhanced notifications, responsive design, and accessibility features
 
 ## Getting Started
 
@@ -430,6 +445,16 @@ The core functionality of the application revolves around managing dental treatm
 -   **Bulk**: Use "Delete All" for filtered results (soft delete - recoverable)
 -   **Data Safety**: All deletions are soft deletes, preserving data integrity
 
+#### Restoring Deleted Entries
+
+-   **Access Trash**: Navigate to "Entries Trash" from the main navigation
+-   **Restore Options**:
+    -   **Single Restore**: Click "Restore Selected" for individual entries
+    -   **Bulk Restore**: Use "Restore All" for multiple entries
+-   **Smart Restoration**: Automatically restores related customers and items if needed
+-   **Success Feedback**: Visual confirmation messages show how many entries were restored
+-   **Conflict Handling**: Clear error messages for restoration conflicts (e.g., duplicate names)
+
 ### Patient Management
 
 #### Customer Operations
@@ -438,6 +463,7 @@ The core functionality of the application revolves around managing dental treatm
 -   **Edit**: Update customer information with validation
 -   **View Records**: Click "Records" to see all treatments for a customer
 -   **Delete**: Soft delete customer (can be recovered if needed)
+-   **Restore**: Recover deleted customers from the Customer Trash page
 -   **Data Safety**: Deleted customers are hidden but preserved for recovery
 
 #### Customer Features
@@ -446,6 +472,8 @@ The core functionality of the application revolves around managing dental treatm
 -   Creation date tracking
 -   Quick access to treatment history
 -   Soft delete protection with recovery options
+-   **Success Notifications**: Visual feedback for all restore operations
+-   **Bulk Operations**: Restore multiple customers simultaneously
 
 ### Item Management
 
@@ -454,12 +482,15 @@ The core functionality of the application revolves around managing dental treatm
 -   **Add New**: Form with name, price, cost, and description
 -   **Edit**: Update all item details
 -   **Delete**: Soft delete items (preserves historical data)
+-   **Restore**: Recover deleted items from the Item Trash page
 -   **Pricing**: Separate cost and selling price tracking with decimal precision
 -   **Data Safety**: Deleted items are hidden but preserved for recovery
 
 #### Item Features
 
 -   Unique name validation
+-   **Visual Feedback**: Success messages for restore operations
+-   **Conflict Resolution**: Clear error messages when restoration fails due to duplicate names
 -   Decimal precision for financial accuracy
 -   Creation date tracking
 -   Quick access to usage history
@@ -498,21 +529,21 @@ The application's standout feature is the interactive teeth selection system.
 
 #### Advanced Search Features
 
--   **Real-time Search**: AJAX-powered instant results
+-   **Real-time Search**: AJAX-powered instant results without page refresh
+-   **Enhanced Date Range Picker**: Professional date selection with visual calendar interface
 -   **Multiple Filters**:
-    -   Customer name
-    -   Item/procedure
-    -   Date ranges
-    -   etc.
--   **Column-specific Search**: Filter by specific fields
--   **Date Range Picker**: Intuitive date selection
+    -   Customer name search
+    -   Item/procedure filtering
+    -   Date ranges with visual picker
+    -   Column-specific searches
 
 #### Filter Types
 
--   **Text Search**: Customer names, item names
--   **Numeric Filters**: Prices, costs, discounts
--   **Date Filters**: Creation dates, treatment dates
+-   **Text Search**: Customer names, item names with fuzzy matching
+-   **Numeric Filters**: Prices, costs, discounts with range support
+-   **Date Filters**: Creation dates, treatment dates with range picker
 -   **Relationship Filters**: Customer-specific or item-specific entries
+-   **Combined Filters**: Multiple criteria applied simultaneously
 
 ### PDF Export
 
@@ -651,3 +682,56 @@ The application includes four main migrations:
 -   **Bootstrap Foundation**: Responsive grid and utilities
 -   **Custom Themes**: Dark/light mode support
 -   **Visual Feedback**: Hover states and transitions
+
+## Testing & Quality Assurance
+
+### Test Suite Overview
+
+The application includes comprehensive testing with **227 passing tests** and **580 assertions**, ensuring robust functionality across all components.
+
+#### Test Structure
+
+```bash
+tests/
+├── Feature/                     # Integration tests
+│   ├── CustomerControllerTest.php
+│   ├── EntryControllerTest.php
+│   └── ItemControllerTest.php
+└── Unit/                        # Unit tests
+    ├── CustomerModelTest.php
+    ├── EntryModelTest.php
+    ├── ItemModelTest.php
+    ├── ModelIntegrationTest.php
+    └── ProvidesTrashedCountTest.php
+```
+
+#### Running Tests
+
+```bash
+# Run all tests
+php artisan test
+
+# Run specific test file
+php artisan test tests/Feature/CustomerControllerTest.php
+
+# Run tests with coverage
+php artisan test --coverage
+```
+
+### Test Categories
+
+#### Feature Tests
+
+-   **CustomerController**: CRUD operations, restore functionality
+-   **EntryController**: Treatment record management
+-   **ItemController**: Inventory management operations
+
+#### Unit Tests
+
+-   **Model Tests**: Data integrity and relationships
+-   **Trait Tests**: Shared functionality (ProvidesTrashedCount)
+-   **Integration Tests**: Cross-model interactions
+
+---
+
+_Last updated: Version 2.0 - Introduction of trashed records functionality_

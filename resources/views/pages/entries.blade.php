@@ -417,7 +417,7 @@
     <thead>
         <tr>
             <th scope="col" class="text-center">#</th>
-            <th scope="col">Date</th>
+            <th scope="col">{{ $trash ? 'Deleted At' : 'Date' }}</th>
             <th scope="col" class="">Patient Name</th>
             <th scope="col">Treatment</th>
             <th scope="col" class="text-center">Teeth</th>
@@ -426,96 +426,101 @@
             <th scope="col" class="text-end">Discount</th>
             <th scope="col" class="text-end">Total</th>
             <th scope="col" class="text-end">Cost</th>
-            <th scope="col" style="width: 120px;">
-                <div class="dropdown text-end position-static">
-                    <!-- Button to export the table data -->
-                    <button type="button" class="btn btn-link p-0" data-bs-toggle="dropdown" aria-expanded="false"
-                        data-bs-auto-close="outside" id="export_btn" title="Export to PDF">
-                        <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                            <use href="#file-pdf" fill="var(--bs-body-color)"></use>
-                        </svg>
-                    </button>
-                    <!-- Export column options -->
-                    <div class="dropdown-menu py-2 px-3">
-                        <h6 class="dropdown-header text-center">Export Options</h6>
-                        <form action="{{ route('Entry.export') }}" method="post" class="top-0"
-                            enctype="multipart/form-data" target="_blank">
-                            @csrf
-                            <!-- Hidden inputs for exporting the filtered data -->
-                            <input hidden aria-label="export_filter" name="filter">
-                            <input hidden aria-label="export_search" name="search">
-                            <input hidden aria-label="export_from_date" name="from_date">
-                            <input hidden aria-label="export_to_date" name="to_date">
-                            <!-- Export column options -->
-                            <div class="form-check form-switch mb-1">
-                                <input name="id" class="form-check-input" type="checkbox" role="switch"
-                                    id="id" value="ID" checked>
-                                <label class="form-check-label" for="id">ID</label>
-                            </div>
-                            <div class="form-check form-switch mb-1">
-                                <input name="date" class="form-check-input" type="checkbox" role="switch"
-                                    id="date" value="Date" checked>
-                                <label class="form-check-label" for="date">Date</label>
-                            </div>
-                            <div class="form-check form-switch mb-1">
-                                <input name="name" class="form-check-input" type="checkbox" role="switch"
-                                    id="name" value="Name" checked>
-                                <label class="form-check-label" for="name">Patient Name</label>
-                            </div>
-                            <div class="form-check form-switch mb-1">
-                                <input name="item" class="form-check-input" type="checkbox" role="switch"
-                                    id="item" value="Item" checked>
-                                <label class="form-check-label" for="item">Treatment</label>
-                            </div>
-                            <div class="form-check form-switch mb-1">
-                                <input name="teeth" class="form-check-input" type="checkbox" role="switch"
-                                    id="teeth" value="Teeth" checked>
-                                <label class="form-check-label" for="teeth">Teeth</label>
-                            </div>
-                            <div class="form-check form-switch mb-1">
-                                <input name="amount" class="form-check-input" type="checkbox" role="switch"
-                                    id="amount" value="Amount" checked>
-                                <label class="form-check-label" for="amount">Quantity</label>
-                            </div>
-                            <div class="form-check form-switch mb-1">
-                                <input name="unit_price" class="form-check-input" type="checkbox" role="switch"
-                                    id="unit_price" value="Unit Price" checked>
-                                <label class="form-check-label" for="unit_price">Unit Price</label>
-                            </div>
-                            <div class="form-check form-switch mb-1">
-                                <input name="discount" class="form-check-input" type="checkbox" role="switch"
-                                    id="discount" value="Discount" checked>
-                                <label class="form-check-label" for="discount">Discount</label>
-                            </div>
-                            <div class="form-check form-switch mb-1">
-                                <input name="price" class="form-check-input" type="checkbox" role="switch"
-                                    id="price" value="Price" checked>
-                                <label class="form-check-label" for="price">Total Price</label>
-                            </div>
-                            <div class="form-check form-switch mb-2">
-                                <input name="cost" class="form-check-input" type="checkbox" role="switch"
-                                    id="cost" value="Cost" checked>
-                                <label class="form-check-label" for="cost">Cost</label>
-                            </div>
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-sm btn-outline-success">
-                                    <svg width="16" height="16" class="me-2 mb-1" aria-hidden="true">
-                                        <use href="#download" fill="currentColor" />
-                                    </svg>
-                                    Export PDF
-                                </button>
-                            </div>
-                        </form>
+            <th scope="col" class="text-end" style="width: 120px;">
+                @if ($trash)
+                    Actions
+                @else
+                    <div class="dropdown">
+                        <!-- Button to export the table data -->
+                        <button type="button" class="btn btn-link p-0" data-bs-toggle="dropdown" aria-expanded="false"
+                            data-bs-auto-close="outside" id="export_btn" title="Export to PDF">
+                            <svg width="24" height="24" aria-hidden="true">
+                                <use href="#file-pdf" fill="var(--bs-body-color)"></use>
+                            </svg>
+                        </button>
+                        <!-- Export column options -->
+                        <div class="dropdown-menu py-2 px-3">
+                            <h6 class="dropdown-header text-center">Export Options</h6>
+                            <form action="{{ route('Entry.export') }}" method="post" class="top-0"
+                                enctype="multipart/form-data" target="_blank">
+                                @csrf
+                                <!-- Hidden inputs for exporting the filtered data -->
+                                <input hidden aria-label="export_filter" name="filter">
+                                <input hidden aria-label="export_search" name="search">
+                                <input hidden aria-label="export_from_date" name="from_date">
+                                <input hidden aria-label="export_to_date" name="to_date">
+                                <!-- Export column options -->
+                                <div class="form-check form-switch mb-1">
+                                    <input name="id" class="form-check-input" type="checkbox" role="switch"
+                                        id="id" value="ID" checked>
+                                    <label class="form-check-label" for="id">ID</label>
+                                </div>
+                                <div class="form-check form-switch mb-1">
+                                    <input name="date" class="form-check-input" type="checkbox" role="switch"
+                                        id="date" value="Date" checked>
+                                    <label class="form-check-label" for="date">Date</label>
+                                </div>
+                                <div class="form-check form-switch mb-1">
+                                    <input name="name" class="form-check-input" type="checkbox" role="switch"
+                                        id="name" value="Name" checked>
+                                    <label class="form-check-label" for="name">Patient Name</label>
+                                </div>
+                                <div class="form-check form-switch mb-1">
+                                    <input name="item" class="form-check-input" type="checkbox" role="switch"
+                                        id="item" value="Item" checked>
+                                    <label class="form-check-label" for="item">Treatment</label>
+                                </div>
+                                <div class="form-check form-switch mb-1">
+                                    <input name="teeth" class="form-check-input" type="checkbox" role="switch"
+                                        id="teeth" value="Teeth" checked>
+                                    <label class="form-check-label" for="teeth">Teeth</label>
+                                </div>
+                                <div class="form-check form-switch mb-1">
+                                    <input name="amount" class="form-check-input" type="checkbox" role="switch"
+                                        id="amount" value="Amount" checked>
+                                    <label class="form-check-label" for="amount">Quantity</label>
+                                </div>
+                                <div class="form-check form-switch mb-1">
+                                    <input name="unit_price" class="form-check-input" type="checkbox" role="switch"
+                                        id="unit_price" value="Unit Price" checked>
+                                    <label class="form-check-label" for="unit_price">Unit Price</label>
+                                </div>
+                                <div class="form-check form-switch mb-1">
+                                    <input name="discount" class="form-check-input" type="checkbox" role="switch"
+                                        id="discount" value="Discount" checked>
+                                    <label class="form-check-label" for="discount">Discount</label>
+                                </div>
+                                <div class="form-check form-switch mb-1">
+                                    <input name="price" class="form-check-input" type="checkbox" role="switch"
+                                        id="price" value="Price" checked>
+                                    <label class="form-check-label" for="price">Total Price</label>
+                                </div>
+                                <div class="form-check form-switch mb-2">
+                                    <input name="cost" class="form-check-input" type="checkbox" role="switch"
+                                        id="cost" value="Cost" checked>
+                                    <label class="form-check-label" for="cost">Cost</label>
+                                </div>
+                                <div class="d-grid">
+                                    <button type="submit"
+                                        class="btn btn-sm btn-outline-success d-flex align-items-center justify-content-center gap-2">
+                                        <svg width="16" height="16" aria-hidden="true">
+                                            <use href="#download" fill="currentColor" />
+                                        </svg>
+                                        Export PDF
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                </div>
+                @endif
             </th>
         </tr>
     </thead>
     <tbody>
-        @include('pages.partials.entries-body', ['entries' => $entries])
+        @include('partials.entries-body', compact('entries'))
     </tbody>
     <tfoot>
-        @include('pages.partials.entries-footer', ['entries' => $entries, 'footer' => $footer])
+        @include('partials.entries-footer', compact('entries', 'footer'))
     </tfoot>
 @endsection
 @section('dropdown')
@@ -533,25 +538,133 @@
     <li><button class="dropdown-item" type="button">Cost</button></li>
 @endsection
 @section('modal')
+    @if ($trash)
+        <!-- This is the modal for restoring an item -->
+        <div class="modal fade" id="restoreModal" tabindex="-1" aria-labelledby="restoreModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header border-0">
+                        <h5 class="modal-title text-success d-flex align-items-center gap-2" id="restoreModalLabel">
+                            <svg width="24" height="24" aria-hidden="true">
+                                <use href="#arrow-clockwise" fill="currentColor" />
+                            </svg>
+                            Confirm Restoration
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body pt-0">
+                        <p class="mb-0">
+                            Are you sure you want to restore the selected entry(s)? Restored entries will be moved back to
+                            the active list. If the related item or customer is deleted, they will also be restored. If the
+                            related item or customer already exists in the active list, the entire restoration will not be
+                            successful.
+                        </p>
+                    </div>
+                    <form action="{{ route('Entry.restore') }}" method="post" enctype="multipart/form-data"
+                        class="d-flex modal-footer p-0">
+                        @csrf
+                        @method('patch')
+                        <!-- Hidden input in case of restoring several items -->
+                        <input hidden aria-label="restore_filter" name="filter">
+                        <input hidden aria-label="restore_search" name="search">
+                        <input hidden aria-label="restore_from_date" name="from_date">
+                        <input hidden aria-label="restore_to_date" name="to_date">
+                        <button type="submit"
+                            class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0 border-end">
+                            <strong>Yes, Restore</strong></button>
+                        <button type="button"
+                            class="btn btn-lg btn-link fs-6 text-decoration-none col-6 py-3 m-0 rounded-0"
+                            data-bs-dismiss="modal">No thanks
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    <!-- Failed Restore Modal -->
+    @if (session('failed_entries') && count(session('failed_entries')) > 0)
+        <div class="modal fade" id="failedModal" tabindex="-1" aria-labelledby="failedModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header border-0">
+                        <h5 class="modal-title text-warning d-flex align-items-center gap-2" id="failedModalLabel">
+                            <svg width="24" height="24" aria-hidden="true">
+                                <use href="#exclamation-triangle" fill="currentColor" />
+                            </svg>
+                            Restore Failed
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body pt-0">
+                        <p class="mb-2">The following entries could not be restored:</p>
+                        <div class="overflow-y-auto" style="max-height: 50vh;">
+                            <ul class="list-group list-group-flush" id="failedEntriesList">
+                                @php
+                                    $failedEntries = session('failed_entries');
+                                    $visibleCount = 3;
+                                    $totalCount = count($failedEntries);
+                                    $hiddenCount = $totalCount - $visibleCount;
+                                @endphp
+                                @foreach ($failedEntries as $index => $failed)
+                                    <li
+                                        class="list-group-item px-0 py-1 border-0 @if ($index >= $visibleCount) d-none failed-item-hidden @endif">
+                                        <div class="d-flex align-items-center gap-2">
+                                            <svg width="16" height="16" class="text-danger" aria-hidden="true">
+                                                <use href="#x-circle" fill="currentColor" />
+                                            </svg>
+                                            <span class="text-muted">{{ $failed }}</span>
+                                        </div>
+                                    </li>
+                                @endforeach
+                                @if ($hiddenCount > 0)
+                                    <li class="list-group-item px-0 py-2 border-0 text-center" id="showMore">
+                                        <button type="button"
+                                            class="btn btn-sm btn-outline-secondary d-inline-flex align-items-center gap-1 px-3 py-1 rounded-pill">
+                                            <svg width="14" height="14" aria-hidden="true">
+                                                <use href="#chevron-down" fill="currentColor" />
+                                            </svg>
+                                            <small class="fw-medium">Show {{ $hiddenCount }} more
+                                                entr{{ $hiddenCount > 1 ? 'ies' : 'y' }}</small>
+                                        </button>
+                                    </li>
+                                @endif
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                            OK
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
     <!-- This is the modal for deleting an entry -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header border-0">
-                    <h5 class="modal-title text-danger" id="deleteModalLabel">
-                        <svg width="24" height="24" class="me-2 mb-1" aria-hidden="true">
+                    <h5 class="modal-title text-danger d-flex align-items-center gap-2" id="deleteModalLabel">
+                        <svg width="24" height="24" aria-hidden="true">
                             <use href="#trash-fill" fill="currentColor" />
                         </svg>
-                        Confirm Deletion
+                        Confirm {{ $trash ? 'Permanent ' : '' }}Deletion
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body pt-0">
-                    <p class="mb-0">Are you sure you want to delete this/these entry(s)? This action cannot be undone.
+                    <p class="mb-0">
+                        Are you sure you want to {{ $trash ? 'permanently ' : '' }}delete the selected entry(s)? This
+                        action
+                        cannot be undone.
                     </p>
                 </div>
-                <form action="{{ route('Entry.delete') }}" method="post" enctype="multipart/form-data"
-                    class="d-flex modal-footer p-0">
+                <form action="{{ $trash ? route('Entry.forceDelete') : route('Entry.delete') }}" method="post"
+                    enctype="multipart/form-data" class="d-flex modal-footer p-0">
                     @csrf
                     @method('delete')
                     <!-- Hidden inputs in case of deleting several entries -->

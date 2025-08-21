@@ -20,9 +20,9 @@ Route::fallback(function () {
 Route::get('/', function () {
     return view('pages.home');
 })->name('Home');
-Route::get('/entries', 'App\Http\Controllers\EntryController@index')->name('Entries');
-Route::get('/items', 'App\Http\Controllers\ItemController@index')->name('Items');
-Route::get('/customers', 'App\Http\Controllers\CustomerController@index')->name('Customers');
+Route::get('/entries', 'App\Http\Controllers\EntryController@index')->name('Entry.index');
+Route::get('/items', 'App\Http\Controllers\ItemController@index')->name('Item.index');
+Route::get('/customers', 'App\Http\Controllers\CustomerController@index')->name('Customer.index');
 // Search routes for searching in the tables
 Route::get('/entries/search', 'App\Http\Controllers\EntryController@search')->name('Entry.search');
 Route::get('/items/search', 'App\Http\Controllers\ItemController@search')->name('Item.search');
@@ -48,7 +48,19 @@ Route::patch('/entries/{id}/update', 'App\Http\Controllers\EntryController@updat
 Route::patch('/items/{id}/update', 'App\Http\Controllers\ItemController@update')->name('Item.update');
 Route::patch('/customers/{id}/update', 'App\Http\Controllers\CustomerController@update')->name('Customer.update');
 // Routes to show the records of the customers and items in entries
-Route::get('/customers/{id}/records', 'App\Http\Controllers\CustomerController@records')->name('Customer.records');
 Route::get('/items/{id}/records', 'App\Http\Controllers\ItemController@records')->name('Item.records');
+Route::get('/customers/{id}/records', 'App\Http\Controllers\CustomerController@records')->name('Customer.records');
 // Export route to export the entries to pdf
 Route::post('/entries/export', 'App\Http\Controllers\EntryController@export')->name('Entry.export');
+// Trash bin routes
+Route::get('/entries/trash', 'App\Http\Controllers\EntryController@trash')->name('Entry.trash');
+Route::get('/items/trash', 'App\Http\Controllers\ItemController@trash')->name('Item.trash');
+Route::get('/customers/trash', 'App\Http\Controllers\CustomerController@trash')->name('Customer.trash');
+// Trash restoration routes
+Route::patch('/entries/trash/restore', 'App\Http\Controllers\EntryController@restore')->name('Entry.restore');
+Route::patch('/items/trash/restore', 'App\Http\Controllers\ItemController@restore')->name('Item.restore');
+Route::patch('/customers/trash/restore', 'App\Http\Controllers\CustomerController@restore')->name('Customer.restore');
+// Trash force delete routes
+Route::delete('/entries/trash/force-delete', 'App\Http\Controllers\EntryController@forceDelete')->name('Entry.forceDelete');
+Route::delete('/items/trash/force-delete', 'App\Http\Controllers\ItemController@forceDelete')->name('Item.forceDelete');
+Route::delete('/customers/trash/force-delete', 'App\Http\Controllers\CustomerController@forceDelete')->name('Customer.forceDelete');

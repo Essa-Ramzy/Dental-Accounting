@@ -126,6 +126,38 @@ $(() => {
             to_date ? to_date + " 23:59:59" : ""
         );
     });
+    $("#failedModal").modal("show");
+
+    $(document).on("click", "#showMore", (e) => {
+        $(".failed-item-hidden").each((_, item) => {
+            $(item).removeClass("d-none failed-item-hidden");
+        });
+        $(e.currentTarget).hide();
+    });
+
+    $(document).on("click", "a[href='#restoreModal']", (e) => {
+        let search = $("#search").val().toLowerCase();
+        let filter = $("#dropdown_btn").text().toLowerCase();
+        if (e.currentTarget.id) {
+            search = e.currentTarget.id;
+            filter = "single";
+        }
+        let from_date = $("#from_date").val();
+        let to_date = $("#to_date").val();
+
+        $('input[aria-label="restore_filter"]').val(
+            !filter.includes("search by") ? filter_map[filter] : ""
+        );
+        $('input[aria-label="restore_search"]').val(
+            !filter.includes("search by") && search ? search : ""
+        );
+        $('input[aria-label="restore_from_date"]').val(
+            from_date ? from_date + " 00:00:00" : ""
+        );
+        $('input[aria-label="restore_to_date"]').val(
+            to_date ? to_date + " 23:59:59" : ""
+        );
+    });
 
     let initTeethPopovers = () => {
         $('[data-bs-toggle="popover"]').each((_, e) => {
@@ -133,7 +165,7 @@ $(() => {
             const targetId = el.attr("data-bs-content-target");
             const content = $("#" + targetId);
 
-            new bootstrap.Popover(el[0], {
+            el.popover({
                 html: true,
                 container: "body",
                 content: content.html(),
@@ -143,6 +175,12 @@ $(() => {
         });
     };
     initTeethPopovers();
+
+    let disposePopovers = () => {
+        $('[data-bs-toggle="popover"]').each((_, e) => {
+            $(e).popover("dispose");
+        });
+    };
 
     let ajax = (url, search, filter, from_date, to_date) => {
         $.ajax({
@@ -161,6 +199,7 @@ $(() => {
                 to_date: to_date ? to_date + " 23:59:59" : "",
             },
             success: (data) => {
+                disposePopovers();
                 $("#table tbody").html(data.body);
                 $("#table tfoot").html(data.footer);
                 $("#pagination").html(data.links);

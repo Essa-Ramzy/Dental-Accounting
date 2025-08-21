@@ -1,4 +1,4 @@
-@extends('layouts.app-with-header')
+@extends('layouts.app')
 @section('head')
     @parent
     <link rel="stylesheet" href="{{ asset('resources/css/views/layouts/home.css') }}">
@@ -42,7 +42,8 @@
         <line x1="8" y1="12" x2="16" y2="12"></line>
     </symbol>
 @endsection
-@section('layout')
+@section('app_content')
+    @include('partials.header')
     <!-- Hero Cover Section -->
     <div class="position-relative overflow-hidden min-vh-90">
         <!-- Background Image -->
@@ -63,20 +64,23 @@
                         Track patient records, manage treatments, and monitor financial performance all in one place.
                     </p>
                     <div class="d-flex flex-wrap gap-2 gap-md-3 justify-content-center mb-5">
-                        <span class="badge bg-success bg-shadow text-white px-3 px-md-4 py-2 py-md-3 fs-6 rounded-pill">
-                            <svg width="18" height="18" class="me-2 mb-1" aria-hidden="true">
+                        <span
+                            class="badge bg-success bg-shadow text-white px-3 px-md-4 py-2 py-md-3 fs-6 rounded-pill d-flex align-items-center gap-2">
+                            <svg width="18" height="18" aria-hidden="true">
                                 <use href="#people-circle" fill="currentColor"></use>
                             </svg>
                             Patient Management
                         </span>
-                        <span class="badge bg-info bg-shadow text-white px-3 px-md-4 py-2 py-md-3 fs-6 rounded-pill">
-                            <svg width="18" height="18" class="me-2 mb-1" aria-hidden="true">
+                        <span
+                            class="badge bg-info bg-shadow text-white px-3 px-md-4 py-2 py-md-3 fs-6 rounded-pill d-flex align-items-center gap-2">
+                            <svg width="18" height="18" aria-hidden="true">
                                 <use href="#grid" fill="currentColor"></use>
                             </svg>
                             Treatment Tracking
                         </span>
-                        <span class="badge bg-warning bg-shadow text-dark px-3 px-md-4 py-2 py-md-3 fs-6 rounded-pill">
-                            <svg width="18" height="18" class="me-2 mb-1" aria-hidden="true">
+                        <span
+                            class="badge bg-warning bg-shadow text-dark px-3 px-md-4 py-2 py-md-3 fs-6 rounded-pill d-flex align-items-center gap-2">
+                            <svg width="18" height="18" aria-hidden="true">
                                 <use href="#tags" fill="currentColor"></use>
                             </svg>
                             Financial Reports
@@ -90,8 +94,8 @@
     <main class="container py-5">
         <!-- View Data Section -->
         <div class="text-center mb-5">
-            <h2 class="h3 fw-bold text-body-emphasis mb-2">
-                <svg width="24" height="24" class="me-2 text-primary" aria-hidden="true">
+            <h2 class="h3 fw-bold text-body-emphasis mb-2 d-flex align-items-center justify-content-center gap-3">
+                <svg width="24" height="24" class="text-primary" aria-hidden="true">
                     <use href="#book-open" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round"></use>
                 </svg>
@@ -104,7 +108,7 @@
         <div class="row g-4 mb-5">
             <!-- Entries -->
             <div class="col-12 col-md-6 col-xl-4">
-                <a href="{{ route('Entries') }}"
+                <a href="{{ route('Entry.index') }}"
                     class="card h-100 text-decoration-none shadow-sm border-0 rounded-4 overflow-hidden position-relative card-hover"
                     aria-label="View all patient entries and treatments">
                     <div class="card-body d-flex flex-column align-items-center justify-content-center text-center p-4">
@@ -124,7 +128,7 @@
 
             <!-- Items -->
             <div class="col-12 col-md-6 col-xl-4">
-                <a href="{{ route('Items') }}"
+                <a href="{{ route('Item.index') }}"
                     class="card h-100 text-decoration-none shadow-sm border-0 rounded-4 overflow-hidden position-relative card-hover"
                     aria-label="Manage treatment items and services">
                     <div class="card-body d-flex flex-column align-items-center justify-content-center text-center p-4">
@@ -144,7 +148,7 @@
 
             <!-- Customers -->
             <div class="col-12 col-md-6 col-xl-4">
-                <a href="{{ route('Customers') }}"
+                <a href="{{ route('Customer.index') }}"
                     class="card h-100 text-decoration-none shadow-sm border-0 rounded-4 overflow-hidden position-relative card-hover"
                     aria-label="Browse patient database and records">
                     <div class="card-body d-flex flex-column align-items-center justify-content-center text-center p-4">
@@ -165,8 +169,8 @@
 
         <!-- Add New Section -->
         <div class="text-center my-5">
-            <h2 class="h3 fw-bold text-body-emphasis mb-2">
-                <svg width="24" height="24" class="me-2 text-success" aria-hidden="true">
+            <h2 class="h3 fw-bold text-body-emphasis mb-2 d-flex align-items-center justify-content-center gap-3">
+                <svg width="24" height="24" class="text-success" aria-hidden="true">
                     <use href="#plus-circle" fill="none" stroke="currentColor" stroke-width="2"
                         stroke-linecap="round" stroke-linejoin="round"></use>
                 </svg>

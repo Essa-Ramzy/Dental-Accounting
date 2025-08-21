@@ -20,8 +20,10 @@
             <div class="col-lg-8 col-md-10 col-12">
                 <!-- Header -->
                 <div class="d-flex align-items-center mb-4">
-                    <a href="{{ route('Items') }}" class="btn btn-outline-secondary me-3" aria-label="Go back to items">
-                        <svg width="16" height="16" class="me-2 mb-1" aria-hidden="true">
+                    <a href="{{ route('Item.index') }}"
+                        class="btn btn-outline-secondary me-3 d-flex align-items-center gap-2"
+                        aria-label="Go back to items">
+                        <svg width="16" height="16" aria-hidden="true">
                             <use href="#arrow-left" fill="currentColor" />
                         </svg>
                         Back
@@ -32,8 +34,8 @@
                 <!-- Item Information Section -->
                 <div class="card shadow-sm border-0 mb-4">
                     <div class="card-header bg-warning text-dark">
-                        <h2 class="h6 mb-0">
-                            <svg width="18" height="18" class="me-2 mb-1" aria-hidden="true">
+                        <h2 class="h6 mb-0 d-flex align-items-center gap-2">
+                            <svg width="18" height="18" aria-hidden="true">
                                 <use href="#pencil-square" fill="none" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
@@ -139,9 +141,9 @@
 
                 <!-- Action Buttons -->
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <a href="{{ route('Items') }}" class="btn btn-outline-secondary">Cancel</a>
-                    <button type="submit" class="btn btn-warning px-4">
-                        <svg width="16" height="16" class="me-2 mb-1" aria-hidden="true">
+                    <a href="{{ route('Item.index') }}" class="btn btn-outline-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-warning px-4 d-flex align-items-center gap-2">
+                        <svg width="16" height="16" aria-hidden="true">
                             <use href="#check-lg" fill="currentColor" />
                         </svg>
                         Update Item

@@ -44,8 +44,7 @@
         </path>
     </symbol>
     <symbol id="x-circle" viewBox="0 0 16 16">
-        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16">
-        </path>
+        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"></path>
         <path
             d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708">
         </path>
@@ -448,8 +447,9 @@
             <div class="col-xl-10 col-lg-11 col-12">
                 <!-- Header -->
                 <div class="d-flex align-items-center mb-4">
-                    <a href="{{ $previous_url }}" class="btn btn-outline-secondary me-3" aria-label="Go back">
-                        <svg width="16" height="16" class="me-2 mb-1" aria-hidden="true">
+                    <a href="{{ $previous_url }}" class="btn btn-outline-secondary me-3 d-flex align-items-center gap-2"
+                        aria-label="Go back">
+                        <svg width="16" height="16" aria-hidden="true">
                             <use href="#arrow-left" fill="currentColor" />
                         </svg>
                         Back
@@ -462,8 +462,8 @@
                     <div class="col-lg-8">
                         <div class="card shadow-sm border-0">
                             <div class="card-header bg-primary text-white">
-                                <h2 class="h6 mb-0">
-                                    <svg width="18" height="18" class="me-2 mb-1" aria-hidden="true">
+                                <h2 class="h6 mb-0 d-flex align-items-center gap-2">
+                                    <svg width="18" height="18" aria-hidden="true">
                                         <use href="#journal-medical" fill="currentColor" />
                                     </svg>
                                     Entry Details
@@ -560,8 +560,8 @@
                         <!-- Teeth Selection Section -->
                         <div class="card shadow-sm border-0 mt-4">
                             <div class="card-header bg-info text-white">
-                                <h2 class="h6 mb-0">
-                                    <svg width="18" height="18" class="me-2 mb-1" aria-hidden="true">
+                                <h2 class="h6 mb-0 d-flex align-items-center gap-2">
+                                    <svg width="18" height="18" aria-hidden="true">
                                         <use href="#grid-3x3-gap-fill" fill="currentColor" />
                                     </svg>
                                     Teeth Selection
@@ -571,20 +571,22 @@
                                 <!-- Tab Navigation -->
                                 <ul class="nav nav-underline nav-fill m-0 gap-2" id="teethTab" role="tablist">
                                     <li class="nav-item">
-                                        <button class="nav-link active py-3 fw-semibold" id="visual-tab" type="button"
-                                            data-bs-toggle="tab" data-bs-target="#visual" aria-controls="visual"
-                                            aria-selected="true">
-                                            <svg width="16" height="16" class="me-2 mb-1" aria-hidden="true">
+                                        <button
+                                            class="nav-link active py-3 fw-semibold d-flex align-items-center justify-content-center gap-2"
+                                            id="visual-tab" type="button" data-bs-toggle="tab" data-bs-target="#visual"
+                                            aria-controls="visual" aria-selected="true">
+                                            <svg width="16" height="16" aria-hidden="true">
                                                 <use href="#eye" fill="currentColor" />
                                             </svg>
                                             Visual Chart
                                         </button>
                                     </li>
                                     <li class="nav-item">
-                                        <button class="nav-link py-3 fw-semibold" id="list-tab" type="button"
-                                            data-bs-toggle="tab" data-bs-target="#list" aria-controls="list"
-                                            aria-selected="false">
-                                            <svg width="16" height="16" class="me-2 mb-1" aria-hidden="true">
+                                        <button
+                                            class="nav-link py-3 fw-semibold d-flex align-items-center justify-content-center gap-2"
+                                            id="list-tab" type="button" data-bs-toggle="tab" data-bs-target="#list"
+                                            aria-controls="list" aria-selected="false">
+                                            <svg width="16" height="16" aria-hidden="true">
                                                 <use href="#list-ul" fill="currentColor" />
                                             </svg>
                                             List Selection
@@ -602,18 +604,18 @@
                                         <div class="d-flex justify-content-center mb-3">
                                             <div class="btn-group btn-group-sm" role="group"
                                                 aria-label="Selection tools">
-                                                <button type="button" class="btn btn-outline-primary"
+                                                <button type="button"
+                                                    class="btn btn-outline-primary d-flex align-items-center gap-2"
                                                     id="select-all-teeth" title="Select All Teeth">
-                                                    <svg width="14" height="14" class="me-1 mb-1"
-                                                        aria-hidden="true">
+                                                    <svg width="14" height="14" aria-hidden="true">
                                                         <use href="#check-all" fill="currentColor" />
                                                     </svg>
                                                     Select All
                                                 </button>
-                                                <button type="button" class="btn btn-outline-primary"
+                                                <button type="button"
+                                                    class="btn btn-outline-primary d-flex align-items-center gap-2"
                                                     id="clear-all-teeth" title="Clear All Selections">
-                                                    <svg width="14" height="14" class="me-1 mb-1"
-                                                        aria-hidden="true">
+                                                    <svg width="14" height="14" aria-hidden="true">
                                                         <use href="#x-circle" fill="currentColor" />
                                                     </svg>
                                                     Clear All
@@ -660,11 +662,11 @@
 
                     <!-- Receipt Summary Section -->
                     <div class="col-lg-4">
-                        <div class="sticky-top" style="top: 2rem;">
+                        <div class="sticky-lg-top" style="top: 2rem;">
                             <div class="card shadow-sm border-0">
                                 <div class="card-header bg-success text-white">
-                                    <h2 class="h6 mb-0">
-                                        <svg width="18" height="18" class="me-2 mb-1" aria-hidden="true">
+                                    <h2 class="h6 mb-0 d-flex align-items-center gap-2">
+                                        <svg width="18" height="18" aria-hidden="true">
                                             <use href="#receipt-cutoff" fill="currentColor" />
                                         </svg>
                                         Treatment Summary
@@ -699,8 +701,8 @@
                     <div class="col-12">
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                             <a href="{{ $previous_url }}" class="btn btn-outline-secondary">Cancel</a>
-                            <button type="submit" class="btn btn-primary px-5">
-                                <svg width="16" height="16" class="me-2 mb-1" aria-hidden="true">
+                            <button type="submit" class="btn btn-primary px-5 d-flex align-items-center gap-2">
+                                <svg width="16" height="16" aria-hidden="true">
                                     <use href="#plus-circle" fill="none" stroke="currentColor" stroke-width="2"
                                         stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>

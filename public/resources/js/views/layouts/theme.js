@@ -1,5 +1,5 @@
 const setTheme = (mode) => {
-    const html = document.querySelector("html");
+    const html = document.documentElement;
     if (mode === "auto") {
         if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
             html.setAttribute("data-bs-theme", "dark");
@@ -40,8 +40,22 @@ window
 
 applyTheme(localStorage.getItem("theme") || "auto");
 
+obs = new MutationObserver((_, obs) => {
+    const input = $("#bd-theme-text");
+    if (input.length) {
+        input.text(
+            (localStorage.getItem("theme") || "auto") === "auto"
+                ? "Auto"
+                : "dark"
+                ? "Dark"
+                : "Light"
+        );
+        obs.disconnect();
+    }
+});
+obs.observe(document.documentElement, { childList: true, subtree: true });
+
 $(() => {
-    applyTheme(localStorage.getItem("theme") || "auto");
     theme_buttons = $("[data-bs-theme-value]");
     change_selected = (mode) => {
         theme_buttons.attr("aria-pressed", "false").removeClass("active");

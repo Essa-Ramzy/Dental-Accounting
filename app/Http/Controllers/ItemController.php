@@ -4,31 +4,40 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use Illuminate\Support\Str;
+use App\Traits\ProvidesTrashedCount;
 
 class ItemController extends Controller
 {
+    use ProvidesTrashedCount;
+
+    protected $model = Item::class;
+
+    public function __construct()
+    {
+        $this->shareTrashedCount();
+    }
+
     public function index()
     {
-        $items = Item::withCount("entries");
-        $all = $items->get();
-        $footer = [
-            'count' => $all->count(),
-        ];
-        $items = $items->paginate(50);
+        $items = Item::withCount("entries")->paginate(50);
+        $trash = false;
         if (request()->ajax()) {
-            $body = view('pages.partials.items-body', compact('items'))->render();
-            $footer = view('pages.partials.items-footer', compact('items', 'footer'))->render();
+            $body = view('partials.items-body', compact('items', 'trash'))->render();
+            $footer = view('partials.items-footer', compact('items', 'trash'))->render();
             $links = $items->appends(request()->except('page'))->links()->toHtml();
             return response()->json(compact('body', 'footer', 'links'));
         } else {
-            $view = "Item";
-            return view('pages.items', compact('items', 'view', 'footer'));
+            return view('pages.items', compact('items', 'trash'));
         }
     }
 
-    private function searchFunc()
+    private function searchFunc($trash = false)
     {
-        $query = Item::withCount("entries");
+        if ($trash) {
+            $query = Item::onlyTrashed();
+        } else {
+            $query = Item::withCount("entries");
+        }
 
         if (request('search')) {
             if (request('filter') == 'all') {
@@ -58,18 +67,14 @@ class ItemController extends Controller
     public function search()
     {
         if (request()->ajax()) {
-            $items = $this->searchFunc();
-            $all = $items->get();
-            $footer = [
-                'count' => $all->count(),
-            ];
-            $items = $items->paginate(50);
-            $body = view('pages.partials.items-body', compact('items'))->render();
-            $footer = view('pages.partials.items-footer', compact('items', 'footer'))->render();
+            $trash = url()->previous() == route('Item.trash');
+            $items = $this->searchFunc(trash: $trash)->paginate(50);
+            $body = view('partials.items-body', compact('items', 'trash'))->render();
+            $footer = view('partials.items-footer', compact('items', 'trash'))->render();
             $links = $items->appends(request()->except('page'))->links()->toHtml();
             return response()->json(compact('body', 'footer', 'links'));
         }
-        return redirect(route('Items'));
+        return redirect()->back();
     }
 
     public function create()
@@ -78,7 +83,7 @@ class ItemController extends Controller
             session()->put('item_previous_url', url()->previous());
         }
         return view('forms.add-item')
-            ->with('previousUrl', session('item_previous_url', route('Items')));
+            ->with('previousUrl', session('item_previous_url', route('Item.index')));
     }
 
     public function store()
@@ -91,8 +96,8 @@ class ItemController extends Controller
         ]);
 
         Item::create($data);
-        $previous_url = session()->get('item_previous_url', route('Items'));
-        if ($previous_url == route('Items') or $previous_url == Str::finish(route('Home'), '/')) {
+        $previous_url = session()->get('item_previous_url', route('Item.index'));
+        if ($previous_url == route('Item.index') or $previous_url == Str::finish(route('Home'), '/')) {
             $redirect = redirect(route('Item.create'))
                 ->with('success', 'Item created successfully.');
         } else {
@@ -111,7 +116,7 @@ class ItemController extends Controller
         } else {
             $this->searchFunc()->get()->each->delete();
         }
-        return redirect(route('Items'));
+        return redirect(route('Item.index'));
     }
 
     public function edit($id)
@@ -131,12 +136,88 @@ class ItemController extends Controller
 
         Item::findOrFail($id)->update($data);
 
-        return redirect(route('Items'));
+        return redirect(route('Item.index'));
     }
 
     public function records($id)
     {
         $item = Item::findOrFail($id)->name;
-        return redirect(route('Entries'))->with(compact('item'));
+        return redirect(route('Entry.index'))->with(compact('item'));
+    }
+
+    public function trash()
+    {
+        $items = Item::onlyTrashed()->paginate(50);
+        $trash = true;
+        if (request()->ajax()) {
+            $body = view('partials.items-body', compact('items', 'trash'))->render();
+            $footer = view('partials.items-footer', compact('items', 'trash'))->render();
+            $links = $items->appends(request()->except('page'))->links()->toHtml();
+            return response()->json(compact('body', 'footer', 'links'));
+        } else {
+            return view('pages.items', compact('items', 'trash'));
+        }
+    }
+
+    public function restore()
+    {
+        $failed = [];
+        $restored = 0;
+
+        try {
+            if (request('filter') == 'single') {
+                $item = Item::onlyTrashed()->findOrFail(request('search'));
+                if ($this->canRestore($item)) {
+                    $item->restore();
+                    $restored++;
+                } else {
+                    $failed[] = $item->name . ' - Name already exists';
+                }
+            } else {
+                $items = $this->searchFunc(trash: true)->get();
+                foreach ($items as $item) {
+                    if ($this->canRestore($item)) {
+                        $item->restore();
+                        $restored++;
+                    } else {
+                        $failed[] = $item->name . ' - Name already exists';
+                    }
+                }
+            }
+        } catch (\Exception $e) {
+            if (request('filter') == 'single') {
+                $failed[] = 'Unknown item - Error occurred during restore';
+            } else {
+                $failed[] = 'Multiple items failed to restore due to errors';
+            }
+        }
+
+        $message = '';
+        if ($restored > 0) {
+            $message .= $restored . ' item(s) restored successfully.';
+        }
+
+        return redirect(route('Item.trash'))
+            ->with('success', $message)
+            ->with('failed_items', $failed);
+    }
+
+    private function canRestore(Item $item)
+    {
+        // Check if another item with same name exists (not trashed)
+        return !Item::where('name', $item->name)
+            ->whereNull('deleted_at')
+            ->where('id', '!=', $item->id)
+            ->exists();
+    }
+
+    public function forceDelete()
+    {
+        if (request('filter') == 'single') {
+            Item::onlyTrashed()->findOrFail(request('search'))->forceDelete();
+        } else {
+            $this->searchFunc(trash: true)->get()->each->forceDelete();
+        }
+        return redirect(route('Item.trash'));
     }
 }

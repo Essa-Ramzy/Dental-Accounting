@@ -15,7 +15,15 @@ class Customer extends Model
 
     protected static function booted()
     {
-        static::deleting(fn($customer) => $customer->entries()->delete());
+        static::deleting(function ($customer) {
+            if ($customer->isForceDeleting()) {
+                if ($customer->entries) {
+                    $customer->entries()->withTrashed()->forceDelete();
+                }
+            } else {
+                $customer->entries()->delete();
+            }
+        });
     }
 
     public function entries()

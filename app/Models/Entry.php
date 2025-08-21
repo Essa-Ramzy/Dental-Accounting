@@ -14,6 +14,18 @@ class Entry extends Model
     protected $fillable = ['customer_id', 'item_id', 'date', 'teeth', 'amount', 'unit_price', 'discount', 'price', 'cost'];
     protected $casts = ['date' => 'date'];
 
+    protected static function booted()
+    {
+        static::restoring(function ($entry) {
+            if ($entry->customer()->withTrashed()->first() && $entry->customer()->withTrashed()->first()->trashed()) {
+                $entry->customer()->withTrashed()->first()->restore();
+            }
+            if ($entry->item()->withTrashed()->first() && $entry->item()->withTrashed()->first()->trashed()) {
+                $entry->item()->withTrashed()->first()->restore();
+            }
+        });
+    }
+
     public function getTeethListAttribute()
     {
         if (empty($this->teeth)) {
@@ -45,8 +57,18 @@ class Entry extends Model
         return $this->belongsTo(Customer::class);
     }
 
+    public function customerWithTrashed()
+    {
+        return $this->belongsTo(Customer::class)->withTrashed();
+    }
+
     public function item()
     {
         return $this->belongsTo(Item::class);
+    }
+
+    public function itemWithTrashed()
+    {
+        return $this->belongsTo(Item::class)->withTrashed();
     }
 }

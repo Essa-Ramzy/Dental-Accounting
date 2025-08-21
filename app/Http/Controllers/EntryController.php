@@ -7,9 +7,19 @@ use App\Models\Entry;
 use App\Models\Customer;
 use Illuminate\Support\Str;
 use Spatie\LaravelPdf\Facades\Pdf;
+use App\Traits\ProvidesTrashedCount;
 
 class EntryController extends Controller
 {
+    use ProvidesTrashedCount;
+
+    protected $model = Entry::class;
+
+    public function __construct()
+    {
+        $this->shareTrashedCount();
+    }
+
     public function index()
     {
         $entries = Entry::with(['customer', 'item']);
@@ -20,20 +30,27 @@ class EntryController extends Controller
             'total_cost' => $all->sum('cost')
         ];
         $entries = $entries->paginate(50);
+        $trash = false;
         if (request()->ajax()) {
-            $body = view('pages.partials.entries-body', compact('entries'))->render();
-            $footer = view('pages.partials.entries-footer', compact('entries', 'footer'))->render();
+            $body = view('partials.entries-body', compact('entries', 'trash'))->render();
+            $footer = view('partials.entries-footer', compact('entries', 'footer', 'trash'))->render();
             $links = $entries->appends(request()->except('page'))->links()->toHtml();
             return response()->json(compact('body', 'footer', 'links'));
         } else {
-            $view = "Entry";
-            return view('pages.entries', compact('entries', 'view', 'footer'));
+            return view('pages.entries', compact('entries', 'footer', 'trash'));
         }
     }
 
-    private function searchFunc()
+    private function searchFunc($trash = false)
     {
-        $query = Entry::with(['customer', 'item']);
+        if ($trash) {
+            $query = Entry::onlyTrashed()->with([
+                'customer' => fn($q) => $q->withTrashed(),
+                'item' => fn($q) => $q->withTrashed()
+            ]);
+        } else {
+            $query = Entry::with(['customer', 'item']);
+        }
 
         if (request('search')) {
             if (request('filter') == 'all') {
@@ -65,10 +82,10 @@ class EntryController extends Controller
         }
 
         if (request('from_date')) {
-            $query->where('date', '>=', request('from_date'));
+            $query->where($trash ? 'deleted_at' : 'date', '>=', request('from_date'));
         }
         if (request('to_date')) {
-            $query->where('date', '<=', request('to_date'));
+            $query->where($trash ? 'deleted_at' : 'date', '<=', request('to_date'));
         }
 
         return $query;
@@ -77,7 +94,8 @@ class EntryController extends Controller
     public function search()
     {
         if (request()->ajax()) {
-            $entries = $this->searchFunc();
+            $trash = url()->previous() == route('Entry.trash');
+            $entries = $this->searchFunc(trash: $trash);
             $all = $entries->get();
             $footer = [
                 'count' => $all->count(),
@@ -85,12 +103,12 @@ class EntryController extends Controller
                 'total_cost' => $all->sum('cost')
             ];
             $entries = $entries->paginate(50);
-            $body = view('pages.partials.entries-body', compact('entries'))->render();
-            $footer = view('pages.partials.entries-footer', compact('entries', 'footer'))->render();
+            $body = view('partials.entries-body', compact('entries', 'trash'))->render();
+            $footer = view('partials.entries-footer', compact('entries', 'footer', 'trash'))->render();
             $links = $entries->appends(request()->except('page'))->links()->toHtml();
             return response()->json(compact('body', 'footer', 'links'));
         }
-        return redirect(route('Entries'));
+        return redirect()->back();
     }
 
     public function create()
@@ -166,8 +184,8 @@ class EntryController extends Controller
             $data['date'] = now();
 
         Entry::create($data);
-        $previous_url = session()->get('entry_previous_url', route('Entries'));
-        if ($previous_url == route('Entries') or $previous_url == Str::finish(route('Home'), '/')) {
+        $previous_url = session()->get('entry_previous_url', route('Entry.index'));
+        if ($previous_url == route('Entry.index') or $previous_url == Str::finish(route('Home'), '/')) {
             $redirect = redirect(route('Entry.create'))
                 ->with('success', 'Entry created successfully.');
         } else {
@@ -185,7 +203,7 @@ class EntryController extends Controller
         } else {
             $this->searchFunc()->get()->each->delete();
         }
-        return redirect(route('Entries'));
+        return redirect(route('Entry.index'));
     }
 
     public function edit($id)
@@ -258,7 +276,7 @@ class EntryController extends Controller
 
         Entry::findOrFail($id)->update($data);
 
-        return redirect(route('Entries'));
+        return redirect(route('Entry.index'));
     }
 
     public function export()
@@ -268,5 +286,132 @@ class EntryController extends Controller
         $count = count($columns) - isset($columns['price']) - isset($columns['cost']);
         $pdf = Pdf::view('pdf.entry-pdf', compact('entries', 'columns', 'count'));
         return $pdf->format('A3')->landscape()->download('entries.pdf');
+    }
+
+    public function trash()
+    {
+        $entries = Entry::onlyTrashed()->with([
+            'customer' => fn($query) => $query->withTrashed(),
+            'item' => fn($query) => $query->withTrashed()
+        ]);
+        $all = $entries->get();
+        $footer = [
+            'count' => $all->count(),
+            'total_price' => $all->sum('price'),
+            'total_cost' => $all->sum('cost')
+        ];
+        $entries = $entries->paginate(50);
+        $trash = true;
+        if (request()->ajax()) {
+            $body = view('partials.entries-body', compact('entries', 'trash'))->render();
+            $footer = view('partials.entries-footer', compact('entries', 'footer', 'trash'))->render();
+            $links = $entries->appends(request()->except('page'))->links()->toHtml();
+            return response()->json(compact('body', 'footer', 'links'));
+        } else {
+            return view('pages.entries', compact('entries', 'footer', 'trash'));
+        }
+    }
+
+    public function restore()
+    {
+        $failed = [];
+        $restored = 0;
+
+        try {
+            if (request('filter') == 'single') {
+                $entry = Entry::onlyTrashed()->findOrFail(request('search'));
+                $result = $this->canRestore($entry);
+                if ($result['can_restore']) {
+                    $entry->restore();
+                    $restored++;
+                } else {
+                    $failed[] = "Entry #{$entry->id} - {$result['reason']}";
+                }
+            } else {
+                $entries = $this->searchFunc(trash: true)->get();
+                foreach ($entries as $entry) {
+                    $result = $this->canRestore($entry);
+                    if ($result['can_restore']) {
+                        $entry->restore();
+                        $restored++;
+                    } else {
+                        $failed[] = "Entry #{$entry->id} - {$result['reason']}";
+                    }
+                }
+            }
+        } catch (\Exception $e) {
+            if (request('filter') == 'single') {
+                $failed[] = 'Unknown entry - Error occurred during restore';
+            } else {
+                $failed[] = 'Multiple entries failed to restore due to errors';
+            }
+        }
+
+        $message = '';
+        if ($restored > 0) {
+            $message .= $restored . ' entry(s) restored successfully.';
+        }
+
+        return redirect(route('Entry.trash'))
+            ->with('success', $message)
+            ->with('failed_entries', $failed);
+    }
+
+    private function canRestore(Entry $entry)
+    {
+        // Load relationships with trashed models
+        $customer = $entry->customer()->withTrashed()->first();
+        $item = $entry->item()->withTrashed()->first();
+        $return = ['can_restore' => true, 'reason' => ''];
+
+        // Check if customer exists
+        if (!$customer) {
+            $return = ['can_restore' => false, 'reason' => 'Customer no longer exists'];
+        }
+
+        // Check if item exists
+        if (!$item) {
+            $return = ['can_restore' => false, 'reason' => $return['can_restore'] ? 'Item no longer exists' : 'Customer and Item no longer exist'];
+        }
+
+        if (!$return['can_restore']) {
+            return $return;
+        }
+
+        // If customer is trashed, check if we can restore it
+        if ($customer->trashed()) {
+            $activeCustomerWithSameName = Customer::where('name', $customer->name)
+                ->whereNull('deleted_at')
+                ->where('id', '!=', $customer->id)
+                ->exists();
+
+            if ($activeCustomerWithSameName) {
+                $return = ['can_restore' => false, 'reason' => 'Customer name already exists'];
+            }
+        }
+
+        // If item is trashed, check if we can restore it
+        if ($item->trashed()) {
+            $activeItemWithSameName = Item::where('name', $item->name)
+                ->whereNull('deleted_at')
+                ->where('id', '!=', $item->id)
+                ->exists();
+
+            if ($activeItemWithSameName) {
+                $return = ['can_restore' => false, 'reason' => $return['can_restore'] ? 'Item name already exists' : 'Customer name and Item name already exist'];
+            }
+        }
+
+        return $return;
+    }
+
+    public function forceDelete()
+    {
+        if (request('filter') == 'single') {
+            Entry::onlyTrashed()->findOrFail(request('search'))->forceDelete();
+        } else {
+            $this->searchFunc(trash: true)->get()->each->forceDelete();
+        }
+        return redirect(route('Entry.trash'));
     }
 }
