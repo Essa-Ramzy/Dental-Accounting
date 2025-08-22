@@ -15,15 +15,8 @@ class Customer extends Model
 
     protected static function booted()
     {
-        static::deleting(function ($customer) {
-            if ($customer->isForceDeleting()) {
-                if ($customer->entries) {
-                    $customer->entries()->withTrashed()->forceDelete();
-                }
-            } else {
-                $customer->entries()->delete();
-            }
-        });
+        static::deleting(fn($customer) => $customer->entries()->delete());
+        static::addGlobalScope('orderByUpdatedAt', fn($builder) => $builder->orderBy('updated_at', 'desc'));
     }
 
     public function entries()

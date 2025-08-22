@@ -12,7 +12,8 @@ $(() => {
         "click",
         "#dropdown_btn + .dropdown-menu .dropdown-item",
         (e) => {
-            $("#dropdown_btn").text(e.currentTarget.textContent);
+            const el = $(e.currentTarget);
+            $("#dropdown_btn").data("value", el.data("value")).text(el.text());
             $("#search").css(
                 "padding-right",
                 "calc(" +
@@ -36,10 +37,10 @@ $(() => {
         $("#to_date").val(end.format("YYYY-MM-DD"));
         ajax(
             $("meta[name='search-url']").attr("content"),
-            $("#search").val().toLowerCase(),
-            $("#dropdown_btn").text().toLowerCase(),
-            start.format("YYYY-MM-DD"),
-            end.format("YYYY-MM-DD")
+            $("#search").val().toLowerCase() ?? null,
+            $("#dropdown_btn").data("value").toLowerCase() ?? null,
+            start.format("YYYY-MM-DD") ?? null,
+            end.format("YYYY-MM-DD") ?? null
         );
     };
 
@@ -88,24 +89,9 @@ $(() => {
         $("#search").trigger("change");
     });
 
-    const filter_map = {
-        single: "single",
-        all: "all",
-        id: "id",
-        name: "name",
-        "patient name": "name",
-        treatment: "item",
-        quantity: "amount",
-        "unit price": "unit_price",
-        discount: "discount",
-        price: "price",
-        "total price": "price",
-        cost: "cost",
-    };
-
     $(document).on("click", "a[href='#deleteModal']", (e) => {
         let search = $("#search").val().toLowerCase();
-        let filter = $("#dropdown_btn").text().toLowerCase();
+        let filter = $("#dropdown_btn").data("value").toLowerCase();
         if (e.currentTarget.id) {
             search = e.currentTarget.id;
             filter = "single";
@@ -113,11 +99,11 @@ $(() => {
         let from_date = $("#from_date").val();
         let to_date = $("#to_date").val();
 
-        $('input[aria-label="delete_filter"]').val(
-            !filter.includes("search by") ? filter_map[filter] : ""
+        $('input[aria-label="delete_filter"]').val( 
+            filter != "search_by" ? filter : ""
         );
         $('input[aria-label="delete_search"]').val(
-            !filter.includes("search by") && search ? search : ""
+            filter != "search_by" && search ? search : ""
         );
         $('input[aria-label="delete_from_date"]').val(
             from_date ? from_date + " 00:00:00" : ""
@@ -137,7 +123,7 @@ $(() => {
 
     $(document).on("click", "a[href='#restoreModal']", (e) => {
         let search = $("#search").val().toLowerCase();
-        let filter = $("#dropdown_btn").text().toLowerCase();
+        let filter = $("#dropdown_btn").data("value").toLowerCase();
         if (e.currentTarget.id) {
             search = e.currentTarget.id;
             filter = "single";
@@ -146,10 +132,10 @@ $(() => {
         let to_date = $("#to_date").val();
 
         $('input[aria-label="restore_filter"]').val(
-            !filter.includes("search by") ? filter_map[filter] : ""
+            filter != "search_by" ? filter : ""
         );
         $('input[aria-label="restore_search"]').val(
-            !filter.includes("search by") && search ? search : ""
+            filter != "search_by" && search ? search : ""
         );
         $('input[aria-label="restore_from_date"]').val(
             from_date ? from_date + " 00:00:00" : ""
@@ -187,14 +173,8 @@ $(() => {
             url: url,
             type: "GET",
             data: {
-                search:
-                    filter && !filter.includes("search by") && search
-                        ? search
-                        : "",
-                filter:
-                    filter && !filter.includes("search by")
-                        ? filter_map[filter]
-                        : "",
+                search: filter && filter != "search_by" && search ? search : "",
+                filter: filter && filter != "search_by" ? filter : "",
                 from_date: from_date ? from_date + " 00:00:00" : "",
                 to_date: to_date ? to_date + " 23:59:59" : "",
             },
@@ -226,10 +206,10 @@ $(() => {
 
     $("#search").on("change", () => {
         let search = $("#search").val().toLowerCase();
-        let filter = $("#dropdown_btn").text().toLowerCase();
+        let filter = $("#dropdown_btn").data("value").toLowerCase();
         let from_date = $("#from_date").val();
         let to_date = $("#to_date").val();
-        if (!filter.includes("search by")) {
+        if (filter != "search_by") {
             ajax(
                 $("meta[name='search-url']").attr("content"),
                 search,

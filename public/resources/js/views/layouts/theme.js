@@ -15,16 +15,21 @@ const setTheme = (mode) => {
     }
 };
 
+const changeSelected = (mode) => {
+    if (mode === "auto") {
+        $("#bd-theme-text").text("Auto");
+        $("#bd-theme-icon").attr("href", "#circle-half");
+    } else if (mode === "dark") {
+        $("#bd-theme-text").text("Dark");
+        $("#bd-theme-icon").attr("href", "#moon-stars-fill");
+    } else if (mode === "light") {
+        $("#bd-theme-text").text("Light");
+        $("#bd-theme-icon").attr("href", "#sun-fill");
+    }
+};
+
 const applyTheme = (mode) => {
-    const text = mode === "dark" ? "Dark" : mode === "light" ? "Light" : "Auto";
-    const icon =
-        mode === "dark"
-            ? "moon-stars-fill"
-            : mode === "light"
-            ? "sun-fill"
-            : "circle-half";
-    $("#bd-theme-text").text(text);
-    $("#bd-theme-icon").attr("href", `#${icon}`);
+    changeSelected(mode);
     localStorage.setItem("theme", mode);
     setTheme(mode);
 };
@@ -43,13 +48,7 @@ applyTheme(localStorage.getItem("theme") || "auto");
 obs = new MutationObserver((_, obs) => {
     const input = $("#bd-theme-text");
     if (input.length) {
-        input.text(
-            (localStorage.getItem("theme") || "auto") === "auto"
-                ? "Auto"
-                : "dark"
-                ? "Dark"
-                : "Light"
-        );
+        changeSelected(localStorage.getItem("theme") || "auto");
         obs.disconnect();
     }
 });

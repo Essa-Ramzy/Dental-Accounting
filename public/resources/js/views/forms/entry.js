@@ -151,10 +151,12 @@ $(() => {
         discount
             .val(
                 isFinite(Value) && Value != 0
-                    ? Number(Value).toLocaleString({
-                          minimumFractionDigits: 0,
-                          maximumFractionDigits: 2,
-                      })
+                    ? Number(Value)
+                          .toLocaleString({
+                              minimumFractionDigits: 0,
+                              maximumFractionDigits: 2,
+                          })
+                          .replace(/,/g, "")
                     : ""
             )
             .trigger("focus");
@@ -209,9 +211,9 @@ $(() => {
             '<span class="bg-body d-block" style="margin: -0.1875rem; padding: 0.25rem 0.6875rem;">No results matched</span>',
         actionsBox: true,
         selectAllText:
-            "<svg width='14' height='14' class='me-2 mb-1' aria-hidden='true'><use href='#check-all' fill='currentColor' /></svg>Select All",
+            "<div class='d-flex align-items-center justify-content-center gap-2'><svg width='14' height='14' aria-hidden='true'><use href='#check-all' fill='currentColor' /></svg>Select All</div>",
         deselectAllText:
-            "<svg width='14' height='14' class='me-2 mb-1' aria-hidden='true'><use href='#x-circle' fill='currentColor' /></svg>Clear All",
+            "<div class='d-flex align-items-center justify-content-center gap-2'><svg width='14' height='14' aria-hidden='true'><use href='#x-circle' fill='currentColor' /></svg>Clear All</div>",
     });
 
     $("#select-all-teeth").on("click", () => {
@@ -266,9 +268,9 @@ $(() => {
                 '<span class="bg-body d-block" style="margin: -0.1875rem; padding: 0.25rem 0.6875rem;">No results matched</span>',
             actionsBox: true,
             selectAllText:
-                "<svg width='14' height='14' class='me-2 mb-1' aria-hidden='true'><use href='#check-all' fill='currentColor' /></svg>Select All",
+                "<div class='d-flex align-items-center justify-content-center gap-2'><svg width='14' height='14' aria-hidden='true'><use href='#check-all' fill='currentColor' /></svg>Select All</div>",
             deselectAllText:
-                "<svg width='14' height='14' class='me-2 mb-1' aria-hidden='true'><use href='#x-circle' fill='currentColor' /></svg>Clear All",
+                "<div class='d-flex align-items-center justify-content-center gap-2'><svg width='14' height='14' aria-hidden='true'><use href='#x-circle' fill='currentColor' /></svg>Clear All</div>",
         });
         sessionStorage.setItem("teeth", selected);
         updateReceipt({ amount: selected.length });

@@ -94,10 +94,10 @@
         <!-- Enhanced Action bar with Bootstrap styling -->
         <div class="bg-dark-subtle border-bottom py-2 shadow-sm">
             <div class="container-fluid">
-                <div class="row g-3 align-items-center">
+                <div class="row g-2 align-items-center">
                     @if ($trash)
                         <div class="col-md-10 col-12">
-                            <div class="row g-3 align-items-center">
+                            <div class="row g-2 align-items-center">
                                 <div class="col-md-6 col-12">
                                     <a class="btn btn-success w-100 d-flex align-items-center justify-content-center gap-2 rounded-3 shadow-sm fw-semibold py-2"
                                         type="button" data-bs-toggle="modal" href="#restoreModal"
@@ -192,7 +192,8 @@
                                     <div class="dropdown position-absolute end-0 top-50 translate-middle-y d-flex">
                                         <button id="dropdown_btn" style="margin-right: calc(2 * var(--bs-border-width))"
                                             class="btn btn-outline-secondary text-body dropdown-toggle border-0 rounded-0 rounded-end fw-semibold"
-                                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            type="button" data-bs-toggle="dropdown" data-value="search_by"
+                                            aria-expanded="false">
                                             Search by
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end shadow border-2 rounded-3 mt-1"

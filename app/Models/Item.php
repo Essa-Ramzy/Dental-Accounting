@@ -16,6 +16,7 @@ class Item extends Model
     protected static function booted()
     {
         static::deleting(fn($item) => $item->entries()->delete());
+        static::addGlobalScope('orderByUpdatedAt', fn($builder) => $builder->orderBy('updated_at', 'desc'));
     }
 
     public function entries()

@@ -62,8 +62,8 @@ A comprehensive web application designed for dental clinics to manage accounting
 ## Demo
 
 <div align="center">
-  <video src="https://github.com/user-attachments/assets/577c3432-b4a3-4f0f-8f1b-124e50308783" alt="Demo Video" style="border-radius: 15px; max-width: 80%;" controls>
-    <em>If you can't see the video, <a href="https://github.com/user-attachments/assets/577c3432-b4a3-4f0f-8f1b-124e50308783">click here to watch it directly</a>.</em>
+  <video src="https://github.com/user-attachments/assets/828811f4-83b0-4025-a26e-56fe04bd1697" alt="Demo Video" style="border-radius: 15px; max-width: 80%;" controls>
+    <em>If you can't see the video, <a href="https://github.com/user-attachments/assets/828811f4-83b0-4025-a26e-56fe04bd1697">click here to watch it directly</a>.</em>
   </video>
 </div>
 

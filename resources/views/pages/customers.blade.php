@@ -21,9 +21,9 @@
 @endsection
 @section('dropdown')
     <!-- This is the dropdown menu for the filter column search in the customers table -->
-    <li><button class="dropdown-item" type="button">All</button></li>
-    <li><button class="dropdown-item" type="button">ID</button></li>
-    <li><button class="dropdown-item" type="button">Name</button></li>
+    <li><button class="dropdown-item" type="button" data-value="all">All</button></li>
+    <li><button class="dropdown-item" type="button" data-value="id">ID</button></li>
+    <li><button class="dropdown-item" type="button" data-value="name">Name</button></li>
 @endsection
 @section('modal')
     @if ($trash)
@@ -144,7 +144,7 @@
                 </div>
                 <div class="modal-body pt-0">
                     <p class="mb-0">
-                        {{ $trash ? 'Are you sure you want to permanently delete the selected customer(s)? This action cannot be undone and will also remove all related entries.' : 'Are you sure you want to delete the selected customer(s)? This action cannot be undone.' }}
+                        {{ $trash ? 'Are you sure you want to permanently delete the selected customer(s)? This action cannot be undone and will also remove all related entries.' : 'Are you sure you want to delete the selected customer(s)? This action will remove all related entries.' }}
                     </p>
                 </div>
                 <form action="{{ $trash ? route('Customer.forceDelete') : route('Customer.delete') }}" method="post"

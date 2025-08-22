@@ -29,7 +29,7 @@ class EntryFactory extends Factory
     return [
       'customer_id' => Customer::factory(),
       'item_id' => Item::factory(),
-      'date' => $this->faker->dateTimeBetween('-2 month', 'now'),
+      'date' => $this->faker->dateTimeBetween('-2 month', '-1 day'),
       'teeth' => $teeth,
       'amount' => $amount,
       'unit_price' => $unit_price,

@@ -57,9 +57,15 @@ class EntryController extends Controller
                 $query->where(
                     fn($q) =>
                     $q->where('id', 'like', '%' . request('search') . '%')
-                        ->orWhereHas('customer', function ($subQuery) {
+                        ->orWhereHas('customer', function ($subQuery) use ($trash) {
+                            if ($trash) {
+                                $subQuery->withTrashed();
+                            }
                             $subQuery->where('name', 'like', '%' . request('search') . '%');
-                        })->orWhereHas('item', function ($subQuery) {
+                        })->orWhereHas('item', function ($subQuery) use ($trash) {
+                            if ($trash) {
+                                $subQuery->withTrashed();
+                            }
                             $subQuery->where('name', 'like', '%' . request('search') . '%');
                         })->orWhere('teeth', 'like', '%' . request('search') . '%')
                         ->orWhere('amount', 'like', '%' . request('search') . '%')
@@ -69,11 +75,17 @@ class EntryController extends Controller
                         ->orWhere('cost', 'like', '%' . request('search') . '%')
                 );
             } else if (request('filter') == 'name') {
-                $query->whereHas('customer', function ($subQuery) {
+                $query->whereHas('customer', function ($subQuery) use ($trash) {
+                    if ($trash) {
+                        $subQuery->withTrashed();
+                    }
                     $subQuery->where('name', 'like', '%' . request('search') . '%');
                 });
             } else if (request('filter') == 'item') {
-                $query->whereHas('item', function ($subQuery) {
+                $query->whereHas('item', function ($subQuery) use ($trash) {
+                    if ($trash) {
+                        $subQuery->withTrashed();
+                    }
                     $subQuery->where('name', 'like', '%' . request('search') . '%');
                 });
             } else {
@@ -113,7 +125,13 @@ class EntryController extends Controller
 
     public function create()
     {
-        if (url()->previous() != route('Entry.create')) {
+        if (
+            !collect([
+                route('Entry.create'),
+                route('Customer.create'),
+                route('Item.create'),
+            ])->contains(url()->previous())
+        ) {
             session()->put('entry_previous_url', url()->previous());
         }
         $customers = Customer::all();

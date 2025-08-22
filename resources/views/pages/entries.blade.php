@@ -525,17 +525,16 @@
 @endsection
 @section('dropdown')
     <!-- This is the dropdown menu for the filter column search options in the entries table -->
-    <li><button class="dropdown-item" type="button">All</button></li>
-    <li><button class="dropdown-item" type="button">ID</button></li>
-    <li><button class="dropdown-item" type="button" id="{{ Session::get('customer') ? 'customer_search' : '' }}">Patient
+    <li><button class="dropdown-item" type="button" data-value="all">All</button></li>
+    <li><button class="dropdown-item" type="button" data-value="id">ID</button></li>
+    <li><button class="dropdown-item" type="button" data-value="name" id="{{ Session::get('customer') ? 'customer_search' : '' }}">Patient
             Name</button></li>
-    <li><button class="dropdown-item" type="button"
-            id="{{ Session::get('item') ? 'item_search' : '' }}">Treatment</button></li>
-    <li><button class="dropdown-item" type="button">Quantity</button></li>
-    <li><button class="dropdown-item" type="button">Unit Price</button></li>
-    <li><button class="dropdown-item" type="button">Discount</button></li>
-    <li><button class="dropdown-item" type="button">Total Price</button></li>
-    <li><button class="dropdown-item" type="button">Cost</button></li>
+    <li><button class="dropdown-item" type="button" data-value="item" id="{{ Session::get('item') ? 'item_search' : '' }}">Treatment</button></li>
+    <li><button class="dropdown-item" type="button" data-value="amount">Quantity</button></li>
+    <li><button class="dropdown-item" type="button" data-value="unit_price">Unit Price</button></li>
+    <li><button class="dropdown-item" type="button" data-value="discount">Discount</button></li>
+    <li><button class="dropdown-item" type="button" data-value="price">Total Price</button></li>
+    <li><button class="dropdown-item" type="button" data-value="cost">Cost</button></li>
 @endsection
 @section('modal')
     @if ($trash)
@@ -658,9 +657,7 @@
                 </div>
                 <div class="modal-body pt-0">
                     <p class="mb-0">
-                        Are you sure you want to {{ $trash ? 'permanently ' : '' }}delete the selected entry(s)? This
-                        action
-                        cannot be undone.
+                        {{ $trash ? 'Are you sure you want to permanently delete the selected entry(s)? This action cannot be undone.' : 'Are you sure you want to delete the selected entry(s)?' }}
                     </p>
                 </div>
                 <form action="{{ $trash ? route('Entry.forceDelete') : route('Entry.delete') }}" method="post"

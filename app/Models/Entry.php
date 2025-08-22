@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -17,13 +18,16 @@ class Entry extends Model
     protected static function booted()
     {
         static::restoring(function ($entry) {
-            if ($entry->customer()->withTrashed()->first() && $entry->customer()->withTrashed()->first()->trashed()) {
-                $entry->customer()->withTrashed()->first()->restore();
+            $customer = $entry->customer()->withTrashed()->first();
+            $item = $entry->item()->withTrashed()->first();
+            if ($customer && $customer->trashed()) {
+                $customer->restore();
             }
-            if ($entry->item()->withTrashed()->first() && $entry->item()->withTrashed()->first()->trashed()) {
-                $entry->item()->withTrashed()->first()->restore();
+            if ($item && $item->trashed()) {
+                $item->restore();
             }
         });
+        static::addGlobalScope('orderByDate', fn($builder) => $builder->orderBy('date', 'desc'));
     }
 
     public function getTeethListAttribute()
